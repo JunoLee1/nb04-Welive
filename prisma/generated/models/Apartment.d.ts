@@ -1,0 +1,1315 @@
+import type * as runtime from "@prisma/client/runtime/client";
+import type * as Prisma from "../internal/prismaNamespace.js";
+/**
+ * Model Apartment
+ *
+ */
+export type ApartmentModel = runtime.Types.Result.DefaultSelection<Prisma.$ApartmentPayload>;
+export type AggregateApartment = {
+    _count: ApartmentCountAggregateOutputType | null;
+    _avg: ApartmentAvgAggregateOutputType | null;
+    _sum: ApartmentSumAggregateOutputType | null;
+    _min: ApartmentMinAggregateOutputType | null;
+    _max: ApartmentMaxAggregateOutputType | null;
+};
+export type ApartmentAvgAggregateOutputType = {
+    buildingNumberFrom: number | null;
+    buildingNumberTo: number | null;
+    floorCountPerBuilding: number | null;
+    unitCountPerFloor: number | null;
+};
+export type ApartmentSumAggregateOutputType = {
+    buildingNumberFrom: number | null;
+    buildingNumberTo: number | null;
+    floorCountPerBuilding: number | null;
+    unitCountPerFloor: number | null;
+};
+export type ApartmentMinAggregateOutputType = {
+    id: string | null;
+    name: string | null;
+    address: string | null;
+    description: string | null;
+    buildingNumberFrom: number | null;
+    buildingNumberTo: number | null;
+    floorCountPerBuilding: number | null;
+    unitCountPerFloor: number | null;
+};
+export type ApartmentMaxAggregateOutputType = {
+    id: string | null;
+    name: string | null;
+    address: string | null;
+    description: string | null;
+    buildingNumberFrom: number | null;
+    buildingNumberTo: number | null;
+    floorCountPerBuilding: number | null;
+    unitCountPerFloor: number | null;
+};
+export type ApartmentCountAggregateOutputType = {
+    id: number;
+    name: number;
+    address: number;
+    description: number;
+    buildingNumberFrom: number;
+    buildingNumberTo: number;
+    floorCountPerBuilding: number;
+    unitCountPerFloor: number;
+    _all: number;
+};
+export type ApartmentAvgAggregateInputType = {
+    buildingNumberFrom?: true;
+    buildingNumberTo?: true;
+    floorCountPerBuilding?: true;
+    unitCountPerFloor?: true;
+};
+export type ApartmentSumAggregateInputType = {
+    buildingNumberFrom?: true;
+    buildingNumberTo?: true;
+    floorCountPerBuilding?: true;
+    unitCountPerFloor?: true;
+};
+export type ApartmentMinAggregateInputType = {
+    id?: true;
+    name?: true;
+    address?: true;
+    description?: true;
+    buildingNumberFrom?: true;
+    buildingNumberTo?: true;
+    floorCountPerBuilding?: true;
+    unitCountPerFloor?: true;
+};
+export type ApartmentMaxAggregateInputType = {
+    id?: true;
+    name?: true;
+    address?: true;
+    description?: true;
+    buildingNumberFrom?: true;
+    buildingNumberTo?: true;
+    floorCountPerBuilding?: true;
+    unitCountPerFloor?: true;
+};
+export type ApartmentCountAggregateInputType = {
+    id?: true;
+    name?: true;
+    address?: true;
+    description?: true;
+    buildingNumberFrom?: true;
+    buildingNumberTo?: true;
+    floorCountPerBuilding?: true;
+    unitCountPerFloor?: true;
+    _all?: true;
+};
+export type ApartmentAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Filter which Apartment to aggregate.
+     */
+    where?: Prisma.ApartmentWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of Apartments to fetch.
+     */
+    orderBy?: Prisma.ApartmentOrderByWithRelationInput | Prisma.ApartmentOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the start position
+     */
+    cursor?: Prisma.ApartmentWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` Apartments from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` Apartments.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Count returned Apartments
+    **/
+    _count?: true | ApartmentCountAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to average
+    **/
+    _avg?: ApartmentAvgAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to sum
+    **/
+    _sum?: ApartmentSumAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the minimum value
+    **/
+    _min?: ApartmentMinAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the maximum value
+    **/
+    _max?: ApartmentMaxAggregateInputType;
+};
+export type GetApartmentAggregateType<T extends ApartmentAggregateArgs> = {
+    [P in keyof T & keyof AggregateApartment]: P extends '_count' | 'count' ? T[P] extends true ? number : Prisma.GetScalarType<T[P], AggregateApartment[P]> : Prisma.GetScalarType<T[P], AggregateApartment[P]>;
+};
+export type ApartmentGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.ApartmentWhereInput;
+    orderBy?: Prisma.ApartmentOrderByWithAggregationInput | Prisma.ApartmentOrderByWithAggregationInput[];
+    by: Prisma.ApartmentScalarFieldEnum[] | Prisma.ApartmentScalarFieldEnum;
+    having?: Prisma.ApartmentScalarWhereWithAggregatesInput;
+    take?: number;
+    skip?: number;
+    _count?: ApartmentCountAggregateInputType | true;
+    _avg?: ApartmentAvgAggregateInputType;
+    _sum?: ApartmentSumAggregateInputType;
+    _min?: ApartmentMinAggregateInputType;
+    _max?: ApartmentMaxAggregateInputType;
+};
+export type ApartmentGroupByOutputType = {
+    id: string;
+    name: string;
+    address: string;
+    description: string;
+    buildingNumberFrom: number;
+    buildingNumberTo: number;
+    floorCountPerBuilding: number;
+    unitCountPerFloor: number;
+    _count: ApartmentCountAggregateOutputType | null;
+    _avg: ApartmentAvgAggregateOutputType | null;
+    _sum: ApartmentSumAggregateOutputType | null;
+    _min: ApartmentMinAggregateOutputType | null;
+    _max: ApartmentMaxAggregateOutputType | null;
+};
+type GetApartmentGroupByPayload<T extends ApartmentGroupByArgs> = Prisma.PrismaPromise<Array<Prisma.PickEnumerable<ApartmentGroupByOutputType, T['by']> & {
+    [P in ((keyof T) & (keyof ApartmentGroupByOutputType))]: P extends '_count' ? T[P] extends boolean ? number : Prisma.GetScalarType<T[P], ApartmentGroupByOutputType[P]> : Prisma.GetScalarType<T[P], ApartmentGroupByOutputType[P]>;
+}>>;
+export type ApartmentWhereInput = {
+    AND?: Prisma.ApartmentWhereInput | Prisma.ApartmentWhereInput[];
+    OR?: Prisma.ApartmentWhereInput[];
+    NOT?: Prisma.ApartmentWhereInput | Prisma.ApartmentWhereInput[];
+    id?: Prisma.StringFilter<"Apartment"> | string;
+    name?: Prisma.StringFilter<"Apartment"> | string;
+    address?: Prisma.StringFilter<"Apartment"> | string;
+    description?: Prisma.StringFilter<"Apartment"> | string;
+    buildingNumberFrom?: Prisma.IntFilter<"Apartment"> | number;
+    buildingNumberTo?: Prisma.IntFilter<"Apartment"> | number;
+    floorCountPerBuilding?: Prisma.IntFilter<"Apartment"> | number;
+    unitCountPerFloor?: Prisma.IntFilter<"Apartment"> | number;
+    residents?: Prisma.ResidentListRelationFilter;
+};
+export type ApartmentOrderByWithRelationInput = {
+    id?: Prisma.SortOrder;
+    name?: Prisma.SortOrder;
+    address?: Prisma.SortOrder;
+    description?: Prisma.SortOrder;
+    buildingNumberFrom?: Prisma.SortOrder;
+    buildingNumberTo?: Prisma.SortOrder;
+    floorCountPerBuilding?: Prisma.SortOrder;
+    unitCountPerFloor?: Prisma.SortOrder;
+    residents?: Prisma.ResidentOrderByRelationAggregateInput;
+};
+export type ApartmentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string;
+    AND?: Prisma.ApartmentWhereInput | Prisma.ApartmentWhereInput[];
+    OR?: Prisma.ApartmentWhereInput[];
+    NOT?: Prisma.ApartmentWhereInput | Prisma.ApartmentWhereInput[];
+    name?: Prisma.StringFilter<"Apartment"> | string;
+    address?: Prisma.StringFilter<"Apartment"> | string;
+    description?: Prisma.StringFilter<"Apartment"> | string;
+    buildingNumberFrom?: Prisma.IntFilter<"Apartment"> | number;
+    buildingNumberTo?: Prisma.IntFilter<"Apartment"> | number;
+    floorCountPerBuilding?: Prisma.IntFilter<"Apartment"> | number;
+    unitCountPerFloor?: Prisma.IntFilter<"Apartment"> | number;
+    residents?: Prisma.ResidentListRelationFilter;
+}, "id">;
+export type ApartmentOrderByWithAggregationInput = {
+    id?: Prisma.SortOrder;
+    name?: Prisma.SortOrder;
+    address?: Prisma.SortOrder;
+    description?: Prisma.SortOrder;
+    buildingNumberFrom?: Prisma.SortOrder;
+    buildingNumberTo?: Prisma.SortOrder;
+    floorCountPerBuilding?: Prisma.SortOrder;
+    unitCountPerFloor?: Prisma.SortOrder;
+    _count?: Prisma.ApartmentCountOrderByAggregateInput;
+    _avg?: Prisma.ApartmentAvgOrderByAggregateInput;
+    _max?: Prisma.ApartmentMaxOrderByAggregateInput;
+    _min?: Prisma.ApartmentMinOrderByAggregateInput;
+    _sum?: Prisma.ApartmentSumOrderByAggregateInput;
+};
+export type ApartmentScalarWhereWithAggregatesInput = {
+    AND?: Prisma.ApartmentScalarWhereWithAggregatesInput | Prisma.ApartmentScalarWhereWithAggregatesInput[];
+    OR?: Prisma.ApartmentScalarWhereWithAggregatesInput[];
+    NOT?: Prisma.ApartmentScalarWhereWithAggregatesInput | Prisma.ApartmentScalarWhereWithAggregatesInput[];
+    id?: Prisma.StringWithAggregatesFilter<"Apartment"> | string;
+    name?: Prisma.StringWithAggregatesFilter<"Apartment"> | string;
+    address?: Prisma.StringWithAggregatesFilter<"Apartment"> | string;
+    description?: Prisma.StringWithAggregatesFilter<"Apartment"> | string;
+    buildingNumberFrom?: Prisma.IntWithAggregatesFilter<"Apartment"> | number;
+    buildingNumberTo?: Prisma.IntWithAggregatesFilter<"Apartment"> | number;
+    floorCountPerBuilding?: Prisma.IntWithAggregatesFilter<"Apartment"> | number;
+    unitCountPerFloor?: Prisma.IntWithAggregatesFilter<"Apartment"> | number;
+};
+export type ApartmentCreateInput = {
+    id?: string;
+    name: string;
+    address: string;
+    description: string;
+    buildingNumberFrom: number;
+    buildingNumberTo: number;
+    floorCountPerBuilding: number;
+    unitCountPerFloor: number;
+    residents?: Prisma.ResidentCreateNestedManyWithoutApartmentInput;
+};
+export type ApartmentUncheckedCreateInput = {
+    id?: string;
+    name: string;
+    address: string;
+    description: string;
+    buildingNumberFrom: number;
+    buildingNumberTo: number;
+    floorCountPerBuilding: number;
+    unitCountPerFloor: number;
+    residents?: Prisma.ResidentUncheckedCreateNestedManyWithoutApartmentInput;
+};
+export type ApartmentUpdateInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    address?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    buildingNumberFrom?: Prisma.IntFieldUpdateOperationsInput | number;
+    buildingNumberTo?: Prisma.IntFieldUpdateOperationsInput | number;
+    floorCountPerBuilding?: Prisma.IntFieldUpdateOperationsInput | number;
+    unitCountPerFloor?: Prisma.IntFieldUpdateOperationsInput | number;
+    residents?: Prisma.ResidentUpdateManyWithoutApartmentNestedInput;
+};
+export type ApartmentUncheckedUpdateInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    address?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    buildingNumberFrom?: Prisma.IntFieldUpdateOperationsInput | number;
+    buildingNumberTo?: Prisma.IntFieldUpdateOperationsInput | number;
+    floorCountPerBuilding?: Prisma.IntFieldUpdateOperationsInput | number;
+    unitCountPerFloor?: Prisma.IntFieldUpdateOperationsInput | number;
+    residents?: Prisma.ResidentUncheckedUpdateManyWithoutApartmentNestedInput;
+};
+export type ApartmentCreateManyInput = {
+    id?: string;
+    name: string;
+    address: string;
+    description: string;
+    buildingNumberFrom: number;
+    buildingNumberTo: number;
+    floorCountPerBuilding: number;
+    unitCountPerFloor: number;
+};
+export type ApartmentUpdateManyMutationInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    address?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    buildingNumberFrom?: Prisma.IntFieldUpdateOperationsInput | number;
+    buildingNumberTo?: Prisma.IntFieldUpdateOperationsInput | number;
+    floorCountPerBuilding?: Prisma.IntFieldUpdateOperationsInput | number;
+    unitCountPerFloor?: Prisma.IntFieldUpdateOperationsInput | number;
+};
+export type ApartmentUncheckedUpdateManyInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    address?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    buildingNumberFrom?: Prisma.IntFieldUpdateOperationsInput | number;
+    buildingNumberTo?: Prisma.IntFieldUpdateOperationsInput | number;
+    floorCountPerBuilding?: Prisma.IntFieldUpdateOperationsInput | number;
+    unitCountPerFloor?: Prisma.IntFieldUpdateOperationsInput | number;
+};
+export type ApartmentScalarRelationFilter = {
+    is?: Prisma.ApartmentWhereInput;
+    isNot?: Prisma.ApartmentWhereInput;
+};
+export type ApartmentCountOrderByAggregateInput = {
+    id?: Prisma.SortOrder;
+    name?: Prisma.SortOrder;
+    address?: Prisma.SortOrder;
+    description?: Prisma.SortOrder;
+    buildingNumberFrom?: Prisma.SortOrder;
+    buildingNumberTo?: Prisma.SortOrder;
+    floorCountPerBuilding?: Prisma.SortOrder;
+    unitCountPerFloor?: Prisma.SortOrder;
+};
+export type ApartmentAvgOrderByAggregateInput = {
+    buildingNumberFrom?: Prisma.SortOrder;
+    buildingNumberTo?: Prisma.SortOrder;
+    floorCountPerBuilding?: Prisma.SortOrder;
+    unitCountPerFloor?: Prisma.SortOrder;
+};
+export type ApartmentMaxOrderByAggregateInput = {
+    id?: Prisma.SortOrder;
+    name?: Prisma.SortOrder;
+    address?: Prisma.SortOrder;
+    description?: Prisma.SortOrder;
+    buildingNumberFrom?: Prisma.SortOrder;
+    buildingNumberTo?: Prisma.SortOrder;
+    floorCountPerBuilding?: Prisma.SortOrder;
+    unitCountPerFloor?: Prisma.SortOrder;
+};
+export type ApartmentMinOrderByAggregateInput = {
+    id?: Prisma.SortOrder;
+    name?: Prisma.SortOrder;
+    address?: Prisma.SortOrder;
+    description?: Prisma.SortOrder;
+    buildingNumberFrom?: Prisma.SortOrder;
+    buildingNumberTo?: Prisma.SortOrder;
+    floorCountPerBuilding?: Prisma.SortOrder;
+    unitCountPerFloor?: Prisma.SortOrder;
+};
+export type ApartmentSumOrderByAggregateInput = {
+    buildingNumberFrom?: Prisma.SortOrder;
+    buildingNumberTo?: Prisma.SortOrder;
+    floorCountPerBuilding?: Prisma.SortOrder;
+    unitCountPerFloor?: Prisma.SortOrder;
+};
+export type ApartmentCreateNestedOneWithoutResidentsInput = {
+    create?: Prisma.XOR<Prisma.ApartmentCreateWithoutResidentsInput, Prisma.ApartmentUncheckedCreateWithoutResidentsInput>;
+    connectOrCreate?: Prisma.ApartmentCreateOrConnectWithoutResidentsInput;
+    connect?: Prisma.ApartmentWhereUniqueInput;
+};
+export type ApartmentUpdateOneRequiredWithoutResidentsNestedInput = {
+    create?: Prisma.XOR<Prisma.ApartmentCreateWithoutResidentsInput, Prisma.ApartmentUncheckedCreateWithoutResidentsInput>;
+    connectOrCreate?: Prisma.ApartmentCreateOrConnectWithoutResidentsInput;
+    upsert?: Prisma.ApartmentUpsertWithoutResidentsInput;
+    connect?: Prisma.ApartmentWhereUniqueInput;
+    update?: Prisma.XOR<Prisma.XOR<Prisma.ApartmentUpdateToOneWithWhereWithoutResidentsInput, Prisma.ApartmentUpdateWithoutResidentsInput>, Prisma.ApartmentUncheckedUpdateWithoutResidentsInput>;
+};
+export type IntFieldUpdateOperationsInput = {
+    set?: number;
+    increment?: number;
+    decrement?: number;
+    multiply?: number;
+    divide?: number;
+};
+export type ApartmentCreateWithoutResidentsInput = {
+    id?: string;
+    name: string;
+    address: string;
+    description: string;
+    buildingNumberFrom: number;
+    buildingNumberTo: number;
+    floorCountPerBuilding: number;
+    unitCountPerFloor: number;
+};
+export type ApartmentUncheckedCreateWithoutResidentsInput = {
+    id?: string;
+    name: string;
+    address: string;
+    description: string;
+    buildingNumberFrom: number;
+    buildingNumberTo: number;
+    floorCountPerBuilding: number;
+    unitCountPerFloor: number;
+};
+export type ApartmentCreateOrConnectWithoutResidentsInput = {
+    where: Prisma.ApartmentWhereUniqueInput;
+    create: Prisma.XOR<Prisma.ApartmentCreateWithoutResidentsInput, Prisma.ApartmentUncheckedCreateWithoutResidentsInput>;
+};
+export type ApartmentUpsertWithoutResidentsInput = {
+    update: Prisma.XOR<Prisma.ApartmentUpdateWithoutResidentsInput, Prisma.ApartmentUncheckedUpdateWithoutResidentsInput>;
+    create: Prisma.XOR<Prisma.ApartmentCreateWithoutResidentsInput, Prisma.ApartmentUncheckedCreateWithoutResidentsInput>;
+    where?: Prisma.ApartmentWhereInput;
+};
+export type ApartmentUpdateToOneWithWhereWithoutResidentsInput = {
+    where?: Prisma.ApartmentWhereInput;
+    data: Prisma.XOR<Prisma.ApartmentUpdateWithoutResidentsInput, Prisma.ApartmentUncheckedUpdateWithoutResidentsInput>;
+};
+export type ApartmentUpdateWithoutResidentsInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    address?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    buildingNumberFrom?: Prisma.IntFieldUpdateOperationsInput | number;
+    buildingNumberTo?: Prisma.IntFieldUpdateOperationsInput | number;
+    floorCountPerBuilding?: Prisma.IntFieldUpdateOperationsInput | number;
+    unitCountPerFloor?: Prisma.IntFieldUpdateOperationsInput | number;
+};
+export type ApartmentUncheckedUpdateWithoutResidentsInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    name?: Prisma.StringFieldUpdateOperationsInput | string;
+    address?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.StringFieldUpdateOperationsInput | string;
+    buildingNumberFrom?: Prisma.IntFieldUpdateOperationsInput | number;
+    buildingNumberTo?: Prisma.IntFieldUpdateOperationsInput | number;
+    floorCountPerBuilding?: Prisma.IntFieldUpdateOperationsInput | number;
+    unitCountPerFloor?: Prisma.IntFieldUpdateOperationsInput | number;
+};
+/**
+ * Count Type ApartmentCountOutputType
+ */
+export type ApartmentCountOutputType = {
+    residents: number;
+};
+export type ApartmentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    residents?: boolean | ApartmentCountOutputTypeCountResidentsArgs;
+};
+/**
+ * ApartmentCountOutputType without action
+ */
+export type ApartmentCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApartmentCountOutputType
+     */
+    select?: Prisma.ApartmentCountOutputTypeSelect<ExtArgs> | null;
+};
+/**
+ * ApartmentCountOutputType without action
+ */
+export type ApartmentCountOutputTypeCountResidentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.ResidentWhereInput;
+};
+export type ApartmentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+    id?: boolean;
+    name?: boolean;
+    address?: boolean;
+    description?: boolean;
+    buildingNumberFrom?: boolean;
+    buildingNumberTo?: boolean;
+    floorCountPerBuilding?: boolean;
+    unitCountPerFloor?: boolean;
+    residents?: boolean | Prisma.Apartment$residentsArgs<ExtArgs>;
+    _count?: boolean | Prisma.ApartmentCountOutputTypeDefaultArgs<ExtArgs>;
+}, ExtArgs["result"]["apartment"]>;
+export type ApartmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+    id?: boolean;
+    name?: boolean;
+    address?: boolean;
+    description?: boolean;
+    buildingNumberFrom?: boolean;
+    buildingNumberTo?: boolean;
+    floorCountPerBuilding?: boolean;
+    unitCountPerFloor?: boolean;
+}, ExtArgs["result"]["apartment"]>;
+export type ApartmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+    id?: boolean;
+    name?: boolean;
+    address?: boolean;
+    description?: boolean;
+    buildingNumberFrom?: boolean;
+    buildingNumberTo?: boolean;
+    floorCountPerBuilding?: boolean;
+    unitCountPerFloor?: boolean;
+}, ExtArgs["result"]["apartment"]>;
+export type ApartmentSelectScalar = {
+    id?: boolean;
+    name?: boolean;
+    address?: boolean;
+    description?: boolean;
+    buildingNumberFrom?: boolean;
+    buildingNumberTo?: boolean;
+    floorCountPerBuilding?: boolean;
+    unitCountPerFloor?: boolean;
+};
+export type ApartmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "address" | "description" | "buildingNumberFrom" | "buildingNumberTo" | "floorCountPerBuilding" | "unitCountPerFloor", ExtArgs["result"]["apartment"]>;
+export type ApartmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    residents?: boolean | Prisma.Apartment$residentsArgs<ExtArgs>;
+    _count?: boolean | Prisma.ApartmentCountOutputTypeDefaultArgs<ExtArgs>;
+};
+export type ApartmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {};
+export type ApartmentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {};
+export type $ApartmentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    name: "Apartment";
+    objects: {
+        residents: Prisma.$ResidentPayload<ExtArgs>[];
+    };
+    scalars: runtime.Types.Extensions.GetPayloadResult<{
+        id: string;
+        name: string;
+        address: string;
+        description: string;
+        buildingNumberFrom: number;
+        buildingNumberTo: number;
+        floorCountPerBuilding: number;
+        unitCountPerFloor: number;
+    }, ExtArgs["result"]["apartment"]>;
+    composites: {};
+};
+export type ApartmentGetPayload<S extends boolean | null | undefined | ApartmentDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$ApartmentPayload, S>;
+export type ApartmentCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = Omit<ApartmentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+    select?: ApartmentCountAggregateInputType | true;
+};
+export interface ApartmentDelegate<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: {
+        types: Prisma.TypeMap<ExtArgs>['model']['Apartment'];
+        meta: {
+            name: 'Apartment';
+        };
+    };
+    /**
+     * Find zero or one Apartment that matches the filter.
+     * @param {ApartmentFindUniqueArgs} args - Arguments to find a Apartment
+     * @example
+     * // Get one Apartment
+     * const apartment = await prisma.apartment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ApartmentFindUniqueArgs>(args: Prisma.SelectSubset<T, ApartmentFindUniqueArgs<ExtArgs>>): Prisma.Prisma__ApartmentClient<runtime.Types.Result.GetResult<Prisma.$ApartmentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Find one Apartment that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ApartmentFindUniqueOrThrowArgs} args - Arguments to find a Apartment
+     * @example
+     * // Get one Apartment
+     * const apartment = await prisma.apartment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ApartmentFindUniqueOrThrowArgs>(args: Prisma.SelectSubset<T, ApartmentFindUniqueOrThrowArgs<ExtArgs>>): Prisma.Prisma__ApartmentClient<runtime.Types.Result.GetResult<Prisma.$ApartmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Find the first Apartment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApartmentFindFirstArgs} args - Arguments to find a Apartment
+     * @example
+     * // Get one Apartment
+     * const apartment = await prisma.apartment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ApartmentFindFirstArgs>(args?: Prisma.SelectSubset<T, ApartmentFindFirstArgs<ExtArgs>>): Prisma.Prisma__ApartmentClient<runtime.Types.Result.GetResult<Prisma.$ApartmentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Find the first Apartment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApartmentFindFirstOrThrowArgs} args - Arguments to find a Apartment
+     * @example
+     * // Get one Apartment
+     * const apartment = await prisma.apartment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ApartmentFindFirstOrThrowArgs>(args?: Prisma.SelectSubset<T, ApartmentFindFirstOrThrowArgs<ExtArgs>>): Prisma.Prisma__ApartmentClient<runtime.Types.Result.GetResult<Prisma.$ApartmentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Find zero or more Apartments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApartmentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Apartments
+     * const apartments = await prisma.apartment.findMany()
+     *
+     * // Get first 10 Apartments
+     * const apartments = await prisma.apartment.findMany({ take: 10 })
+     *
+     * // Only select the `id`
+     * const apartmentWithIdOnly = await prisma.apartment.findMany({ select: { id: true } })
+     *
+     */
+    findMany<T extends ApartmentFindManyArgs>(args?: Prisma.SelectSubset<T, ApartmentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApartmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>;
+    /**
+     * Create a Apartment.
+     * @param {ApartmentCreateArgs} args - Arguments to create a Apartment.
+     * @example
+     * // Create one Apartment
+     * const Apartment = await prisma.apartment.create({
+     *   data: {
+     *     // ... data to create a Apartment
+     *   }
+     * })
+     *
+     */
+    create<T extends ApartmentCreateArgs>(args: Prisma.SelectSubset<T, ApartmentCreateArgs<ExtArgs>>): Prisma.Prisma__ApartmentClient<runtime.Types.Result.GetResult<Prisma.$ApartmentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Create many Apartments.
+     * @param {ApartmentCreateManyArgs} args - Arguments to create many Apartments.
+     * @example
+     * // Create many Apartments
+     * const apartment = await prisma.apartment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     */
+    createMany<T extends ApartmentCreateManyArgs>(args?: Prisma.SelectSubset<T, ApartmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>;
+    /**
+     * Create many Apartments and returns the data saved in the database.
+     * @param {ApartmentCreateManyAndReturnArgs} args - Arguments to create many Apartments.
+     * @example
+     * // Create many Apartments
+     * const apartment = await prisma.apartment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     * // Create many Apartments and only return the `id`
+     * const apartmentWithIdOnly = await prisma.apartment.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     *
+     */
+    createManyAndReturn<T extends ApartmentCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, ApartmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApartmentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>;
+    /**
+     * Delete a Apartment.
+     * @param {ApartmentDeleteArgs} args - Arguments to delete one Apartment.
+     * @example
+     * // Delete one Apartment
+     * const Apartment = await prisma.apartment.delete({
+     *   where: {
+     *     // ... filter to delete one Apartment
+     *   }
+     * })
+     *
+     */
+    delete<T extends ApartmentDeleteArgs>(args: Prisma.SelectSubset<T, ApartmentDeleteArgs<ExtArgs>>): Prisma.Prisma__ApartmentClient<runtime.Types.Result.GetResult<Prisma.$ApartmentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Update one Apartment.
+     * @param {ApartmentUpdateArgs} args - Arguments to update one Apartment.
+     * @example
+     * // Update one Apartment
+     * const apartment = await prisma.apartment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     */
+    update<T extends ApartmentUpdateArgs>(args: Prisma.SelectSubset<T, ApartmentUpdateArgs<ExtArgs>>): Prisma.Prisma__ApartmentClient<runtime.Types.Result.GetResult<Prisma.$ApartmentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Delete zero or more Apartments.
+     * @param {ApartmentDeleteManyArgs} args - Arguments to filter Apartments to delete.
+     * @example
+     * // Delete a few Apartments
+     * const { count } = await prisma.apartment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     *
+     */
+    deleteMany<T extends ApartmentDeleteManyArgs>(args?: Prisma.SelectSubset<T, ApartmentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>;
+    /**
+     * Update zero or more Apartments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApartmentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Apartments
+     * const apartment = await prisma.apartment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     */
+    updateMany<T extends ApartmentUpdateManyArgs>(args: Prisma.SelectSubset<T, ApartmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>;
+    /**
+     * Update zero or more Apartments and returns the data updated in the database.
+     * @param {ApartmentUpdateManyAndReturnArgs} args - Arguments to update many Apartments.
+     * @example
+     * // Update many Apartments
+     * const apartment = await prisma.apartment.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     * // Update zero or more Apartments and only return the `id`
+     * const apartmentWithIdOnly = await prisma.apartment.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     *
+     */
+    updateManyAndReturn<T extends ApartmentUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, ApartmentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApartmentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>;
+    /**
+     * Create or update one Apartment.
+     * @param {ApartmentUpsertArgs} args - Arguments to update or create a Apartment.
+     * @example
+     * // Update or create a Apartment
+     * const apartment = await prisma.apartment.upsert({
+     *   create: {
+     *     // ... data to create a Apartment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Apartment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ApartmentUpsertArgs>(args: Prisma.SelectSubset<T, ApartmentUpsertArgs<ExtArgs>>): Prisma.Prisma__ApartmentClient<runtime.Types.Result.GetResult<Prisma.$ApartmentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Count the number of Apartments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApartmentCountArgs} args - Arguments to filter Apartments to count.
+     * @example
+     * // Count the number of Apartments
+     * const count = await prisma.apartment.count({
+     *   where: {
+     *     // ... the filter for the Apartments we want to count
+     *   }
+     * })
+    **/
+    count<T extends ApartmentCountArgs>(args?: Prisma.Subset<T, ApartmentCountArgs>): Prisma.PrismaPromise<T extends runtime.Types.Utils.Record<'select', any> ? T['select'] extends true ? number : Prisma.GetScalarType<T['select'], ApartmentCountAggregateOutputType> : number>;
+    /**
+     * Allows you to perform aggregations operations on a Apartment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApartmentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ApartmentAggregateArgs>(args: Prisma.Subset<T, ApartmentAggregateArgs>): Prisma.PrismaPromise<GetApartmentAggregateType<T>>;
+    /**
+     * Group by Apartment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApartmentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     *
+    **/
+    groupBy<T extends ApartmentGroupByArgs, HasSelectOrTake extends Prisma.Or<Prisma.Extends<'skip', Prisma.Keys<T>>, Prisma.Extends<'take', Prisma.Keys<T>>>, OrderByArg extends Prisma.True extends HasSelectOrTake ? {
+        orderBy: ApartmentGroupByArgs['orderBy'];
+    } : {
+        orderBy?: ApartmentGroupByArgs['orderBy'];
+    }, OrderFields extends Prisma.ExcludeUnderscoreKeys<Prisma.Keys<Prisma.MaybeTupleToUnion<T['orderBy']>>>, ByFields extends Prisma.MaybeTupleToUnion<T['by']>, ByValid extends Prisma.Has<ByFields, OrderFields>, HavingFields extends Prisma.GetHavingFields<T['having']>, HavingValid extends Prisma.Has<ByFields, HavingFields>, ByEmpty extends T['by'] extends never[] ? Prisma.True : Prisma.False, InputErrors extends ByEmpty extends Prisma.True ? `Error: "by" must not be empty.` : HavingValid extends Prisma.False ? {
+        [P in HavingFields]: P extends ByFields ? never : P extends string ? `Error: Field "${P}" used in "having" needs to be provided in "by".` : [
+            Error,
+            'Field ',
+            P,
+            ` in "having" needs to be provided in "by"`
+        ];
+    }[HavingFields] : 'take' extends Prisma.Keys<T> ? 'orderBy' extends Prisma.Keys<T> ? ByValid extends Prisma.True ? {} : {
+        [P in OrderFields]: P extends ByFields ? never : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+    }[OrderFields] : 'Error: If you provide "take", you also need to provide "orderBy"' : 'skip' extends Prisma.Keys<T> ? 'orderBy' extends Prisma.Keys<T> ? ByValid extends Prisma.True ? {} : {
+        [P in OrderFields]: P extends ByFields ? never : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+    }[OrderFields] : 'Error: If you provide "skip", you also need to provide "orderBy"' : ByValid extends Prisma.True ? {} : {
+        [P in OrderFields]: P extends ByFields ? never : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+    }[OrderFields]>(args: Prisma.SubsetIntersection<T, ApartmentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetApartmentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>;
+    /**
+     * Fields of the Apartment model
+     */
+    readonly fields: ApartmentFieldRefs;
+}
+/**
+ * The delegate class that acts as a "Promise-like" for Apartment.
+ * Why is this prefixed with `Prisma__`?
+ * Because we want to prevent naming conflicts as mentioned in
+ * https://github.com/prisma/prisma-client-js/issues/707
+ */
+export interface Prisma__ApartmentClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise";
+    residents<T extends Prisma.Apartment$residentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Apartment$residentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ResidentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): runtime.Types.Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): runtime.Types.Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): runtime.Types.Utils.JsPromise<T>;
+}
+/**
+ * Fields of the Apartment model
+ */
+export interface ApartmentFieldRefs {
+    readonly id: Prisma.FieldRef<"Apartment", 'String'>;
+    readonly name: Prisma.FieldRef<"Apartment", 'String'>;
+    readonly address: Prisma.FieldRef<"Apartment", 'String'>;
+    readonly description: Prisma.FieldRef<"Apartment", 'String'>;
+    readonly buildingNumberFrom: Prisma.FieldRef<"Apartment", 'Int'>;
+    readonly buildingNumberTo: Prisma.FieldRef<"Apartment", 'Int'>;
+    readonly floorCountPerBuilding: Prisma.FieldRef<"Apartment", 'Int'>;
+    readonly unitCountPerFloor: Prisma.FieldRef<"Apartment", 'Int'>;
+}
+/**
+ * Apartment findUnique
+ */
+export type ApartmentFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Apartment
+     */
+    select?: Prisma.ApartmentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Apartment
+     */
+    omit?: Prisma.ApartmentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.ApartmentInclude<ExtArgs> | null;
+    /**
+     * Filter, which Apartment to fetch.
+     */
+    where: Prisma.ApartmentWhereUniqueInput;
+};
+/**
+ * Apartment findUniqueOrThrow
+ */
+export type ApartmentFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Apartment
+     */
+    select?: Prisma.ApartmentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Apartment
+     */
+    omit?: Prisma.ApartmentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.ApartmentInclude<ExtArgs> | null;
+    /**
+     * Filter, which Apartment to fetch.
+     */
+    where: Prisma.ApartmentWhereUniqueInput;
+};
+/**
+ * Apartment findFirst
+ */
+export type ApartmentFindFirstArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Apartment
+     */
+    select?: Prisma.ApartmentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Apartment
+     */
+    omit?: Prisma.ApartmentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.ApartmentInclude<ExtArgs> | null;
+    /**
+     * Filter, which Apartment to fetch.
+     */
+    where?: Prisma.ApartmentWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of Apartments to fetch.
+     */
+    orderBy?: Prisma.ApartmentOrderByWithRelationInput | Prisma.ApartmentOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for Apartments.
+     */
+    cursor?: Prisma.ApartmentWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` Apartments from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` Apartments.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of Apartments.
+     */
+    distinct?: Prisma.ApartmentScalarFieldEnum | Prisma.ApartmentScalarFieldEnum[];
+};
+/**
+ * Apartment findFirstOrThrow
+ */
+export type ApartmentFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Apartment
+     */
+    select?: Prisma.ApartmentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Apartment
+     */
+    omit?: Prisma.ApartmentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.ApartmentInclude<ExtArgs> | null;
+    /**
+     * Filter, which Apartment to fetch.
+     */
+    where?: Prisma.ApartmentWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of Apartments to fetch.
+     */
+    orderBy?: Prisma.ApartmentOrderByWithRelationInput | Prisma.ApartmentOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for Apartments.
+     */
+    cursor?: Prisma.ApartmentWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` Apartments from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` Apartments.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of Apartments.
+     */
+    distinct?: Prisma.ApartmentScalarFieldEnum | Prisma.ApartmentScalarFieldEnum[];
+};
+/**
+ * Apartment findMany
+ */
+export type ApartmentFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Apartment
+     */
+    select?: Prisma.ApartmentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Apartment
+     */
+    omit?: Prisma.ApartmentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.ApartmentInclude<ExtArgs> | null;
+    /**
+     * Filter, which Apartments to fetch.
+     */
+    where?: Prisma.ApartmentWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of Apartments to fetch.
+     */
+    orderBy?: Prisma.ApartmentOrderByWithRelationInput | Prisma.ApartmentOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for listing Apartments.
+     */
+    cursor?: Prisma.ApartmentWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` Apartments from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` Apartments.
+     */
+    skip?: number;
+    distinct?: Prisma.ApartmentScalarFieldEnum | Prisma.ApartmentScalarFieldEnum[];
+};
+/**
+ * Apartment create
+ */
+export type ApartmentCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Apartment
+     */
+    select?: Prisma.ApartmentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Apartment
+     */
+    omit?: Prisma.ApartmentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.ApartmentInclude<ExtArgs> | null;
+    /**
+     * The data needed to create a Apartment.
+     */
+    data: Prisma.XOR<Prisma.ApartmentCreateInput, Prisma.ApartmentUncheckedCreateInput>;
+};
+/**
+ * Apartment createMany
+ */
+export type ApartmentCreateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Apartments.
+     */
+    data: Prisma.ApartmentCreateManyInput | Prisma.ApartmentCreateManyInput[];
+    skipDuplicates?: boolean;
+};
+/**
+ * Apartment createManyAndReturn
+ */
+export type ApartmentCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Apartment
+     */
+    select?: Prisma.ApartmentSelectCreateManyAndReturn<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Apartment
+     */
+    omit?: Prisma.ApartmentOmit<ExtArgs> | null;
+    /**
+     * The data used to create many Apartments.
+     */
+    data: Prisma.ApartmentCreateManyInput | Prisma.ApartmentCreateManyInput[];
+    skipDuplicates?: boolean;
+};
+/**
+ * Apartment update
+ */
+export type ApartmentUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Apartment
+     */
+    select?: Prisma.ApartmentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Apartment
+     */
+    omit?: Prisma.ApartmentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.ApartmentInclude<ExtArgs> | null;
+    /**
+     * The data needed to update a Apartment.
+     */
+    data: Prisma.XOR<Prisma.ApartmentUpdateInput, Prisma.ApartmentUncheckedUpdateInput>;
+    /**
+     * Choose, which Apartment to update.
+     */
+    where: Prisma.ApartmentWhereUniqueInput;
+};
+/**
+ * Apartment updateMany
+ */
+export type ApartmentUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Apartments.
+     */
+    data: Prisma.XOR<Prisma.ApartmentUpdateManyMutationInput, Prisma.ApartmentUncheckedUpdateManyInput>;
+    /**
+     * Filter which Apartments to update
+     */
+    where?: Prisma.ApartmentWhereInput;
+    /**
+     * Limit how many Apartments to update.
+     */
+    limit?: number;
+};
+/**
+ * Apartment updateManyAndReturn
+ */
+export type ApartmentUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Apartment
+     */
+    select?: Prisma.ApartmentSelectUpdateManyAndReturn<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Apartment
+     */
+    omit?: Prisma.ApartmentOmit<ExtArgs> | null;
+    /**
+     * The data used to update Apartments.
+     */
+    data: Prisma.XOR<Prisma.ApartmentUpdateManyMutationInput, Prisma.ApartmentUncheckedUpdateManyInput>;
+    /**
+     * Filter which Apartments to update
+     */
+    where?: Prisma.ApartmentWhereInput;
+    /**
+     * Limit how many Apartments to update.
+     */
+    limit?: number;
+};
+/**
+ * Apartment upsert
+ */
+export type ApartmentUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Apartment
+     */
+    select?: Prisma.ApartmentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Apartment
+     */
+    omit?: Prisma.ApartmentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.ApartmentInclude<ExtArgs> | null;
+    /**
+     * The filter to search for the Apartment to update in case it exists.
+     */
+    where: Prisma.ApartmentWhereUniqueInput;
+    /**
+     * In case the Apartment found by the `where` argument doesn't exist, create a new Apartment with this data.
+     */
+    create: Prisma.XOR<Prisma.ApartmentCreateInput, Prisma.ApartmentUncheckedCreateInput>;
+    /**
+     * In case the Apartment was found with the provided `where` argument, update it with this data.
+     */
+    update: Prisma.XOR<Prisma.ApartmentUpdateInput, Prisma.ApartmentUncheckedUpdateInput>;
+};
+/**
+ * Apartment delete
+ */
+export type ApartmentDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Apartment
+     */
+    select?: Prisma.ApartmentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Apartment
+     */
+    omit?: Prisma.ApartmentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.ApartmentInclude<ExtArgs> | null;
+    /**
+     * Filter which Apartment to delete.
+     */
+    where: Prisma.ApartmentWhereUniqueInput;
+};
+/**
+ * Apartment deleteMany
+ */
+export type ApartmentDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Filter which Apartments to delete
+     */
+    where?: Prisma.ApartmentWhereInput;
+    /**
+     * Limit how many Apartments to delete.
+     */
+    limit?: number;
+};
+/**
+ * Apartment.residents
+ */
+export type Apartment$residentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Resident
+     */
+    select?: Prisma.ResidentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Resident
+     */
+    omit?: Prisma.ResidentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.ResidentInclude<ExtArgs> | null;
+    where?: Prisma.ResidentWhereInput;
+    orderBy?: Prisma.ResidentOrderByWithRelationInput | Prisma.ResidentOrderByWithRelationInput[];
+    cursor?: Prisma.ResidentWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.ResidentScalarFieldEnum | Prisma.ResidentScalarFieldEnum[];
+};
+/**
+ * Apartment without action
+ */
+export type ApartmentDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Apartment
+     */
+    select?: Prisma.ApartmentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Apartment
+     */
+    omit?: Prisma.ApartmentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.ApartmentInclude<ExtArgs> | null;
+};
+export {};
+//# sourceMappingURL=Apartment.d.ts.map

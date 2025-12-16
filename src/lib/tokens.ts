@@ -1,7 +1,7 @@
 import {
   JWT_ACCESS_TOKEN_SECRET,
   JWT_REFRESH_TOKEN_SECRET,
-}from './constants.ts';
+}from './constants.js';
 
 import jwt from 'jsonwebtoken'
 interface Tokens {

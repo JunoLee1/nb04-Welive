@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  output   = "./prisma/generated"
 }
 
 datasource db {
@@ -57,7 +57,6 @@ model Apartment {
   buildingNumberTo        Int
   floorCountPerBuilding   Int
   unitCountPerFloor       Int
-
 
   residents Resident[]  // 👈 주민들
 }
