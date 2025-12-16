@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  SUPERADMIN
+}
+enum joinStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  username  String
+  password  String
+  role      Role
+  hasNext   Boolean  @default(false)
+  joinStatus joinStatus @default(PENDING)
+  isActive  Boolean  @default(true)
+  avatar    String
+  adminOf   Resident[]
+
+}
+
+model Resident {
+  id          String    @id @default(uuid())
+  
+  apartmentId String
+  apartment   Apartment @relation(fields: [apartmentId], references: [id])
+  adminId     String 
+  admin       User     @relation(fields: [adminId], references: [id])
+
+  @@unique([apartmentId, adminId])
+}
+model Apartment {
+  id                      String   @id @default(uuid())
+  name                    String
+  address                 String
+  description             String
+  buildingNumberFrom      Int
+  buildingNumberTo        Int
+  floorCountPerBuilding   Int
+  unitCountPerFloor       Int
+
+
+  residents Resident[]  // 👈 주민들
+}
+
