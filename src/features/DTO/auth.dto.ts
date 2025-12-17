@@ -14,6 +14,6 @@ export interface LoginResponseDTO {
     avatar: string;
     isActive: boolean;
     role: Role;
-    adminOf?: adminOfDTO|null;
+    adminOf?: adminOfDTO | null;
     resident?: Resident;
 }
