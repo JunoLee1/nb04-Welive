@@ -672,6 +672,7 @@ export const UserScalarFieldEnum = {
   email: 'email',
   name: 'name',
   username: 'username',
+  contact: 'contact',
   password: 'password',
   role: 'role',
   hasNext: 'hasNext',
@@ -685,6 +686,10 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 
 export const ResidentScalarFieldEnum = {
   id: 'id',
+  name: 'name',
+  building: 'building',
+  unit: 'unit',
+  isHouseholder: 'isHouseholder',
   apartmentId: 'apartmentId',
   adminId: 'adminId'
 } as const

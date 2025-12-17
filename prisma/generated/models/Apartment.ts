@@ -459,14 +459,6 @@ export type ApartmentUpdateOneRequiredWithoutResidentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ApartmentUpdateToOneWithWhereWithoutResidentsInput, Prisma.ApartmentUpdateWithoutResidentsInput>, Prisma.ApartmentUncheckedUpdateWithoutResidentsInput>
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type ApartmentCreateWithoutResidentsInput = {
   id?: string
   name: string
