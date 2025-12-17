@@ -1,22 +1,18 @@
-import type { RequestHandler } from "express";
+import { Router, type RequestHandler } from "express";
 import { Controller } from "./auth.controller.js";
-// 로그인
-const controller = new Controller();
-const loginHandler: RequestHandler = async( req, res, next )=> {
-    return controller.login;
-}
-// 로그아웃
-const logoutHandler: RequestHandler = async( req, res, next )=> {
-   return controller.logout;
-}
+import { Express }from "express"
+import { Service } from "./auth.services.js";
+// 로그인 라우트
+const service = new Service();
+const controller = new Controller(service);
+const router = Router();
+router.post("/login", controller.loginHandler);
+// 로그아웃 라우트
+router.post("/logout", controller.logoutHandler);
+// 토큰 갱신 라우트
+router.post("/refresh-token", controller.refreshTokenHandler);
 
-// 토큰 재발급
-const refreshTokenHandler : RequestHandler = async( req, res, next )=> {
-    return controller.refreshToken;
-}
+export function authRoutes(app: Express) {
+    app.use("/auth", router);
+};
 
-export {
-  loginHandler,
-  logoutHandler,
-  refreshTokenHandler
-}
