@@ -1,16 +1,17 @@
-import { Router, type RequestHandler } from "express";
+import { Router } from "express";
 import { Controller } from "./auth.controller.js";
 import type { Express }from "express"
 import { Service } from "./auth.services.js";
 // 로그인 라우트
+const router = Router();
 const service = new Service();
 const controller = new Controller(service);
-const router = Router();
-router.post("/login", controller.loginHandler);
+
+router.post("/login",controller.loginHandler); //TODO: insert validator middleawre
 // 로그아웃 라우트
-router.post("/logout", controller.logoutHandler);
+router.post("/logout", controller.logoutHandler); 
 // 토큰 갱신 라우트
-router.post("/refresh-token", controller.refreshTokenHandler);
+router.post("/refresh-token", controller.refreshTokenHandler);//TODO: manage token by cookie
 
 export function authRoutes(app: Express) {
     app.use("/auth", router);
