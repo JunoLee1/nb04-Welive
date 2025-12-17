@@ -1,3 +1,4 @@
+import { join } from "node:path";
 import prisma from "../../lib/prisma.js";
 import type { LoginRequestDTO, LoginResponseDTO } from "../DTO/auth.dto.js";
 
@@ -10,16 +11,10 @@ export class Service {
   }: LoginRequestDTO): Promise<LoginResponseDTO> => {
     //unique checker
     const user = await prisma.user.findFirst({
-      where: { username },
+      where: {
+        username: username,
+      },
       select: {
-        id: true,
-        username: true,
-        email: true,
-        avatar: true,
-        isActive: true,
-        role: true,
-        contact: true,
-        joinStatus: true,
         adminOf: {
           select: {
             id: true,
@@ -35,9 +30,18 @@ export class Service {
             isHouseholder: true,
           },
         },
+        include: {
+          id: true,
+          username: true,
+          email: true,
+          avartar: true,
+          isActive: true,
+          roles: true,
+          contacts: true,
+          joinSratus: true,
+        },
       },
     });
-
     if (!user) {
       throw new Error("User not found");
     }
@@ -45,4 +49,3 @@ export class Service {
   };
   //❗️unique
 }
-// 물어볼거 : 결과
