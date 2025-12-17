@@ -27,3 +27,16 @@ export function validateBody<T extends z.ZodTypeAny> (schema:T): RequestHandler{
         next()
     }
 }
+
+export function validateQuery<T extends z.ZodTypeAny> (schema:T): RequestHandler{
+    return (req, res, next) => {
+        const result = schema.safeParse(req.query)
+        if (!result.success) {
+            return res.status(400).json({
+                message: '잘못된 요청 입니다.',
+                error: result.error.issues
+            })
+        }
+        next()
+    }
+}
