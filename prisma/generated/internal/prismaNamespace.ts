@@ -384,9 +384,9 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
+  Apartment: 'Apartment',
   User: 'User',
-  Resident: 'Resident',
-  Apartment: 'Apartment'
+  Resident: 'Resident'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -402,10 +402,84 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "resident" | "apartment"
+    modelProps: "apartment" | "user" | "resident"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
+    Apartment: {
+      payload: Prisma.$ApartmentPayload<ExtArgs>
+      fields: Prisma.ApartmentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ApartmentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApartmentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ApartmentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApartmentPayload>
+        }
+        findFirst: {
+          args: Prisma.ApartmentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApartmentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ApartmentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApartmentPayload>
+        }
+        findMany: {
+          args: Prisma.ApartmentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApartmentPayload>[]
+        }
+        create: {
+          args: Prisma.ApartmentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApartmentPayload>
+        }
+        createMany: {
+          args: Prisma.ApartmentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ApartmentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApartmentPayload>[]
+        }
+        delete: {
+          args: Prisma.ApartmentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApartmentPayload>
+        }
+        update: {
+          args: Prisma.ApartmentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApartmentPayload>
+        }
+        deleteMany: {
+          args: Prisma.ApartmentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ApartmentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ApartmentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApartmentPayload>[]
+        }
+        upsert: {
+          args: Prisma.ApartmentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApartmentPayload>
+        }
+        aggregate: {
+          args: Prisma.ApartmentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateApartment>
+        }
+        groupBy: {
+          args: Prisma.ApartmentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ApartmentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ApartmentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ApartmentCountAggregateOutputType> | number
+        }
+      }
+    }
     User: {
       payload: Prisma.$UserPayload<ExtArgs>
       fields: Prisma.UserFieldRefs
@@ -554,80 +628,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    Apartment: {
-      payload: Prisma.$ApartmentPayload<ExtArgs>
-      fields: Prisma.ApartmentFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.ApartmentFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApartmentPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.ApartmentFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApartmentPayload>
-        }
-        findFirst: {
-          args: Prisma.ApartmentFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApartmentPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.ApartmentFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApartmentPayload>
-        }
-        findMany: {
-          args: Prisma.ApartmentFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApartmentPayload>[]
-        }
-        create: {
-          args: Prisma.ApartmentCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApartmentPayload>
-        }
-        createMany: {
-          args: Prisma.ApartmentCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.ApartmentCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApartmentPayload>[]
-        }
-        delete: {
-          args: Prisma.ApartmentDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApartmentPayload>
-        }
-        update: {
-          args: Prisma.ApartmentUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApartmentPayload>
-        }
-        deleteMany: {
-          args: Prisma.ApartmentDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.ApartmentUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.ApartmentUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApartmentPayload>[]
-        }
-        upsert: {
-          args: Prisma.ApartmentUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApartmentPayload>
-        }
-        aggregate: {
-          args: Prisma.ApartmentAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateApartment>
-        }
-        groupBy: {
-          args: Prisma.ApartmentGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ApartmentGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.ApartmentCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ApartmentCountAggregateOutputType> | number
-        }
-      }
-    }
   }
 } & {
   other: {
@@ -667,6 +667,21 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const ApartmentScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  address: 'address',
+  description: 'description',
+  buildingNumberFrom: 'buildingNumberFrom',
+  buildingNumberTo: 'buildingNumberTo',
+  floorCountPerBuilding: 'floorCountPerBuilding',
+  unitCountPerFloor: 'unitCountPerFloor',
+  adminId: 'adminId'
+} as const
+
+export type ApartmentScalarFieldEnum = (typeof ApartmentScalarFieldEnum)[keyof typeof ApartmentScalarFieldEnum]
+
+
 export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
@@ -691,24 +706,10 @@ export const ResidentScalarFieldEnum = {
   unit: 'unit',
   isHouseholder: 'isHouseholder',
   apartmentId: 'apartmentId',
-  adminId: 'adminId'
+  userId: 'userId'
 } as const
 
 export type ResidentScalarFieldEnum = (typeof ResidentScalarFieldEnum)[keyof typeof ResidentScalarFieldEnum]
-
-
-export const ApartmentScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  address: 'address',
-  description: 'description',
-  buildingNumberFrom: 'buildingNumberFrom',
-  buildingNumberTo: 'buildingNumberTo',
-  floorCountPerBuilding: 'floorCountPerBuilding',
-  unitCountPerFloor: 'unitCountPerFloor'
-} as const
-
-export type ApartmentScalarFieldEnum = (typeof ApartmentScalarFieldEnum)[keyof typeof ApartmentScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -748,6 +749,20 @@ export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMod
 
 
 /**
+ * Reference to a field of type 'Int'
+ */
+export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+/**
+ * Reference to a field of type 'Int[]'
+ */
+export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
  * Reference to a field of type 'Role'
  */
 export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role'>
@@ -779,20 +794,6 @@ export type EnumjoinStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Prism
  * Reference to a field of type 'joinStatus[]'
  */
 export type ListEnumjoinStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'joinStatus[]'>
-    
-
-
-/**
- * Reference to a field of type 'Int'
- */
-export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-/**
- * Reference to a field of type 'Int[]'
- */
-export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
@@ -904,9 +905,9 @@ export type PrismaClientOptions = ({
   comments?: runtime.SqlCommenterPlugin[]
 }
 export type GlobalOmitConfig = {
+  apartment?: Prisma.ApartmentOmit
   user?: Prisma.UserOmit
   resident?: Prisma.ResidentOmit
-  apartment?: Prisma.ApartmentOmit
 }
 
 /* Types for Logging */

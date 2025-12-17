@@ -51,9 +51,9 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  Apartment: 'Apartment',
   User: 'User',
-  Resident: 'Resident',
-  Apartment: 'Apartment'
+  Resident: 'Resident'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -70,6 +70,21 @@ export const TransactionIsolationLevel = {
 } as const
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const ApartmentScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  address: 'address',
+  description: 'description',
+  buildingNumberFrom: 'buildingNumberFrom',
+  buildingNumberTo: 'buildingNumberTo',
+  floorCountPerBuilding: 'floorCountPerBuilding',
+  unitCountPerFloor: 'unitCountPerFloor',
+  adminId: 'adminId'
+} as const
+
+export type ApartmentScalarFieldEnum = (typeof ApartmentScalarFieldEnum)[keyof typeof ApartmentScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
@@ -96,24 +111,10 @@ export const ResidentScalarFieldEnum = {
   unit: 'unit',
   isHouseholder: 'isHouseholder',
   apartmentId: 'apartmentId',
-  adminId: 'adminId'
+  userId: 'userId'
 } as const
 
 export type ResidentScalarFieldEnum = (typeof ResidentScalarFieldEnum)[keyof typeof ResidentScalarFieldEnum]
-
-
-export const ApartmentScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  address: 'address',
-  description: 'description',
-  buildingNumberFrom: 'buildingNumberFrom',
-  buildingNumberTo: 'buildingNumberTo',
-  floorCountPerBuilding: 'floorCountPerBuilding',
-  unitCountPerFloor: 'unitCountPerFloor'
-} as const
-
-export type ApartmentScalarFieldEnum = (typeof ApartmentScalarFieldEnum)[keyof typeof ApartmentScalarFieldEnum]
 
 
 export const SortOrder = {

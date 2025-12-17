@@ -49,6 +49,7 @@ export type ApartmentMinAggregateOutputType = {
   buildingNumberTo: number | null
   floorCountPerBuilding: number | null
   unitCountPerFloor: number | null
+  adminId: string | null
 }
 
 export type ApartmentMaxAggregateOutputType = {
@@ -60,6 +61,7 @@ export type ApartmentMaxAggregateOutputType = {
   buildingNumberTo: number | null
   floorCountPerBuilding: number | null
   unitCountPerFloor: number | null
+  adminId: string | null
 }
 
 export type ApartmentCountAggregateOutputType = {
@@ -71,6 +73,7 @@ export type ApartmentCountAggregateOutputType = {
   buildingNumberTo: number
   floorCountPerBuilding: number
   unitCountPerFloor: number
+  adminId: number
   _all: number
 }
 
@@ -98,6 +101,7 @@ export type ApartmentMinAggregateInputType = {
   buildingNumberTo?: true
   floorCountPerBuilding?: true
   unitCountPerFloor?: true
+  adminId?: true
 }
 
 export type ApartmentMaxAggregateInputType = {
@@ -109,6 +113,7 @@ export type ApartmentMaxAggregateInputType = {
   buildingNumberTo?: true
   floorCountPerBuilding?: true
   unitCountPerFloor?: true
+  adminId?: true
 }
 
 export type ApartmentCountAggregateInputType = {
@@ -120,6 +125,7 @@ export type ApartmentCountAggregateInputType = {
   buildingNumberTo?: true
   floorCountPerBuilding?: true
   unitCountPerFloor?: true
+  adminId?: true
   _all?: true
 }
 
@@ -218,6 +224,7 @@ export type ApartmentGroupByOutputType = {
   buildingNumberTo: number
   floorCountPerBuilding: number
   unitCountPerFloor: number
+  adminId: string
   _count: ApartmentCountAggregateOutputType | null
   _avg: ApartmentAvgAggregateOutputType | null
   _sum: ApartmentSumAggregateOutputType | null
@@ -252,7 +259,9 @@ export type ApartmentWhereInput = {
   buildingNumberTo?: Prisma.IntFilter<"Apartment"> | number
   floorCountPerBuilding?: Prisma.IntFilter<"Apartment"> | number
   unitCountPerFloor?: Prisma.IntFilter<"Apartment"> | number
+  adminId?: Prisma.StringFilter<"Apartment"> | string
   residents?: Prisma.ResidentListRelationFilter
+  admin?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type ApartmentOrderByWithRelationInput = {
@@ -264,11 +273,14 @@ export type ApartmentOrderByWithRelationInput = {
   buildingNumberTo?: Prisma.SortOrder
   floorCountPerBuilding?: Prisma.SortOrder
   unitCountPerFloor?: Prisma.SortOrder
+  adminId?: Prisma.SortOrder
   residents?: Prisma.ResidentOrderByRelationAggregateInput
+  admin?: Prisma.UserOrderByWithRelationInput
 }
 
 export type ApartmentWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  adminId?: string
   AND?: Prisma.ApartmentWhereInput | Prisma.ApartmentWhereInput[]
   OR?: Prisma.ApartmentWhereInput[]
   NOT?: Prisma.ApartmentWhereInput | Prisma.ApartmentWhereInput[]
@@ -280,7 +292,8 @@ export type ApartmentWhereUniqueInput = Prisma.AtLeast<{
   floorCountPerBuilding?: Prisma.IntFilter<"Apartment"> | number
   unitCountPerFloor?: Prisma.IntFilter<"Apartment"> | number
   residents?: Prisma.ResidentListRelationFilter
-}, "id">
+  admin?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+}, "id" | "id" | "adminId">
 
 export type ApartmentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -291,6 +304,7 @@ export type ApartmentOrderByWithAggregationInput = {
   buildingNumberTo?: Prisma.SortOrder
   floorCountPerBuilding?: Prisma.SortOrder
   unitCountPerFloor?: Prisma.SortOrder
+  adminId?: Prisma.SortOrder
   _count?: Prisma.ApartmentCountOrderByAggregateInput
   _avg?: Prisma.ApartmentAvgOrderByAggregateInput
   _max?: Prisma.ApartmentMaxOrderByAggregateInput
@@ -310,6 +324,7 @@ export type ApartmentScalarWhereWithAggregatesInput = {
   buildingNumberTo?: Prisma.IntWithAggregatesFilter<"Apartment"> | number
   floorCountPerBuilding?: Prisma.IntWithAggregatesFilter<"Apartment"> | number
   unitCountPerFloor?: Prisma.IntWithAggregatesFilter<"Apartment"> | number
+  adminId?: Prisma.StringWithAggregatesFilter<"Apartment"> | string
 }
 
 export type ApartmentCreateInput = {
@@ -322,6 +337,7 @@ export type ApartmentCreateInput = {
   floorCountPerBuilding: number
   unitCountPerFloor: number
   residents?: Prisma.ResidentCreateNestedManyWithoutApartmentInput
+  admin: Prisma.UserCreateNestedOneWithoutAdminOfInput
 }
 
 export type ApartmentUncheckedCreateInput = {
@@ -333,6 +349,7 @@ export type ApartmentUncheckedCreateInput = {
   buildingNumberTo: number
   floorCountPerBuilding: number
   unitCountPerFloor: number
+  adminId: string
   residents?: Prisma.ResidentUncheckedCreateNestedManyWithoutApartmentInput
 }
 
@@ -346,6 +363,7 @@ export type ApartmentUpdateInput = {
   floorCountPerBuilding?: Prisma.IntFieldUpdateOperationsInput | number
   unitCountPerFloor?: Prisma.IntFieldUpdateOperationsInput | number
   residents?: Prisma.ResidentUpdateManyWithoutApartmentNestedInput
+  admin?: Prisma.UserUpdateOneRequiredWithoutAdminOfNestedInput
 }
 
 export type ApartmentUncheckedUpdateInput = {
@@ -357,6 +375,7 @@ export type ApartmentUncheckedUpdateInput = {
   buildingNumberTo?: Prisma.IntFieldUpdateOperationsInput | number
   floorCountPerBuilding?: Prisma.IntFieldUpdateOperationsInput | number
   unitCountPerFloor?: Prisma.IntFieldUpdateOperationsInput | number
+  adminId?: Prisma.StringFieldUpdateOperationsInput | string
   residents?: Prisma.ResidentUncheckedUpdateManyWithoutApartmentNestedInput
 }
 
@@ -369,6 +388,7 @@ export type ApartmentCreateManyInput = {
   buildingNumberTo: number
   floorCountPerBuilding: number
   unitCountPerFloor: number
+  adminId: string
 }
 
 export type ApartmentUpdateManyMutationInput = {
@@ -391,11 +411,7 @@ export type ApartmentUncheckedUpdateManyInput = {
   buildingNumberTo?: Prisma.IntFieldUpdateOperationsInput | number
   floorCountPerBuilding?: Prisma.IntFieldUpdateOperationsInput | number
   unitCountPerFloor?: Prisma.IntFieldUpdateOperationsInput | number
-}
-
-export type ApartmentScalarRelationFilter = {
-  is?: Prisma.ApartmentWhereInput
-  isNot?: Prisma.ApartmentWhereInput
+  adminId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ApartmentCountOrderByAggregateInput = {
@@ -407,6 +423,7 @@ export type ApartmentCountOrderByAggregateInput = {
   buildingNumberTo?: Prisma.SortOrder
   floorCountPerBuilding?: Prisma.SortOrder
   unitCountPerFloor?: Prisma.SortOrder
+  adminId?: Prisma.SortOrder
 }
 
 export type ApartmentAvgOrderByAggregateInput = {
@@ -425,6 +442,7 @@ export type ApartmentMaxOrderByAggregateInput = {
   buildingNumberTo?: Prisma.SortOrder
   floorCountPerBuilding?: Prisma.SortOrder
   unitCountPerFloor?: Prisma.SortOrder
+  adminId?: Prisma.SortOrder
 }
 
 export type ApartmentMinOrderByAggregateInput = {
@@ -436,6 +454,7 @@ export type ApartmentMinOrderByAggregateInput = {
   buildingNumberTo?: Prisma.SortOrder
   floorCountPerBuilding?: Prisma.SortOrder
   unitCountPerFloor?: Prisma.SortOrder
+  adminId?: Prisma.SortOrder
 }
 
 export type ApartmentSumOrderByAggregateInput = {
@@ -443,6 +462,60 @@ export type ApartmentSumOrderByAggregateInput = {
   buildingNumberTo?: Prisma.SortOrder
   floorCountPerBuilding?: Prisma.SortOrder
   unitCountPerFloor?: Prisma.SortOrder
+}
+
+export type ApartmentNullableScalarRelationFilter = {
+  is?: Prisma.ApartmentWhereInput | null
+  isNot?: Prisma.ApartmentWhereInput | null
+}
+
+export type ApartmentScalarRelationFilter = {
+  is?: Prisma.ApartmentWhereInput
+  isNot?: Prisma.ApartmentWhereInput
+}
+
+export type StringFieldUpdateOperationsInput = {
+  set?: string
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type ApartmentCreateNestedOneWithoutAdminInput = {
+  create?: Prisma.XOR<Prisma.ApartmentCreateWithoutAdminInput, Prisma.ApartmentUncheckedCreateWithoutAdminInput>
+  connectOrCreate?: Prisma.ApartmentCreateOrConnectWithoutAdminInput
+  connect?: Prisma.ApartmentWhereUniqueInput
+}
+
+export type ApartmentUncheckedCreateNestedOneWithoutAdminInput = {
+  create?: Prisma.XOR<Prisma.ApartmentCreateWithoutAdminInput, Prisma.ApartmentUncheckedCreateWithoutAdminInput>
+  connectOrCreate?: Prisma.ApartmentCreateOrConnectWithoutAdminInput
+  connect?: Prisma.ApartmentWhereUniqueInput
+}
+
+export type ApartmentUpdateOneWithoutAdminNestedInput = {
+  create?: Prisma.XOR<Prisma.ApartmentCreateWithoutAdminInput, Prisma.ApartmentUncheckedCreateWithoutAdminInput>
+  connectOrCreate?: Prisma.ApartmentCreateOrConnectWithoutAdminInput
+  upsert?: Prisma.ApartmentUpsertWithoutAdminInput
+  disconnect?: Prisma.ApartmentWhereInput | boolean
+  delete?: Prisma.ApartmentWhereInput | boolean
+  connect?: Prisma.ApartmentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ApartmentUpdateToOneWithWhereWithoutAdminInput, Prisma.ApartmentUpdateWithoutAdminInput>, Prisma.ApartmentUncheckedUpdateWithoutAdminInput>
+}
+
+export type ApartmentUncheckedUpdateOneWithoutAdminNestedInput = {
+  create?: Prisma.XOR<Prisma.ApartmentCreateWithoutAdminInput, Prisma.ApartmentUncheckedCreateWithoutAdminInput>
+  connectOrCreate?: Prisma.ApartmentCreateOrConnectWithoutAdminInput
+  upsert?: Prisma.ApartmentUpsertWithoutAdminInput
+  disconnect?: Prisma.ApartmentWhereInput | boolean
+  delete?: Prisma.ApartmentWhereInput | boolean
+  connect?: Prisma.ApartmentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ApartmentUpdateToOneWithWhereWithoutAdminInput, Prisma.ApartmentUpdateWithoutAdminInput>, Prisma.ApartmentUncheckedUpdateWithoutAdminInput>
 }
 
 export type ApartmentCreateNestedOneWithoutResidentsInput = {
@@ -459,6 +532,70 @@ export type ApartmentUpdateOneRequiredWithoutResidentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ApartmentUpdateToOneWithWhereWithoutResidentsInput, Prisma.ApartmentUpdateWithoutResidentsInput>, Prisma.ApartmentUncheckedUpdateWithoutResidentsInput>
 }
 
+export type ApartmentCreateWithoutAdminInput = {
+  id?: string
+  name: string
+  address: string
+  description: string
+  buildingNumberFrom: number
+  buildingNumberTo: number
+  floorCountPerBuilding: number
+  unitCountPerFloor: number
+  residents?: Prisma.ResidentCreateNestedManyWithoutApartmentInput
+}
+
+export type ApartmentUncheckedCreateWithoutAdminInput = {
+  id?: string
+  name: string
+  address: string
+  description: string
+  buildingNumberFrom: number
+  buildingNumberTo: number
+  floorCountPerBuilding: number
+  unitCountPerFloor: number
+  residents?: Prisma.ResidentUncheckedCreateNestedManyWithoutApartmentInput
+}
+
+export type ApartmentCreateOrConnectWithoutAdminInput = {
+  where: Prisma.ApartmentWhereUniqueInput
+  create: Prisma.XOR<Prisma.ApartmentCreateWithoutAdminInput, Prisma.ApartmentUncheckedCreateWithoutAdminInput>
+}
+
+export type ApartmentUpsertWithoutAdminInput = {
+  update: Prisma.XOR<Prisma.ApartmentUpdateWithoutAdminInput, Prisma.ApartmentUncheckedUpdateWithoutAdminInput>
+  create: Prisma.XOR<Prisma.ApartmentCreateWithoutAdminInput, Prisma.ApartmentUncheckedCreateWithoutAdminInput>
+  where?: Prisma.ApartmentWhereInput
+}
+
+export type ApartmentUpdateToOneWithWhereWithoutAdminInput = {
+  where?: Prisma.ApartmentWhereInput
+  data: Prisma.XOR<Prisma.ApartmentUpdateWithoutAdminInput, Prisma.ApartmentUncheckedUpdateWithoutAdminInput>
+}
+
+export type ApartmentUpdateWithoutAdminInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  buildingNumberFrom?: Prisma.IntFieldUpdateOperationsInput | number
+  buildingNumberTo?: Prisma.IntFieldUpdateOperationsInput | number
+  floorCountPerBuilding?: Prisma.IntFieldUpdateOperationsInput | number
+  unitCountPerFloor?: Prisma.IntFieldUpdateOperationsInput | number
+  residents?: Prisma.ResidentUpdateManyWithoutApartmentNestedInput
+}
+
+export type ApartmentUncheckedUpdateWithoutAdminInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  buildingNumberFrom?: Prisma.IntFieldUpdateOperationsInput | number
+  buildingNumberTo?: Prisma.IntFieldUpdateOperationsInput | number
+  floorCountPerBuilding?: Prisma.IntFieldUpdateOperationsInput | number
+  unitCountPerFloor?: Prisma.IntFieldUpdateOperationsInput | number
+  residents?: Prisma.ResidentUncheckedUpdateManyWithoutApartmentNestedInput
+}
+
 export type ApartmentCreateWithoutResidentsInput = {
   id?: string
   name: string
@@ -468,6 +605,7 @@ export type ApartmentCreateWithoutResidentsInput = {
   buildingNumberTo: number
   floorCountPerBuilding: number
   unitCountPerFloor: number
+  admin: Prisma.UserCreateNestedOneWithoutAdminOfInput
 }
 
 export type ApartmentUncheckedCreateWithoutResidentsInput = {
@@ -479,6 +617,7 @@ export type ApartmentUncheckedCreateWithoutResidentsInput = {
   buildingNumberTo: number
   floorCountPerBuilding: number
   unitCountPerFloor: number
+  adminId: string
 }
 
 export type ApartmentCreateOrConnectWithoutResidentsInput = {
@@ -506,6 +645,7 @@ export type ApartmentUpdateWithoutResidentsInput = {
   buildingNumberTo?: Prisma.IntFieldUpdateOperationsInput | number
   floorCountPerBuilding?: Prisma.IntFieldUpdateOperationsInput | number
   unitCountPerFloor?: Prisma.IntFieldUpdateOperationsInput | number
+  admin?: Prisma.UserUpdateOneRequiredWithoutAdminOfNestedInput
 }
 
 export type ApartmentUncheckedUpdateWithoutResidentsInput = {
@@ -517,6 +657,7 @@ export type ApartmentUncheckedUpdateWithoutResidentsInput = {
   buildingNumberTo?: Prisma.IntFieldUpdateOperationsInput | number
   floorCountPerBuilding?: Prisma.IntFieldUpdateOperationsInput | number
   unitCountPerFloor?: Prisma.IntFieldUpdateOperationsInput | number
+  adminId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
@@ -559,7 +700,9 @@ export type ApartmentSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   buildingNumberTo?: boolean
   floorCountPerBuilding?: boolean
   unitCountPerFloor?: boolean
+  adminId?: boolean
   residents?: boolean | Prisma.Apartment$residentsArgs<ExtArgs>
+  admin?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.ApartmentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["apartment"]>
 
@@ -572,6 +715,8 @@ export type ApartmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   buildingNumberTo?: boolean
   floorCountPerBuilding?: boolean
   unitCountPerFloor?: boolean
+  adminId?: boolean
+  admin?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["apartment"]>
 
 export type ApartmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -583,6 +728,8 @@ export type ApartmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   buildingNumberTo?: boolean
   floorCountPerBuilding?: boolean
   unitCountPerFloor?: boolean
+  adminId?: boolean
+  admin?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["apartment"]>
 
 export type ApartmentSelectScalar = {
@@ -594,20 +741,27 @@ export type ApartmentSelectScalar = {
   buildingNumberTo?: boolean
   floorCountPerBuilding?: boolean
   unitCountPerFloor?: boolean
+  adminId?: boolean
 }
 
-export type ApartmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "address" | "description" | "buildingNumberFrom" | "buildingNumberTo" | "floorCountPerBuilding" | "unitCountPerFloor", ExtArgs["result"]["apartment"]>
+export type ApartmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "address" | "description" | "buildingNumberFrom" | "buildingNumberTo" | "floorCountPerBuilding" | "unitCountPerFloor" | "adminId", ExtArgs["result"]["apartment"]>
 export type ApartmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   residents?: boolean | Prisma.Apartment$residentsArgs<ExtArgs>
+  admin?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.ApartmentCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type ApartmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type ApartmentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type ApartmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  admin?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type ApartmentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  admin?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
 
 export type $ApartmentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Apartment"
   objects: {
     residents: Prisma.$ResidentPayload<ExtArgs>[]
+    admin: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -618,6 +772,7 @@ export type $ApartmentPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     buildingNumberTo: number
     floorCountPerBuilding: number
     unitCountPerFloor: number
+    adminId: string
   }, ExtArgs["result"]["apartment"]>
   composites: {}
 }
@@ -1013,6 +1168,7 @@ readonly fields: ApartmentFieldRefs;
 export interface Prisma__ApartmentClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   residents<T extends Prisma.Apartment$residentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Apartment$residentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ResidentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  admin<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1050,6 +1206,7 @@ export interface ApartmentFieldRefs {
   readonly buildingNumberTo: Prisma.FieldRef<"Apartment", 'Int'>
   readonly floorCountPerBuilding: Prisma.FieldRef<"Apartment", 'Int'>
   readonly unitCountPerFloor: Prisma.FieldRef<"Apartment", 'Int'>
+  readonly adminId: Prisma.FieldRef<"Apartment", 'String'>
 }
     
 
@@ -1299,6 +1456,10 @@ export type ApartmentCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exten
    */
   data: Prisma.ApartmentCreateManyInput | Prisma.ApartmentCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ApartmentIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1369,6 +1530,10 @@ export type ApartmentUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Exten
    * Limit how many Apartments to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ApartmentIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

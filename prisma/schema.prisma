@@ -16,15 +16,31 @@ datasource db {
 enum Role {
   ADMIN
   SUPERADMIN
+  USER
 }
 enum joinStatus {
   PENDING
   APPROVED
   REJECTED
 }
+model Apartment { // 아파트
+  id                      String   @unique@id @default(uuid())
+  name                    String
+  address                 String
+  description             String
+  buildingNumberFrom      Int
+  buildingNumberTo        Int
+  floorCountPerBuilding   Int
+  unitCountPerFloor       Int
 
+  residents Resident[]  // 👈 주민들
+  adminId     String    @unique
+  admin       User      @relation(fields: [adminId], references: [id])
+}
+
+//---------------------------------------------------
 model User {
-  id        String   @id @default(uuid())
+  id        String   @unique @id @default(uuid())
   email     String   @unique
   name      String
   username  String   @unique
@@ -35,32 +51,21 @@ model User {
   joinStatus joinStatus @default(PENDING)
   isActive  Boolean  @default(true)
   avatar    String
-  adminOf   Resident[]
+  adminOf   Apartment?
+  resident  Resident?
 }
 
-model Resident {
-  id          String    @id @default(uuid())
+model Resident { // 입주민
+  id          String    @unique@id @default(uuid())
   name        String
   building    Int
   unit        Int
   isHouseholder Boolean @default(false)
   apartmentId String
   apartment   Apartment @relation(fields: [apartmentId], references: [id])
-  adminId     String 
-  admin       User     @relation(fields: [adminId], references: [id])
-
-  @@unique([apartmentId, adminId])
+  
+  userId      String    @unique
+  user        User      @relation(fields: [userId], references: [id])
+   @@unique([userId, apartmentId]) // 한 사용자는 하나의 아파트에만 입주민으로 등록될 수 있음
+  
 }
-model Apartment {
-  id                      String   @id @default(uuid())
-  name                    String
-  address                 String
-  description             String
-  buildingNumberFrom      Int
-  buildingNumberTo        Int
-  floorCountPerBuilding   Int
-  unitCountPerFloor       Int
-
-  residents Resident[]  // 👈 주민들
-}
-

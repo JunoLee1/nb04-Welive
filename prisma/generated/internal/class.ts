@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.1.0",
   "engineVersion": "ab635e6b9d606fa5c8fb8b1a7f909c3c3c1c98ba",
   "activeProvider": "postgresql",
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"./generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nenum Role {\n  ADMIN\n  SUPERADMIN\n}\n\nenum joinStatus {\n  PENDING\n  APPROVED\n  REJECTED\n}\n\nmodel User {\n  id         String     @id @default(uuid())\n  email      String     @unique\n  name       String\n  username   String     @unique\n  contact    String\n  password   String\n  role       Role\n  hasNext    Boolean    @default(false)\n  joinStatus joinStatus @default(PENDING)\n  isActive   Boolean    @default(true)\n  avatar     String\n  adminOf    Resident[]\n}\n\nmodel Resident {\n  id            String    @id @default(uuid())\n  name          String\n  building      Int\n  unit          Int\n  isHouseholder Boolean   @default(false)\n  apartmentId   String\n  apartment     Apartment @relation(fields: [apartmentId], references: [id])\n  adminId       String\n  admin         User      @relation(fields: [adminId], references: [id])\n\n  @@unique([apartmentId, adminId])\n}\n\nmodel Apartment {\n  id                    String @id @default(uuid())\n  name                  String\n  address               String\n  description           String\n  buildingNumberFrom    Int\n  buildingNumberTo      Int\n  floorCountPerBuilding Int\n  unitCountPerFloor     Int\n\n  residents Resident[] // 👈 주민들\n}\n",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"./generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nenum Role {\n  ADMIN\n  SUPERADMIN\n  USER\n}\n\nenum joinStatus {\n  PENDING\n  APPROVED\n  REJECTED\n}\n\nmodel Apartment {\n  id                    String @id @unique @default(uuid())\n  name                  String\n  address               String\n  description           String\n  buildingNumberFrom    Int\n  buildingNumberTo      Int\n  floorCountPerBuilding Int\n  unitCountPerFloor     Int\n\n  residents Resident[] // 👈 주민들\n  adminId   String     @unique\n  admin     User       @relation(fields: [adminId], references: [id])\n}\n\n//---------------------------------------------------\nmodel User {\n  id         String     @id @unique @default(uuid())\n  email      String     @unique\n  name       String\n  username   String     @unique\n  contact    String\n  password   String\n  role       Role\n  hasNext    Boolean    @default(false)\n  joinStatus joinStatus @default(PENDING)\n  isActive   Boolean    @default(true)\n  avatar     String\n  adminOf    Apartment?\n  resident   Resident?\n}\n\nmodel Resident {\n  id            String    @id @unique @default(uuid())\n  name          String\n  building      Int\n  unit          Int\n  isHouseholder Boolean   @default(false)\n  apartmentId   String\n  apartment     Apartment @relation(fields: [apartmentId], references: [id])\n\n  userId String @unique\n  user   User   @relation(fields: [userId], references: [id])\n\n  @@unique([userId, apartmentId]) // 한 사용자는 하나의 아파트에만 입주민으로 등록될 수 있음\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"username\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"contact\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"hasNext\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"joinStatus\",\"kind\":\"enum\",\"type\":\"joinStatus\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"avatar\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"adminOf\",\"kind\":\"object\",\"type\":\"Resident\",\"relationName\":\"ResidentToUser\"}],\"dbName\":null},\"Resident\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"building\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"unit\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"isHouseholder\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"apartmentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"apartment\",\"kind\":\"object\",\"type\":\"Apartment\",\"relationName\":\"ApartmentToResident\"},{\"name\":\"adminId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"admin\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ResidentToUser\"}],\"dbName\":null},\"Apartment\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"buildingNumberFrom\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"buildingNumberTo\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"floorCountPerBuilding\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"unitCountPerFloor\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"residents\",\"kind\":\"object\",\"type\":\"Resident\",\"relationName\":\"ApartmentToResident\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Apartment\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"buildingNumberFrom\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"buildingNumberTo\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"floorCountPerBuilding\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"unitCountPerFloor\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"residents\",\"kind\":\"object\",\"type\":\"Resident\",\"relationName\":\"ApartmentToResident\"},{\"name\":\"adminId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"admin\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ApartmentToUser\"}],\"dbName\":null},\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"username\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"contact\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"hasNext\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"joinStatus\",\"kind\":\"enum\",\"type\":\"joinStatus\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"avatar\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"adminOf\",\"kind\":\"object\",\"type\":\"Apartment\",\"relationName\":\"ApartmentToUser\"},{\"name\":\"resident\",\"kind\":\"object\",\"type\":\"Resident\",\"relationName\":\"ResidentToUser\"}],\"dbName\":null},\"Resident\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"building\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"unit\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"isHouseholder\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"apartmentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"apartment\",\"kind\":\"object\",\"type\":\"Apartment\",\"relationName\":\"ApartmentToResident\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ResidentToUser\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
@@ -58,8 +58,8 @@ export interface PrismaClientConstructor {
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Users
-   * const users = await prisma.user.findMany()
+   * // Fetch zero or more Apartments
+   * const apartments = await prisma.apartment.findMany()
    * ```
    * 
    * Read more in our [docs](https://pris.ly/d/client).
@@ -80,8 +80,8 @@ export interface PrismaClientConstructor {
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Users
- * const users = await prisma.user.findMany()
+ * // Fetch zero or more Apartments
+ * const apartments = await prisma.apartment.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -175,6 +175,16 @@ export interface PrismaClient<
   }>>
 
       /**
+   * `prisma.apartment`: Exposes CRUD operations for the **Apartment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Apartments
+    * const apartments = await prisma.apartment.findMany()
+    * ```
+    */
+  get apartment(): Prisma.ApartmentDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
    * `prisma.user`: Exposes CRUD operations for the **User** model.
     * Example usage:
     * ```ts
@@ -193,16 +203,6 @@ export interface PrismaClient<
     * ```
     */
   get resident(): Prisma.ResidentDelegate<ExtArgs, { omit: OmitOpts }>;
-
-  /**
-   * `prisma.apartment`: Exposes CRUD operations for the **Apartment** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Apartments
-    * const apartments = await prisma.apartment.findMany()
-    * ```
-    */
-  get apartment(): Prisma.ApartmentDelegate<ExtArgs, { omit: OmitOpts }>;
 }
 
 export function getPrismaClientClass(): PrismaClientConstructor {
