@@ -8,8 +8,8 @@ export class Controller {
     ) {}
 
     loginHandler: RequestHandler = async (req, res, next) => {
-      const { username, password }: LoginRequestDTO = req.body; //TODO: insert request response dto type
-      const data = this.service.login({ username, password });//TODO: insert types
+      const { username, password }: LoginRequestDTO = req.body; 
+      const data = this.service.login({ username, password });
       res.status(200).send(data);
     }
 
