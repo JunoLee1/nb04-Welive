@@ -9,9 +9,9 @@ export interface LoginResponseDTO {
     id: string;
     username: string;
     email: string;
-    avartarUrl: string;
+    avatar: string;
     isActive: boolean;
-    roles: Role[];
-    adminOf: Apartment[];
-    resident: Resident;
+    role: Role;
+    adminOf?: Apartment[];
+    resident?: Resident;
 }

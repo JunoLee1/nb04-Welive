@@ -1,6 +1,6 @@
-import { RequestHandler } from "express";
+import type { RequestHandler } from "express";
 import { Service } from './auth.services.js'
-import { LoginRequestDTO }from'../DTO/auth.dto.js' 
+import type { LoginRequestDTO }from'../DTO/auth.dto.js' 
 
 export class Controller {
     constructor(
