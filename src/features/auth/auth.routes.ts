@@ -1,6 +1,6 @@
 import { Router, type RequestHandler } from "express";
 import { Controller } from "./auth.controller.js";
-import { Express }from "express"
+import type { Express }from "express"
 import { Service } from "./auth.services.js";
 // 로그인 라우트
 const service = new Service();
