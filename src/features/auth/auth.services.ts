@@ -1,5 +1,6 @@
 import type { User } from "../../../prisma/generated/client.js";
 import prisma from "../../lib/prisma.js";
+import { HttpError } from "../../lib/middleware/error.middleware/httpError.js";
 import type { LoginRequestDTO, LoginResponseDTO } from "../DTO/auth.dto.js";
 import bcrypt from "bcrypt";
 export class Service {
@@ -32,11 +33,11 @@ export class Service {
       },
     });
     if (!user) {
-      throw new Error("User not found");
+      throw new HttpError(400, "잘못된 요청입니다");
     }
      const passwordCheker = await bcrypt.compare(password, user.password)
      if(!passwordCheker){
-      throw new Error("Invalid password");
+      throw new HttpError(400, "잘못된 요청입니다");
      }
      //TODO: 토근 발급 
     return {
