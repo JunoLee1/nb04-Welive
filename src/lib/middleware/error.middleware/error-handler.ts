@@ -1,13 +1,12 @@
-import Error from "express";
 import type {ErrorRequestHandler} from "express"
-//import HttpError from "../lib/httpError.js"
+import { HttpError } from "../error.middleware/httpError.js";
 import { ZodError } from "zod";
 
 export const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
     if (error instanceof ZodError) {
     return res.status(400).json({ success: false, errors: (error as ZodError).issues });
   }
-   if (error instanceof HttpError) { // TODO: import HttpError
+   if (error instanceof HttpError) { 
         return res.status(error.status).json({ success: false, message: error.message });
    }
     const status = error.status || 500;
