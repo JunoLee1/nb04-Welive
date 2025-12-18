@@ -1,5 +1,5 @@
 import type { StrategyOptions, VerifiedCallback } from 'passport-jwt';
-import { ExtractJwt,Strategy as JwtStrategy } from 'passport-jwt';
+import { Strategy as JwtStrategy } from 'passport-jwt';
 import {
   ACCESS_TOKEN_COOKIE_NAME,
   JWT_ACCESS_TOKEN_SECRET,
