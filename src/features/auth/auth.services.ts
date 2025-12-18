@@ -1,9 +1,8 @@
-import type { User } from "../../../prisma/generated/client.js";
 import prisma from "../../lib/prisma.js";
 import { HttpError } from "../../lib/middleware/error.middleware/httpError.js";
 import type { LoginRequestDTO, LoginResponseDTO } from "../DTO/auth.dto.js";
 import bcrypt from "bcrypt";
-import { generateToken } from "../../lib/tokens.js";
+
 export class Service {
   constructor() {}
 
@@ -39,11 +38,6 @@ export class Service {
     if (!passwordCheker) {
       throw new HttpError(400, "잘못된 요청입니다");
     }
-    // generate token
-    const token = generateToken(user.id);
-    if (!token) {
-      throw new HttpError(500, "알수 없는 오류입니다.");
-    }
     return {
       id: user.id,
       username: user.username,
@@ -55,4 +49,6 @@ export class Service {
       adminOf: user.adminOf,
     };
   };
+  
 }
+
