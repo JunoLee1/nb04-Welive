@@ -1,10 +1,11 @@
+import type {Response} from 'express'
 import {
   NODE_ENV,
   ACCESS_TOKEN_COOKIE_NAME,
   REFRESH_TOKEN_COOKIE_NAME,
 } from "../../lib/constants.js";
 
-type TypeOfCookie {
+type TypeOfCookie = {
     res: Response,
     accessToken: String,
     refreshToken: String
@@ -14,7 +15,7 @@ export function clearTokenCookies(res: Response) {
   res.clearCookie(REFRESH_TOKEN_COOKIE_NAME);
 }
 
-function setTokenCookies({res, accessToken, refreshToken}: TypeOfCookie) {
+export function setTokenCookies({res, accessToken, refreshToken}: TypeOfCookie) {
   res.cookie(ACCESS_TOKEN_COOKIE_NAME, accessToken, {
     httpOnly: true,
     secure: NODE_ENV === "production",
