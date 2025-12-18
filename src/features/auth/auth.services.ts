@@ -3,6 +3,7 @@ import prisma from "../../lib/prisma.js";
 import { HttpError } from "../../lib/middleware/error.middleware/httpError.js";
 import type { LoginRequestDTO, LoginResponseDTO } from "../DTO/auth.dto.js";
 import bcrypt from "bcrypt";
+import { generateToken } from "../../lib/tokens.js";
 export class Service {
   constructor() {}
 
@@ -10,9 +11,7 @@ export class Service {
     username,
     password,
   }: LoginRequestDTO): Promise<LoginResponseDTO> => {
-   
     //unique checker
-
     const user = await prisma.user.findUnique({
       where: { username },
       select: {
@@ -35,11 +34,16 @@ export class Service {
     if (!user) {
       throw new HttpError(400, "잘못된 요청입니다");
     }
-     const passwordCheker = await bcrypt.compare(password, user.password)
-     if(!passwordCheker){
+    // password checker
+    const passwordCheker = await bcrypt.compare(password, user.password);
+    if (!passwordCheker) {
       throw new HttpError(400, "잘못된 요청입니다");
-     }
-     //TODO: 토근 발급 
+    }
+    // generate token
+    const token = generateToken(user.id);
+    if (!token) {
+      throw new HttpError(500, "알수 없는 오류입니다.");
+    }
     return {
       id: user.id,
       username: user.username,
@@ -49,6 +53,6 @@ export class Service {
       isActive: user.isActive,
       role: user.role,
       adminOf: user.adminOf,
-    }
+    };
   };
 }
