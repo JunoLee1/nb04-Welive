@@ -4,6 +4,11 @@ import type { LoginRequestDTO }from'../DTO/auth.dto.js'
 import { clearTokenCookies, setTokenCookies } from './auth.cookies.js'
 import { HttpError } from "../../lib/middleware/error.middleware/httpError.js";
 import { generateToken } from "../../lib/tokens.js";
+
+type TokenType = {
+  accessToken: string,
+  refreshToken: string
+}
 export class Controller {
     constructor(
       private readonly service: Service,
@@ -30,6 +35,10 @@ export class Controller {
       // TODO: refresh token logic
       // TODO: should I check cookies type ?
       // renew token  sucucess, set token to cookie, return 204 status
+      const user = req.user
+       if (!user) throw new HttpError(401, "인증되지 않는 유저 입니다.")//TODO:  fix error message
+      const { accessToken, refreshToken: newRefreshToken }:TokenType = generateToken(user.id);
+      setTokenCookies({ res, accessToken, refreshToken:newRefreshToken })
       return res.status(204)
     }
 }
