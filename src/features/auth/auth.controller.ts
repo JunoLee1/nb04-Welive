@@ -15,7 +15,7 @@ export class Controller {
   loginHandler: RequestHandler = async (req, res, next) => {
     const { username, password }: LoginRequestDTO = req.body;
     const user = req.user;
-    if (!user) throw new HttpError(401, "인증되지 않는 유저 입니다."); //TODO:  fix error message
+    if (!user) throw new HttpError(401, "권한과 관련된 오류입니다."); //TODO:  fix error message
     const data = await this.service.login({ username, password });
     // generate token
     const { accessToken, refreshToken } = generateToken(user.id);
@@ -36,7 +36,7 @@ export class Controller {
       throw new HttpError(401, "refresh token not provided");
     }
     const user = req.user;
-    if (!user) throw new HttpError(401, "인증되지 않는 유저 입니다."); //TODO:  fix error message
+    if (!user) throw new HttpError(401, "권한과 관련된 오류입니다."); //TODO:  fix error message
     const { accessToken, refreshToken: newRefreshToken }: TokenType =
       generateToken(user.id);
     setTokenCookies({ res, accessToken, refreshToken: newRefreshToken });
