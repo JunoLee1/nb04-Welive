@@ -30,7 +30,7 @@ export class Controller {
   };
 
   refreshTokenHandler: RequestHandler = async (req, res, next) => {
-    // renew token  sucucess, set token to cookie, return 204 status
+    // renew token  sucucess, set token to cookie, return 204 status 
     const refreshToken = req.cookies.refreshToken;
     if (!refreshToken) {
       throw new HttpError(401, "refresh token not provided");
