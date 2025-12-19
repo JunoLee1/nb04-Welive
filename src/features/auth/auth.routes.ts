@@ -4,7 +4,7 @@ import type { Express }from "express"
 import { Service } from "./auth.services.js";
 import { validate } from "../../lib/middleware/validator.js";
 import { loginSchema } from "./auth.validator.js";
-import { passport } from "../../lib/passport/index.js"
+import  passport from "../../lib/passport/index.js"
 const router = Router();
 const service = new Service();
 const controller = new Controller(service);
@@ -14,7 +14,7 @@ router.post("/login",passport.authenticate('local', { session: false }), validat
 // 로그아웃 라우트
 router.post("/logout", controller.logoutHandler); 
 // 토큰 갱신 라우트
-router.post("/refresh-token", controller.refreshTokenHandler);//TODO: manage token by cookie
+router.post("/refresh-token",passport.authenticate('local', { session: false }), controller.refreshTokenHandler);
 
 export function authRoutes(app: Express) {
     app.use("/auth", router);
