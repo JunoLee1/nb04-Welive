@@ -15,7 +15,7 @@ export class Controller {
   loginHandler: RequestHandler = async (req, res, next) => {
     const { username, password }: LoginRequestDTO = req.body;
     const user = req.user;
-    if (!user) throw new HttpError(401, "권한과 관련된 오류입니다."); //TODO:  fix error message
+    if (!user) throw new HttpError(401, "권한과 관련된 오류입니다.");
     const data = await this.service.login({ username, password });
     // generate token
     const { accessToken, refreshToken } = generateToken(user.id);
@@ -33,12 +33,12 @@ export class Controller {
     // renew token  sucucess, set token to cookie, return 204 status 
     const refreshToken = req.cookies.refreshToken;
     if (!refreshToken) {
-      throw new HttpError(401, "refresh token not provided");
+      throw new HttpError(401, "권한과 관련된 오류입니다.");
     }
-    const user = req.user;
-    if (!user) throw new HttpError(401, "권한과 관련된 오류입니다."); //TODO:  fix error message
+    const userId = req.user?.id
+    if (!userId) throw new HttpError(401, "권한과 관련된 오류입니다.");
     const { accessToken, refreshToken: newRefreshToken }: TokenType =
-      generateToken(user.id);
+      generateToken(userId);
     setTokenCookies({ res, accessToken, refreshToken: newRefreshToken });
     return res.status(204);
   };
