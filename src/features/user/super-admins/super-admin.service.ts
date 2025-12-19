@@ -34,7 +34,6 @@ export class Service {
             joinStatus: "APPROVED",
             role: "SUPER_ADMIN",
             avatar: null //TODO: fix schema
-            // 해당 데이터 api 아니라서 받을수 없는 것 
         }
     })
     return DATA;
