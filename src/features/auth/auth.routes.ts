@@ -20,3 +20,5 @@ export function authRoutes(app: Express) {
     app.use("/auth", router);
 };
 
+export default router;
+
