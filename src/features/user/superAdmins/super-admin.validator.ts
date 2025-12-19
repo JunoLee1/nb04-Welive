@@ -1,6 +1,6 @@
 import {z} from 'zod'
 
-const superAdminSignUpSchema = z.object({
+export const superAdminSignUpSchema = z.object({
     email: z.email(),
     password:z.string(),//TODO: use regex for mix character and number
     username: z.string(),// TODO: check regulation for username from front, User Identification 
