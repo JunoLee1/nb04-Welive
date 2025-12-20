@@ -50,7 +50,7 @@ model User {
   hasNext   Boolean  @default(false)
   joinStatus joinStatus @default(PENDING)
   isActive  Boolean  @default(true)
-  avatar    String
+  avatar    String?
   adminOf   Apartment?
   resident  Resident?
 }

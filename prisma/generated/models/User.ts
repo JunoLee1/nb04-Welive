@@ -194,7 +194,7 @@ export type UserGroupByOutputType = {
   hasNext: boolean
   joinStatus: $Enums.joinStatus
   isActive: boolean
-  avatar: string
+  avatar: string | null
   _count: UserCountAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
@@ -229,7 +229,7 @@ export type UserWhereInput = {
   hasNext?: Prisma.BoolFilter<"User"> | boolean
   joinStatus?: Prisma.EnumjoinStatusFilter<"User"> | $Enums.joinStatus
   isActive?: Prisma.BoolFilter<"User"> | boolean
-  avatar?: Prisma.StringFilter<"User"> | string
+  avatar?: Prisma.StringNullableFilter<"User"> | string | null
   adminOf?: Prisma.XOR<Prisma.ApartmentNullableScalarRelationFilter, Prisma.ApartmentWhereInput> | null
   resident?: Prisma.XOR<Prisma.ResidentNullableScalarRelationFilter, Prisma.ResidentWhereInput> | null
 }
@@ -245,7 +245,7 @@ export type UserOrderByWithRelationInput = {
   hasNext?: Prisma.SortOrder
   joinStatus?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
-  avatar?: Prisma.SortOrder
+  avatar?: Prisma.SortOrderInput | Prisma.SortOrder
   adminOf?: Prisma.ApartmentOrderByWithRelationInput
   resident?: Prisma.ResidentOrderByWithRelationInput
 }
@@ -254,20 +254,20 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   email?: string
   username?: string
+  contact?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   name?: Prisma.StringFilter<"User"> | string
-  contact?: Prisma.StringFilter<"User"> | string
   password?: Prisma.StringFilter<"User"> | string
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   hasNext?: Prisma.BoolFilter<"User"> | boolean
   joinStatus?: Prisma.EnumjoinStatusFilter<"User"> | $Enums.joinStatus
   isActive?: Prisma.BoolFilter<"User"> | boolean
-  avatar?: Prisma.StringFilter<"User"> | string
+  avatar?: Prisma.StringNullableFilter<"User"> | string | null
   adminOf?: Prisma.XOR<Prisma.ApartmentNullableScalarRelationFilter, Prisma.ApartmentWhereInput> | null
   resident?: Prisma.XOR<Prisma.ResidentNullableScalarRelationFilter, Prisma.ResidentWhereInput> | null
-}, "id" | "id" | "email" | "username">
+}, "id" | "id" | "email" | "username" | "contact">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -280,7 +280,7 @@ export type UserOrderByWithAggregationInput = {
   hasNext?: Prisma.SortOrder
   joinStatus?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
-  avatar?: Prisma.SortOrder
+  avatar?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
@@ -300,7 +300,7 @@ export type UserScalarWhereWithAggregatesInput = {
   hasNext?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   joinStatus?: Prisma.EnumjoinStatusWithAggregatesFilter<"User"> | $Enums.joinStatus
   isActive?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
-  avatar?: Prisma.StringWithAggregatesFilter<"User"> | string
+  avatar?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
 }
 
 export type UserCreateInput = {
@@ -314,7 +314,7 @@ export type UserCreateInput = {
   hasNext?: boolean
   joinStatus?: $Enums.joinStatus
   isActive?: boolean
-  avatar: string
+  avatar?: string | null
   adminOf?: Prisma.ApartmentCreateNestedOneWithoutAdminInput
   resident?: Prisma.ResidentCreateNestedOneWithoutUserInput
 }
@@ -330,7 +330,7 @@ export type UserUncheckedCreateInput = {
   hasNext?: boolean
   joinStatus?: $Enums.joinStatus
   isActive?: boolean
-  avatar: string
+  avatar?: string | null
   adminOf?: Prisma.ApartmentUncheckedCreateNestedOneWithoutAdminInput
   resident?: Prisma.ResidentUncheckedCreateNestedOneWithoutUserInput
 }
@@ -346,7 +346,7 @@ export type UserUpdateInput = {
   hasNext?: Prisma.BoolFieldUpdateOperationsInput | boolean
   joinStatus?: Prisma.EnumjoinStatusFieldUpdateOperationsInput | $Enums.joinStatus
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  avatar?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminOf?: Prisma.ApartmentUpdateOneWithoutAdminNestedInput
   resident?: Prisma.ResidentUpdateOneWithoutUserNestedInput
 }
@@ -362,7 +362,7 @@ export type UserUncheckedUpdateInput = {
   hasNext?: Prisma.BoolFieldUpdateOperationsInput | boolean
   joinStatus?: Prisma.EnumjoinStatusFieldUpdateOperationsInput | $Enums.joinStatus
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  avatar?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminOf?: Prisma.ApartmentUncheckedUpdateOneWithoutAdminNestedInput
   resident?: Prisma.ResidentUncheckedUpdateOneWithoutUserNestedInput
 }
@@ -378,7 +378,7 @@ export type UserCreateManyInput = {
   hasNext?: boolean
   joinStatus?: $Enums.joinStatus
   isActive?: boolean
-  avatar: string
+  avatar?: string | null
 }
 
 export type UserUpdateManyMutationInput = {
@@ -392,7 +392,7 @@ export type UserUpdateManyMutationInput = {
   hasNext?: Prisma.BoolFieldUpdateOperationsInput | boolean
   joinStatus?: Prisma.EnumjoinStatusFieldUpdateOperationsInput | $Enums.joinStatus
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  avatar?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -406,7 +406,7 @@ export type UserUncheckedUpdateManyInput = {
   hasNext?: Prisma.BoolFieldUpdateOperationsInput | boolean
   joinStatus?: Prisma.EnumjoinStatusFieldUpdateOperationsInput | $Enums.joinStatus
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  avatar?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserScalarRelationFilter = {
@@ -482,6 +482,10 @@ export type EnumjoinStatusFieldUpdateOperationsInput = {
   set?: $Enums.joinStatus
 }
 
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
+}
+
 export type UserCreateNestedOneWithoutResidentInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutResidentInput, Prisma.UserUncheckedCreateWithoutResidentInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutResidentInput
@@ -507,7 +511,7 @@ export type UserCreateWithoutAdminOfInput = {
   hasNext?: boolean
   joinStatus?: $Enums.joinStatus
   isActive?: boolean
-  avatar: string
+  avatar?: string | null
   resident?: Prisma.ResidentCreateNestedOneWithoutUserInput
 }
 
@@ -522,7 +526,7 @@ export type UserUncheckedCreateWithoutAdminOfInput = {
   hasNext?: boolean
   joinStatus?: $Enums.joinStatus
   isActive?: boolean
-  avatar: string
+  avatar?: string | null
   resident?: Prisma.ResidentUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -553,7 +557,7 @@ export type UserUpdateWithoutAdminOfInput = {
   hasNext?: Prisma.BoolFieldUpdateOperationsInput | boolean
   joinStatus?: Prisma.EnumjoinStatusFieldUpdateOperationsInput | $Enums.joinStatus
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  avatar?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resident?: Prisma.ResidentUpdateOneWithoutUserNestedInput
 }
 
@@ -568,7 +572,7 @@ export type UserUncheckedUpdateWithoutAdminOfInput = {
   hasNext?: Prisma.BoolFieldUpdateOperationsInput | boolean
   joinStatus?: Prisma.EnumjoinStatusFieldUpdateOperationsInput | $Enums.joinStatus
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  avatar?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resident?: Prisma.ResidentUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -583,7 +587,7 @@ export type UserCreateWithoutResidentInput = {
   hasNext?: boolean
   joinStatus?: $Enums.joinStatus
   isActive?: boolean
-  avatar: string
+  avatar?: string | null
   adminOf?: Prisma.ApartmentCreateNestedOneWithoutAdminInput
 }
 
@@ -598,7 +602,7 @@ export type UserUncheckedCreateWithoutResidentInput = {
   hasNext?: boolean
   joinStatus?: $Enums.joinStatus
   isActive?: boolean
-  avatar: string
+  avatar?: string | null
   adminOf?: Prisma.ApartmentUncheckedCreateNestedOneWithoutAdminInput
 }
 
@@ -629,7 +633,7 @@ export type UserUpdateWithoutResidentInput = {
   hasNext?: Prisma.BoolFieldUpdateOperationsInput | boolean
   joinStatus?: Prisma.EnumjoinStatusFieldUpdateOperationsInput | $Enums.joinStatus
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  avatar?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminOf?: Prisma.ApartmentUpdateOneWithoutAdminNestedInput
 }
 
@@ -644,7 +648,7 @@ export type UserUncheckedUpdateWithoutResidentInput = {
   hasNext?: Prisma.BoolFieldUpdateOperationsInput | boolean
   joinStatus?: Prisma.EnumjoinStatusFieldUpdateOperationsInput | $Enums.joinStatus
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  avatar?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminOf?: Prisma.ApartmentUncheckedUpdateOneWithoutAdminNestedInput
 }
 
@@ -733,7 +737,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     hasNext: boolean
     joinStatus: $Enums.joinStatus
     isActive: boolean
-    avatar: string
+    avatar: string | null
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
