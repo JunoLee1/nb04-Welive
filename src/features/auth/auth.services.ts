@@ -43,7 +43,7 @@ export class Service {
       username: user.username,
       email: user.email,
       contact: user.contact,
-      avatar: user.avatar,
+      avatar: user.avatar ?? '',
       isActive: user.isActive,
       role: user.role,
       adminOf: user.adminOf,
