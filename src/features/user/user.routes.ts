@@ -1,7 +1,7 @@
 import { Router, type Express } from "express";
 const router = Router();
 import  superAdminsApi  from "./super-admins/super-admin.routes.js"
-import { adminsApi } from "./admins/admins.routes.js"
+import adminsApi from "./admins/admins.routes.js"
 /**
  * API user feature entry router
  *  api/V2/users/ 
