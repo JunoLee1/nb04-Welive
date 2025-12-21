@@ -25,3 +25,5 @@ router.patch("/",
 router.delete("/",
     controller.deleteAdmin
 )
+
+export default router;
