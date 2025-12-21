@@ -5,20 +5,16 @@ import { Service } from "./auth.services.js";
 import { validate } from "../../lib/middleware/validator.js";
 import { loginSchema } from "./auth.validator.js";
 import  passport from "../../lib/passport/index.js"
-const router = Router();
+const authRouter = Router();
 const service = new Service();
 const controller = new Controller(service);
 
 //로그인 API
-router.post("/login",passport.authenticate('local', { session: false }), validate(loginSchema, "body"), controller.loginHandler);
+authRouter.post("/login",passport.authenticate('local', { session: false }), validate(loginSchema, "body"), controller.loginHandler);
 // 로그아웃 라우트
-router.post("/logout", controller.logoutHandler); 
+authRouter.post("/logout", controller.logoutHandler); 
 // 토큰 갱신 라우트
-router.post("/refresh-token",passport.authenticate('local', { session: false }), controller.refreshTokenHandler);
+authRouter.post("/refresh-token",passport.authenticate('local', { session: false }), controller.refreshTokenHandler);
 
-export function authRoutes(app: Express) {
-    app.use("/auth", router);
-};
-
-export default router;
+export default authRouter;
 
