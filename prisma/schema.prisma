@@ -28,11 +28,13 @@ model Apartment { // 아파트
   name                    String
   address                 String
   description             String
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime       @updatedAt
   buildingNumberFrom      Int
   buildingNumberTo        Int
   floorCountPerBuilding   Int
   unitCountPerFloor       Int
-
+  officeNumber String
   residents Resident[]  // 👈 주민들
   adminId     String    @unique
   admin       User      @relation(fields: [adminId], references: [id])
@@ -49,6 +51,8 @@ model User {
   role      Role
   hasNext   Boolean  @default(false)
   joinStatus joinStatus @default(PENDING)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime       @updatedAt
   isActive  Boolean  @default(true)
   avatar    String?
   adminOf   Apartment?
@@ -66,6 +70,6 @@ model Resident { // 입주민
   
   userId      String    @unique
   user        User      @relation(fields: [userId], references: [id])
-   @@unique([userId, apartmentId]) // 한 사용자는 하나의 아파트에만 입주민으로 등록될 수 있음
+  @@unique([userId, apartmentId]) // 한 사용자는 하나의 아파트에만 입주민으로 등록될 수 있음
   
 }
