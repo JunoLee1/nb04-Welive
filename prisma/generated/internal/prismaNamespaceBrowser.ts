@@ -77,10 +77,13 @@ export const ApartmentScalarFieldEnum = {
   name: 'name',
   address: 'address',
   description: 'description',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   buildingNumberFrom: 'buildingNumberFrom',
   buildingNumberTo: 'buildingNumberTo',
   floorCountPerBuilding: 'floorCountPerBuilding',
   unitCountPerFloor: 'unitCountPerFloor',
+  officeNumber: 'officeNumber',
   adminId: 'adminId'
 } as const
 
@@ -97,6 +100,8 @@ export const UserScalarFieldEnum = {
   role: 'role',
   hasNext: 'hasNext',
   joinStatus: 'joinStatus',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   isActive: 'isActive',
   avatar: 'avatar'
 } as const

@@ -672,10 +672,13 @@ export const ApartmentScalarFieldEnum = {
   name: 'name',
   address: 'address',
   description: 'description',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   buildingNumberFrom: 'buildingNumberFrom',
   buildingNumberTo: 'buildingNumberTo',
   floorCountPerBuilding: 'floorCountPerBuilding',
   unitCountPerFloor: 'unitCountPerFloor',
+  officeNumber: 'officeNumber',
   adminId: 'adminId'
 } as const
 
@@ -692,6 +695,8 @@ export const UserScalarFieldEnum = {
   role: 'role',
   hasNext: 'hasNext',
   joinStatus: 'joinStatus',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   isActive: 'isActive',
   avatar: 'avatar'
 } as const
@@ -753,6 +758,20 @@ export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 
  * Reference to a field of type 'String[]'
  */
 export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
+    
+
+
+/**
+ * Reference to a field of type 'DateTime'
+ */
+export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+/**
+ * Reference to a field of type 'DateTime[]'
+ */
+export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
     
 
 
