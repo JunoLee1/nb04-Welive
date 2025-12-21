@@ -5,6 +5,14 @@ export interface ReqParams {
     joinStatus: string,
 }
 
+export interface RequestBody {
+    email:string,
+    password: string,
+    name:string,
+    username:string, 
+    avatar?: string,
+}
+
 export interface AdminsListResponseDTO {
     id: string,
     createdAt:string,
