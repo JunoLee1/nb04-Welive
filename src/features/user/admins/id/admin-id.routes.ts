@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import { Controller } from './admin-id.controller.js'
 
-const router = Router();
+const adminRouter = Router();
 const controller = new Controller();
 
 // patch an admin Join status API
 // address : users/admins/{id}/joinStatus
-router.patch("/joinStatus",
+adminRouter.patch("/joinStatus",
     //TODO: check the user super-admin
     //TODO: validate
     controller.modifyStatus
@@ -14,7 +14,7 @@ router.patch("/joinStatus",
 
 // Patch an admin user info
 // address : users/admins/{id}
-router.patch("/",
+adminRouter.patch("/",
     //TODO: check the user super-admin
     //TODO: validate
     controller.modifyAdminsInfo
@@ -22,8 +22,8 @@ router.patch("/",
 
 // delete admin account API
 // address : users/admins/{id}
-router.delete("/",
+adminRouter.delete("/",
     controller.deleteAdmin
 )
 
-export default router;
+export default adminRouter;
