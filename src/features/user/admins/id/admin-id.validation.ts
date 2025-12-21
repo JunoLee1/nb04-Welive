@@ -1,10 +1,7 @@
 import {z} from 'zod';
  
-const requestQuerySchema = z.object({
-    page: z.number(),
-    limit: z.number(),
-    searchKeyword: z.string(),
-    joinStatus: z.string(),
+const requestParamSchema = z.object({
+    id:z.string()
 })
 
-type ReqQuerySchema = z.infer<typeof requestQuerySchema>
+type ReqParamSchema = z.infer<typeof requestParamSchema>
