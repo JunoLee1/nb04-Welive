@@ -4,13 +4,13 @@ import { Controller } from "./super-admin.controller.js";
 import { validate } from "../../../lib/middleware/validator.js";
 
 // create super admin post API
-const router = Router();
+const superAdminRouter = Router();
 const controller = new Controller();
 
-router.post(
+superAdminRouter.post(
   "/super-admins",
   validate(superAdminSignUpSchema, "body"),
   controller.signUpHandler
 );
 
-export default router;
+export default superAdminRouter;
