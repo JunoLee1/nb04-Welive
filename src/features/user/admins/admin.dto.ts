@@ -1,0 +1,34 @@
+export interface ReqParams {
+    page: number,
+    limit: number,
+    searchKeyword: string,
+    joinStatus: string,
+}
+
+export interface AdminsListResponseDTO {
+    id: string,
+    createdAt:string,
+    updatedAt:string,
+    contact:string,
+    name:string,
+    role: string,
+    avatar?:string,
+    isActive:boolean,
+    refreshToken?: string,
+    approvedAt?: string,
+    adminOf: apartmentDTO
+}
+interface apartmentDTO{
+    id: string,
+    createdAt: string,
+    updatedAt: string,
+    name: string,
+    address: string,
+    description: string,
+    officeNumber:string,
+    buildingNumberFrom: number,
+    buildingNumberTo: number,
+    floorCountPerBuilding: number,
+    unitCountPerFloor: number,
+    adminId: string
+}
