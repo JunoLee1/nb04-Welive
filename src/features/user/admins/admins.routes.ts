@@ -1,14 +1,16 @@
 import { Router } from 'express';
 import { Controller } from "./admins.controller.js";
-//import id  from './id/admin-id.routes.js'
+import  idRouter  from './id/admin-id.routes.js';
+import { validate } from '../../../lib/middleware/validator.js';
+import  { requestBodySchema, requestQuerySchema, joinStatusSchema } from './admins.validation.js'
 const controller = new Controller();
 const router = Router();
 
-router.use('/id')
+router.use('/id', idRouter)
 // create admin Api
 // address : users/admins
 router.post("/",
-    //TODO: add validator
+    validate( requestBodySchema, 'body'),
     controller.register
 )
 
@@ -16,7 +18,7 @@ router.post("/",
 // address : users/admins
 router.get("/",
     //TODO: check the user is super admin
-    //TODO: add validator
+    validate(requestQuerySchema,'query'),
     controller.accessList
 )
 
@@ -24,7 +26,7 @@ router.get("/",
 // address : users/admins/joinStatus
 router.patch("/joinStatus",
     //TODO: check the user is super admin
-    //TODO: add validator
+    validate(joinStatusSchema,'body'),
     controller.modifyStatus
 )
 
@@ -33,7 +35,6 @@ router.patch("/joinStatus",
 // address : users/admins/
 router.delete('/',
     //TODO: check the user is super admin
-    //TODO: add validator
     controller.deleteAdmins
 )
 export default router;
