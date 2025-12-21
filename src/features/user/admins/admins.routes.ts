@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { Controller } from "./admins.controller.js";
-import { id } from './id/admin-id.routes.js'
+//import id  from './id/admin-id.routes.js'
 const controller = new Controller();
 const router = Router();
 
-router.use(`/${id}`,id)
+router.use('/id')
 // create admin Api
 // address : users/admins
 router.post("/",
