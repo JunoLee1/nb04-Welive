@@ -10,26 +10,27 @@ export interface RequestBody {
     password: string,
     name:string,
     username:string, 
-    avatar?: string,
+    avatar: string | null,
+    contact: string,
 }
 
-export interface AdminsListResponseDTO {
+export interface AdminsCreateResponseDTO {
     id: string,
-    createdAt:string,
-    updatedAt:string,
     contact:string,
     name:string,
     role: string,
-    avatar?:string,
+    avatar: string | null,
     isActive:boolean,
     refreshToken?: string,
-    approvedAt?: string,
-    adminOf: apartmentDTO
+    hasNext:boolean,
+    approvedAt?: Date | null,
+    adminOf: apartmentDTO | null,
 }
-interface apartmentDTO{
+
+export interface apartmentDTO{
     id: string,
-    createdAt: string,
-    updatedAt: string,
+    createdAt: Date,
+    updatedAt: Date,
     name: string,
     address: string,
     description: string,
