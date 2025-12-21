@@ -7,4 +7,4 @@ const requestQuerySchema = z.object({
     joinStatus: z.string(),
 })
 
-type ReqQuerySchema = z.infer<typeof requestQuerySchema>
+export type ReqQuerySchema = z.infer<typeof requestQuerySchema>
