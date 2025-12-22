@@ -4,7 +4,8 @@ import type {
   SuperAdminCreateResDTO,
 } from "./super-admin.dto.js";
 import { Repository } from "./super-admin.repository.js";
-import prisma from "../../../lib/prisma.js"
+import prisma from "../../../lib/prisma.js";
+
 export class Service {
   constructor(readonly repository: Repository) {}
 
@@ -17,13 +18,12 @@ export class Service {
   }: SuperAdminCreateReqDTO):Promise<SuperAdminCreateResDTO>=> {
     console.log("⚓️ received from controller:",email, password, name, contact, username)
    const userEmail = this.repository.findUniqueEmail(email);
-   if(!userEmail) throw new HttpError(400, "잘못된 요청 입니다.");//
+   if(!userEmail) throw new HttpError(400, "잘못된 요청 입니다.");
     const userPhoneNumber = this.repository.findUniquePhoneNumber(contact);
     if(!userPhoneNumber) throw new HttpError(400, "잘못된 요청 입니다.");
     const userName = this.repository.findUniqueUsername(username);
     if(!userName)  throw new HttpError(400, "잘못된 요청 입니다.");
     console.log("✅ finished prunning");
-    //TODO: 토큰 생성
     const DATA = await prisma.user.create({
         data:{
             email,
@@ -31,6 +31,7 @@ export class Service {
             name,
             contact,
             username,
+            approvedAt:"",
             joinStatus: "APPROVED",
             role: "SUPER_ADMIN",
             avatar: null

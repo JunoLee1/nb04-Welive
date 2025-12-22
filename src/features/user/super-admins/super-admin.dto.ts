@@ -16,5 +16,6 @@ export interface SuperAdminCreateResDTO {
     role: Role,
     avatar: string | null,
     joinStatus: JoinStatus,
+    approvedAt: Date|null,
     isActive: Boolean,
 }
