@@ -10,7 +10,7 @@ export class Repository {
         return user;
     }
     findUniqueUsername = async(username: string) => {
-        const user =  await prisma.user.findFirst({
+        const user =  await prisma.user.findUnique({
             where: {
                 username: username
             }
@@ -19,7 +19,7 @@ export class Repository {
     };
 
     findUniquePhoneNumber = async(contact: string) => {
-        const phoneNumber = await prisma.user.findFirst({
+        const phoneNumber = await prisma.user.findUnique({
             where:{
                 contact
             }
