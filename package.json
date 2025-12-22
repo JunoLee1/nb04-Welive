@@ -28,14 +28,16 @@
     "@types/pg": "^8.16.0",
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
+    "dotenv": "^17.2.3",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
-    "prisma": "^7.1.0",
+    "prisma": "^7.2.0",
     "typescript": "^5.9.3",
     "zod": "^4.2.1"
   },
   "dependencies": {
     "@prisma/client": "^7.1.0",
+    "cors": "^2.8.5",
     "jsonwebtoken": "^9.0.3",
     "passport": "^0.7.0"
   }
