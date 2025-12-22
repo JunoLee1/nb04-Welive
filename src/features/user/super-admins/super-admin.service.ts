@@ -23,7 +23,7 @@ export class Service {
     const userName = this.repository.findUniqueUsername(username);
     if(!userName)  throw new HttpError(400, "잘못된 요청 입니다.");
     console.log("✅ finished prunning");
-    
+    //TODO: 토큰 생성
     const DATA = await prisma.user.create({
         data:{
             email,
