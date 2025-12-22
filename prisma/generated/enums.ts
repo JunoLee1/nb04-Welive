@@ -18,10 +18,10 @@ export const Role = {
 export type Role = (typeof Role)[keyof typeof Role]
 
 
-export const joinStatus = {
+export const JoinStatus = {
   PENDING: 'PENDING',
   APPROVED: 'APPROVED',
   REJECTED: 'REJECTED'
 } as const
 
-export type joinStatus = (typeof joinStatus)[keyof typeof joinStatus]
+export type JoinStatus = (typeof JoinStatus)[keyof typeof JoinStatus]

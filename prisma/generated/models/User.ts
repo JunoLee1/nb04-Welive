@@ -33,9 +33,10 @@ export type UserMinAggregateOutputType = {
   password: string | null
   role: $Enums.Role | null
   hasNext: boolean | null
-  joinStatus: $Enums.joinStatus | null
+  joinStatus: $Enums.JoinStatus | null
   createdAt: Date | null
   updatedAt: Date | null
+  approvedAt: Date | null
   isActive: boolean | null
   avatar: string | null
 }
@@ -49,9 +50,10 @@ export type UserMaxAggregateOutputType = {
   password: string | null
   role: $Enums.Role | null
   hasNext: boolean | null
-  joinStatus: $Enums.joinStatus | null
+  joinStatus: $Enums.JoinStatus | null
   createdAt: Date | null
   updatedAt: Date | null
+  approvedAt: Date | null
   isActive: boolean | null
   avatar: string | null
 }
@@ -68,6 +70,7 @@ export type UserCountAggregateOutputType = {
   joinStatus: number
   createdAt: number
   updatedAt: number
+  approvedAt: number
   isActive: number
   avatar: number
   _all: number
@@ -86,6 +89,7 @@ export type UserMinAggregateInputType = {
   joinStatus?: true
   createdAt?: true
   updatedAt?: true
+  approvedAt?: true
   isActive?: true
   avatar?: true
 }
@@ -102,6 +106,7 @@ export type UserMaxAggregateInputType = {
   joinStatus?: true
   createdAt?: true
   updatedAt?: true
+  approvedAt?: true
   isActive?: true
   avatar?: true
 }
@@ -118,6 +123,7 @@ export type UserCountAggregateInputType = {
   joinStatus?: true
   createdAt?: true
   updatedAt?: true
+  approvedAt?: true
   isActive?: true
   avatar?: true
   _all?: true
@@ -204,9 +210,10 @@ export type UserGroupByOutputType = {
   password: string
   role: $Enums.Role
   hasNext: boolean
-  joinStatus: $Enums.joinStatus
+  joinStatus: $Enums.JoinStatus
   createdAt: Date
   updatedAt: Date
+  approvedAt: Date
   isActive: boolean
   avatar: string | null
   _count: UserCountAggregateOutputType | null
@@ -241,9 +248,10 @@ export type UserWhereInput = {
   password?: Prisma.StringFilter<"User"> | string
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   hasNext?: Prisma.BoolFilter<"User"> | boolean
-  joinStatus?: Prisma.EnumjoinStatusFilter<"User"> | $Enums.joinStatus
+  joinStatus?: Prisma.EnumJoinStatusFilter<"User"> | $Enums.JoinStatus
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  approvedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   isActive?: Prisma.BoolFilter<"User"> | boolean
   avatar?: Prisma.StringNullableFilter<"User"> | string | null
   adminOf?: Prisma.XOR<Prisma.ApartmentNullableScalarRelationFilter, Prisma.ApartmentWhereInput> | null
@@ -262,6 +270,7 @@ export type UserOrderByWithRelationInput = {
   joinStatus?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  approvedAt?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   avatar?: Prisma.SortOrderInput | Prisma.SortOrder
   adminOf?: Prisma.ApartmentOrderByWithRelationInput
@@ -280,9 +289,10 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   password?: Prisma.StringFilter<"User"> | string
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   hasNext?: Prisma.BoolFilter<"User"> | boolean
-  joinStatus?: Prisma.EnumjoinStatusFilter<"User"> | $Enums.joinStatus
+  joinStatus?: Prisma.EnumJoinStatusFilter<"User"> | $Enums.JoinStatus
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  approvedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   isActive?: Prisma.BoolFilter<"User"> | boolean
   avatar?: Prisma.StringNullableFilter<"User"> | string | null
   adminOf?: Prisma.XOR<Prisma.ApartmentNullableScalarRelationFilter, Prisma.ApartmentWhereInput> | null
@@ -301,6 +311,7 @@ export type UserOrderByWithAggregationInput = {
   joinStatus?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  approvedAt?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   avatar?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
@@ -320,9 +331,10 @@ export type UserScalarWhereWithAggregatesInput = {
   password?: Prisma.StringWithAggregatesFilter<"User"> | string
   role?: Prisma.EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
   hasNext?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
-  joinStatus?: Prisma.EnumjoinStatusWithAggregatesFilter<"User"> | $Enums.joinStatus
+  joinStatus?: Prisma.EnumJoinStatusWithAggregatesFilter<"User"> | $Enums.JoinStatus
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  approvedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   isActive?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   avatar?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
 }
@@ -336,9 +348,10 @@ export type UserCreateInput = {
   password: string
   role: $Enums.Role
   hasNext?: boolean
-  joinStatus?: $Enums.joinStatus
+  joinStatus?: $Enums.JoinStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  approvedAt: Date | string
   isActive?: boolean
   avatar?: string | null
   adminOf?: Prisma.ApartmentCreateNestedOneWithoutAdminInput
@@ -354,9 +367,10 @@ export type UserUncheckedCreateInput = {
   password: string
   role: $Enums.Role
   hasNext?: boolean
-  joinStatus?: $Enums.joinStatus
+  joinStatus?: $Enums.JoinStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  approvedAt: Date | string
   isActive?: boolean
   avatar?: string | null
   adminOf?: Prisma.ApartmentUncheckedCreateNestedOneWithoutAdminInput
@@ -372,9 +386,10 @@ export type UserUpdateInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   hasNext?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  joinStatus?: Prisma.EnumjoinStatusFieldUpdateOperationsInput | $Enums.joinStatus
+  joinStatus?: Prisma.EnumJoinStatusFieldUpdateOperationsInput | $Enums.JoinStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminOf?: Prisma.ApartmentUpdateOneWithoutAdminNestedInput
@@ -390,9 +405,10 @@ export type UserUncheckedUpdateInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   hasNext?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  joinStatus?: Prisma.EnumjoinStatusFieldUpdateOperationsInput | $Enums.joinStatus
+  joinStatus?: Prisma.EnumJoinStatusFieldUpdateOperationsInput | $Enums.JoinStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminOf?: Prisma.ApartmentUncheckedUpdateOneWithoutAdminNestedInput
@@ -408,9 +424,10 @@ export type UserCreateManyInput = {
   password: string
   role: $Enums.Role
   hasNext?: boolean
-  joinStatus?: $Enums.joinStatus
+  joinStatus?: $Enums.JoinStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  approvedAt: Date | string
   isActive?: boolean
   avatar?: string | null
 }
@@ -424,9 +441,10 @@ export type UserUpdateManyMutationInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   hasNext?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  joinStatus?: Prisma.EnumjoinStatusFieldUpdateOperationsInput | $Enums.joinStatus
+  joinStatus?: Prisma.EnumJoinStatusFieldUpdateOperationsInput | $Enums.JoinStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -440,9 +458,10 @@ export type UserUncheckedUpdateManyInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   hasNext?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  joinStatus?: Prisma.EnumjoinStatusFieldUpdateOperationsInput | $Enums.joinStatus
+  joinStatus?: Prisma.EnumJoinStatusFieldUpdateOperationsInput | $Enums.JoinStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -464,6 +483,7 @@ export type UserCountOrderByAggregateInput = {
   joinStatus?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  approvedAt?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
 }
@@ -480,6 +500,7 @@ export type UserMaxOrderByAggregateInput = {
   joinStatus?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  approvedAt?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
 }
@@ -496,6 +517,7 @@ export type UserMinOrderByAggregateInput = {
   joinStatus?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  approvedAt?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
 }
@@ -522,8 +544,8 @@ export type BoolFieldUpdateOperationsInput = {
   set?: boolean
 }
 
-export type EnumjoinStatusFieldUpdateOperationsInput = {
-  set?: $Enums.joinStatus
+export type EnumJoinStatusFieldUpdateOperationsInput = {
+  set?: $Enums.JoinStatus
 }
 
 export type NullableStringFieldUpdateOperationsInput = {
@@ -553,9 +575,10 @@ export type UserCreateWithoutAdminOfInput = {
   password: string
   role: $Enums.Role
   hasNext?: boolean
-  joinStatus?: $Enums.joinStatus
+  joinStatus?: $Enums.JoinStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  approvedAt: Date | string
   isActive?: boolean
   avatar?: string | null
   resident?: Prisma.ResidentCreateNestedOneWithoutUserInput
@@ -570,9 +593,10 @@ export type UserUncheckedCreateWithoutAdminOfInput = {
   password: string
   role: $Enums.Role
   hasNext?: boolean
-  joinStatus?: $Enums.joinStatus
+  joinStatus?: $Enums.JoinStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  approvedAt: Date | string
   isActive?: boolean
   avatar?: string | null
   resident?: Prisma.ResidentUncheckedCreateNestedOneWithoutUserInput
@@ -603,9 +627,10 @@ export type UserUpdateWithoutAdminOfInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   hasNext?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  joinStatus?: Prisma.EnumjoinStatusFieldUpdateOperationsInput | $Enums.joinStatus
+  joinStatus?: Prisma.EnumJoinStatusFieldUpdateOperationsInput | $Enums.JoinStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resident?: Prisma.ResidentUpdateOneWithoutUserNestedInput
@@ -620,9 +645,10 @@ export type UserUncheckedUpdateWithoutAdminOfInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   hasNext?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  joinStatus?: Prisma.EnumjoinStatusFieldUpdateOperationsInput | $Enums.joinStatus
+  joinStatus?: Prisma.EnumJoinStatusFieldUpdateOperationsInput | $Enums.JoinStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resident?: Prisma.ResidentUncheckedUpdateOneWithoutUserNestedInput
@@ -637,9 +663,10 @@ export type UserCreateWithoutResidentInput = {
   password: string
   role: $Enums.Role
   hasNext?: boolean
-  joinStatus?: $Enums.joinStatus
+  joinStatus?: $Enums.JoinStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  approvedAt: Date | string
   isActive?: boolean
   avatar?: string | null
   adminOf?: Prisma.ApartmentCreateNestedOneWithoutAdminInput
@@ -654,9 +681,10 @@ export type UserUncheckedCreateWithoutResidentInput = {
   password: string
   role: $Enums.Role
   hasNext?: boolean
-  joinStatus?: $Enums.joinStatus
+  joinStatus?: $Enums.JoinStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  approvedAt: Date | string
   isActive?: boolean
   avatar?: string | null
   adminOf?: Prisma.ApartmentUncheckedCreateNestedOneWithoutAdminInput
@@ -687,9 +715,10 @@ export type UserUpdateWithoutResidentInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   hasNext?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  joinStatus?: Prisma.EnumjoinStatusFieldUpdateOperationsInput | $Enums.joinStatus
+  joinStatus?: Prisma.EnumJoinStatusFieldUpdateOperationsInput | $Enums.JoinStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminOf?: Prisma.ApartmentUpdateOneWithoutAdminNestedInput
@@ -704,9 +733,10 @@ export type UserUncheckedUpdateWithoutResidentInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   hasNext?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  joinStatus?: Prisma.EnumjoinStatusFieldUpdateOperationsInput | $Enums.joinStatus
+  joinStatus?: Prisma.EnumJoinStatusFieldUpdateOperationsInput | $Enums.JoinStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminOf?: Prisma.ApartmentUncheckedUpdateOneWithoutAdminNestedInput
@@ -726,6 +756,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   joinStatus?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  approvedAt?: boolean
   isActive?: boolean
   avatar?: boolean
   adminOf?: boolean | Prisma.User$adminOfArgs<ExtArgs>
@@ -744,6 +775,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   joinStatus?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  approvedAt?: boolean
   isActive?: boolean
   avatar?: boolean
 }, ExtArgs["result"]["user"]>
@@ -760,6 +792,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   joinStatus?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  approvedAt?: boolean
   isActive?: boolean
   avatar?: boolean
 }, ExtArgs["result"]["user"]>
@@ -776,11 +809,12 @@ export type UserSelectScalar = {
   joinStatus?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  approvedAt?: boolean
   isActive?: boolean
   avatar?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "username" | "contact" | "password" | "role" | "hasNext" | "joinStatus" | "createdAt" | "updatedAt" | "isActive" | "avatar", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "username" | "contact" | "password" | "role" | "hasNext" | "joinStatus" | "createdAt" | "updatedAt" | "approvedAt" | "isActive" | "avatar", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   adminOf?: boolean | Prisma.User$adminOfArgs<ExtArgs>
   resident?: boolean | Prisma.User$residentArgs<ExtArgs>
@@ -803,9 +837,10 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     password: string
     role: $Enums.Role
     hasNext: boolean
-    joinStatus: $Enums.joinStatus
+    joinStatus: $Enums.JoinStatus
     createdAt: Date
     updatedAt: Date
+    approvedAt: Date
     isActive: boolean
     avatar: string | null
   }, ExtArgs["result"]["user"]>
@@ -1241,9 +1276,10 @@ export interface UserFieldRefs {
   readonly password: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'Role'>
   readonly hasNext: Prisma.FieldRef<"User", 'Boolean'>
-  readonly joinStatus: Prisma.FieldRef<"User", 'joinStatus'>
+  readonly joinStatus: Prisma.FieldRef<"User", 'JoinStatus'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly approvedAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly isActive: Prisma.FieldRef<"User", 'Boolean'>
   readonly avatar: Prisma.FieldRef<"User", 'String'>
 }

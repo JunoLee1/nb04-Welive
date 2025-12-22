@@ -697,6 +697,7 @@ export const UserScalarFieldEnum = {
   joinStatus: 'joinStatus',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  approvedAt: 'approvedAt',
   isActive: 'isActive',
   avatar: 'avatar'
 } as const
@@ -811,16 +812,16 @@ export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
- * Reference to a field of type 'joinStatus'
+ * Reference to a field of type 'JoinStatus'
  */
-export type EnumjoinStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'joinStatus'>
+export type EnumJoinStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'JoinStatus'>
     
 
 
 /**
- * Reference to a field of type 'joinStatus[]'
+ * Reference to a field of type 'JoinStatus[]'
  */
-export type ListEnumjoinStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'joinStatus[]'>
+export type ListEnumJoinStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'JoinStatus[]'>
     
 
 

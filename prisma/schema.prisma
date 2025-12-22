@@ -18,7 +18,7 @@ enum Role {
   SUPER_ADMIN
   USER
 }
-enum joinStatus {
+enum JoinStatus {
   PENDING
   APPROVED
   REJECTED
@@ -50,9 +50,10 @@ model User {
   password  String
   role      Role
   hasNext   Boolean  @default(false)
-  joinStatus joinStatus @default(PENDING)
+  joinStatus JoinStatus @default(PENDING)
   createdAt  DateTime     @default(now())
   updatedAt  DateTime       @updatedAt
+  approvedAt DateTime 
   isActive  Boolean  @default(true)
   avatar    String?
   adminOf   Apartment?

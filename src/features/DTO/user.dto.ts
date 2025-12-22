@@ -1,4 +1,4 @@
-import type { Apartment, joinStatus, Resident, Role } from '../../../prisma/generated/client.js';
+import type { Apartment, JoinStatus, Resident, Role } from '../../../prisma/generated/client.js';
 
 export interface credentialsDTO {
     username: string;
@@ -16,7 +16,7 @@ export interface AccessAdminsRequestDTO {
     page?: number;
     limit?: number;
     searchKeyword?: string;
-    joingStatus?: joinStatus;
+    joingStatus?: JoinStatus;
 }
 
 export interface AccessAdminsResponseDTO {
@@ -24,7 +24,7 @@ export interface AccessAdminsResponseDTO {
     contact: string;
     email: string;
     name: string;
-    joinStatus: joinStatus;
+    joinStatus: JoinStatus;
     adminOf: Apartment[];
     hasNext: boolean;
 }

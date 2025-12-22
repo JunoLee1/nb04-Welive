@@ -102,6 +102,7 @@ export const UserScalarFieldEnum = {
   joinStatus: 'joinStatus',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  approvedAt: 'approvedAt',
   isActive: 'isActive',
   avatar: 'avatar'
 } as const
