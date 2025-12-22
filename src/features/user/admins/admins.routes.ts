@@ -2,7 +2,8 @@ import { Router } from 'express';
 import { Controller } from "./admins.controller.js";
 import  idRouter  from './id/admin-id.routes.js';
 import { validate } from '../../../lib/middleware/validator.js';
-import  { requestBodySchema, requestQuerySchema, joinStatusSchema } from './admins.validation.js'
+import  { requestBodySchema, requestQuerySchema, joinStatusSchema } from './admins.validation.js';
+import passport from "passport"
 const controller = new Controller();
 const router = Router();
 
@@ -17,7 +18,7 @@ router.post("/",
 // access admins API
 // address : users/admins
 router.get("/",
-    //TODO: check the user is super admin
+    passport.authenticate('jwt', { session: false }),
     validate(requestQuerySchema,'query'),
     controller.accessList
 )
