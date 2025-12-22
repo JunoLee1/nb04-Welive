@@ -1,31 +1,4 @@
-export interface ReqParams {
-    page: number,
-    limit: number,
-    searchKeyword: string,
-    joinStatus: string,
-}
-
-export interface RequestBody {
-    email:string,
-    password: string,
-    name:string,
-    username:string, 
-    avatar: string | null,
-    contact: string,
-}
-
-export interface AdminsCreateResponseDTO {
-    id: string,
-    contact:string,
-    name:string,
-    role: string,
-    avatar: string | null,
-    isActive:boolean,
-    refreshToken?: string,
-    hasNext:boolean,
-    approvedAt?: Date | null,
-    adminOf: apartmentDTO | null,
-}
+import { JoinStatus } from "../../../../prisma/generated/client.js";
 
 export interface apartmentDTO{
     id: string,
@@ -40,4 +13,46 @@ export interface apartmentDTO{
     floorCountPerBuilding: number,
     unitCountPerFloor: number,
     adminId: string
+}
+
+export interface ReqParams {
+    pageNumber: number,
+    limitNumber: number,
+    keyword: string,
+    joinStatus: JoinStatus
+}
+export interface RequestBody {
+    email:string,
+    password: string,
+    name:string,
+    username:string, 
+    avatar: string | null,
+    contact: string,
+}
+
+//------------response DTO
+export interface AdminsCreateResponseDTO {
+    id: string,
+    contact:string,
+    name:string,
+    role: string,
+    avatar: string | null,
+    isActive:boolean,
+    approvedAt: Date | null,
+    adminOf: apartmentDTO | null,
+}
+
+export interface AccessAdminItemDTO {
+    id: string;
+    contact: string;
+    name: string;
+    role: string;
+    avatar: string | null;
+    isActive: boolean;
+    approvedAt: Date | null;
+    adminOf: apartmentDTO | null;
+}
+export interface AccessListOfAdminsResDTO {
+    data: AdminsCreateResponseDTO[];
+    hasNext:boolean;
 }
