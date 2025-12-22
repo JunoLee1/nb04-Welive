@@ -14,9 +14,5 @@ router.use("/super-admins",superAdminsApi);
 router.use("/admins",adminsApi);
 // router.use("/residents",residentsApi);
 // router.use("/me",userInfoApi);
-export function userRoutes(app: Express) {
-    app.use("/users", router);
-};
-
 
 export default router
