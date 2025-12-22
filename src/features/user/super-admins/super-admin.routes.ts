@@ -6,9 +6,8 @@ import { validate } from "../../../lib/middleware/validator.js";
 // create super admin post API
 const superAdminRouter = Router();
 const controller = new Controller();
-
 superAdminRouter.post(
-  "/super-admins",
+  "/",
   validate(superAdminSignUpSchema, "body"),
   controller.signUpHandler
 );
