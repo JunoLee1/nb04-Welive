@@ -33,7 +33,7 @@ export class Service {
             username,
             joinStatus: "APPROVED",
             role: "SUPER_ADMIN",
-            avatar: null //TODO: fix schema
+            avatar: null
         }
     })
     return DATA;
