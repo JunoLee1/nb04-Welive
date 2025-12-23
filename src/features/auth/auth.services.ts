@@ -49,6 +49,5 @@ export class Service {
       adminOf: user.adminOf,
     };
   };
-  
 }
 
