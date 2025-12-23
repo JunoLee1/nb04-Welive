@@ -7,9 +7,9 @@ const PORT = process.env.PORT || 3001;
 const JWT_ACCESS_TOKEN_SECRET =
   process.env.JWT_ACCESS_TOKEN_SECRET || "your_jwt_access_token_secret";
 const JWT_REFRESH_TOKEN_SECRET =
-  process.env.JWT_REFRESH_TOKEN_SECRET || "your_jwt_access_token_secret";
-const ACCESS_TOKEN_COOKIE_NAME = "acces-token";
-const REFRESH_TOKEN_COOKIE_NAME = "refresh-token";
+  process.env.JWT_REFRESH_TOKEN_SECRET || "your_jwt_refresh_token_secret";
+const ACCESS_TOKEN_COOKIE_NAME = "accesToken";
+const REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
 
 
 export {
