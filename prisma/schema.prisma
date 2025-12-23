@@ -53,7 +53,7 @@ model User {
   joinStatus JoinStatus @default(PENDING)
   createdAt  DateTime     @default(now())
   updatedAt  DateTime       @updatedAt
-  approvedAt DateTime 
+  approvedAt DateTime? 
   isActive  Boolean  @default(true)
   avatar    String?
   adminOf   Apartment?

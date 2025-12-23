@@ -213,7 +213,7 @@ export type UserGroupByOutputType = {
   joinStatus: $Enums.JoinStatus
   createdAt: Date
   updatedAt: Date
-  approvedAt: Date
+  approvedAt: Date | null
   isActive: boolean
   avatar: string | null
   _count: UserCountAggregateOutputType | null
@@ -251,7 +251,7 @@ export type UserWhereInput = {
   joinStatus?: Prisma.EnumJoinStatusFilter<"User"> | $Enums.JoinStatus
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  approvedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  approvedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   isActive?: Prisma.BoolFilter<"User"> | boolean
   avatar?: Prisma.StringNullableFilter<"User"> | string | null
   adminOf?: Prisma.XOR<Prisma.ApartmentNullableScalarRelationFilter, Prisma.ApartmentWhereInput> | null
@@ -270,7 +270,7 @@ export type UserOrderByWithRelationInput = {
   joinStatus?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  approvedAt?: Prisma.SortOrder
+  approvedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
   avatar?: Prisma.SortOrderInput | Prisma.SortOrder
   adminOf?: Prisma.ApartmentOrderByWithRelationInput
@@ -292,7 +292,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   joinStatus?: Prisma.EnumJoinStatusFilter<"User"> | $Enums.JoinStatus
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  approvedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  approvedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   isActive?: Prisma.BoolFilter<"User"> | boolean
   avatar?: Prisma.StringNullableFilter<"User"> | string | null
   adminOf?: Prisma.XOR<Prisma.ApartmentNullableScalarRelationFilter, Prisma.ApartmentWhereInput> | null
@@ -311,7 +311,7 @@ export type UserOrderByWithAggregationInput = {
   joinStatus?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  approvedAt?: Prisma.SortOrder
+  approvedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
   avatar?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
@@ -334,7 +334,7 @@ export type UserScalarWhereWithAggregatesInput = {
   joinStatus?: Prisma.EnumJoinStatusWithAggregatesFilter<"User"> | $Enums.JoinStatus
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
-  approvedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  approvedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   isActive?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   avatar?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
 }
@@ -351,7 +351,7 @@ export type UserCreateInput = {
   joinStatus?: $Enums.JoinStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  approvedAt: Date | string
+  approvedAt?: Date | string | null
   isActive?: boolean
   avatar?: string | null
   adminOf?: Prisma.ApartmentCreateNestedOneWithoutAdminInput
@@ -370,7 +370,7 @@ export type UserUncheckedCreateInput = {
   joinStatus?: $Enums.JoinStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  approvedAt: Date | string
+  approvedAt?: Date | string | null
   isActive?: boolean
   avatar?: string | null
   adminOf?: Prisma.ApartmentUncheckedCreateNestedOneWithoutAdminInput
@@ -389,7 +389,7 @@ export type UserUpdateInput = {
   joinStatus?: Prisma.EnumJoinStatusFieldUpdateOperationsInput | $Enums.JoinStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  approvedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminOf?: Prisma.ApartmentUpdateOneWithoutAdminNestedInput
@@ -408,7 +408,7 @@ export type UserUncheckedUpdateInput = {
   joinStatus?: Prisma.EnumJoinStatusFieldUpdateOperationsInput | $Enums.JoinStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  approvedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminOf?: Prisma.ApartmentUncheckedUpdateOneWithoutAdminNestedInput
@@ -427,7 +427,7 @@ export type UserCreateManyInput = {
   joinStatus?: $Enums.JoinStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  approvedAt: Date | string
+  approvedAt?: Date | string | null
   isActive?: boolean
   avatar?: string | null
 }
@@ -444,7 +444,7 @@ export type UserUpdateManyMutationInput = {
   joinStatus?: Prisma.EnumJoinStatusFieldUpdateOperationsInput | $Enums.JoinStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  approvedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -461,7 +461,7 @@ export type UserUncheckedUpdateManyInput = {
   joinStatus?: Prisma.EnumJoinStatusFieldUpdateOperationsInput | $Enums.JoinStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  approvedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -548,6 +548,10 @@ export type EnumJoinStatusFieldUpdateOperationsInput = {
   set?: $Enums.JoinStatus
 }
 
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
+}
+
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
 }
@@ -578,7 +582,7 @@ export type UserCreateWithoutAdminOfInput = {
   joinStatus?: $Enums.JoinStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  approvedAt: Date | string
+  approvedAt?: Date | string | null
   isActive?: boolean
   avatar?: string | null
   resident?: Prisma.ResidentCreateNestedOneWithoutUserInput
@@ -596,7 +600,7 @@ export type UserUncheckedCreateWithoutAdminOfInput = {
   joinStatus?: $Enums.JoinStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  approvedAt: Date | string
+  approvedAt?: Date | string | null
   isActive?: boolean
   avatar?: string | null
   resident?: Prisma.ResidentUncheckedCreateNestedOneWithoutUserInput
@@ -630,7 +634,7 @@ export type UserUpdateWithoutAdminOfInput = {
   joinStatus?: Prisma.EnumJoinStatusFieldUpdateOperationsInput | $Enums.JoinStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  approvedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resident?: Prisma.ResidentUpdateOneWithoutUserNestedInput
@@ -648,7 +652,7 @@ export type UserUncheckedUpdateWithoutAdminOfInput = {
   joinStatus?: Prisma.EnumJoinStatusFieldUpdateOperationsInput | $Enums.JoinStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  approvedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resident?: Prisma.ResidentUncheckedUpdateOneWithoutUserNestedInput
@@ -666,7 +670,7 @@ export type UserCreateWithoutResidentInput = {
   joinStatus?: $Enums.JoinStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  approvedAt: Date | string
+  approvedAt?: Date | string | null
   isActive?: boolean
   avatar?: string | null
   adminOf?: Prisma.ApartmentCreateNestedOneWithoutAdminInput
@@ -684,7 +688,7 @@ export type UserUncheckedCreateWithoutResidentInput = {
   joinStatus?: $Enums.JoinStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  approvedAt: Date | string
+  approvedAt?: Date | string | null
   isActive?: boolean
   avatar?: string | null
   adminOf?: Prisma.ApartmentUncheckedCreateNestedOneWithoutAdminInput
@@ -718,7 +722,7 @@ export type UserUpdateWithoutResidentInput = {
   joinStatus?: Prisma.EnumJoinStatusFieldUpdateOperationsInput | $Enums.JoinStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  approvedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminOf?: Prisma.ApartmentUpdateOneWithoutAdminNestedInput
@@ -736,7 +740,7 @@ export type UserUncheckedUpdateWithoutResidentInput = {
   joinStatus?: Prisma.EnumJoinStatusFieldUpdateOperationsInput | $Enums.JoinStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  approvedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adminOf?: Prisma.ApartmentUncheckedUpdateOneWithoutAdminNestedInput
@@ -840,7 +844,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     joinStatus: $Enums.JoinStatus
     createdAt: Date
     updatedAt: Date
-    approvedAt: Date
+    approvedAt: Date | null
     isActive: boolean
     avatar: string | null
   }, ExtArgs["result"]["user"]>
