@@ -76,10 +76,20 @@ export class Service {
           }
         : null,
     }));
-
     return {
       data,
       hasNext: true,
     };
   };
+// TODO: 리턴 타입 확인 
+/*
+  modifyStatus = async (joinStatus: string): Promise<> => {
+    return;
+  };
+  //TODO: PATH check
+  
+  deleteAdmins = async (): Promise<void> => {
+    await this.repo.deleteAdmins();
+  };
+  */
 }

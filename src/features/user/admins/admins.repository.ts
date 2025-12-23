@@ -116,4 +116,13 @@ export class Repository {
     });
     return newAdmin;
   };
+  /*
+  deleteAdmins = async () => {
+    await prisma.user.delete({
+      where:{
+        
+      }
+    })
+  }
+    */
 }
