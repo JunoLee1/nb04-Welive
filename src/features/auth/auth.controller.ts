@@ -13,12 +13,15 @@ export class Controller {
   constructor(private readonly service: Service) {}
 
   loginHandler: RequestHandler = async (req, res, next) => {
+    console.log(1)
     const { username, password }: LoginRequestDTO = req.body;
     const user = req.user;
-    if (!user) throw new HttpError(401, "권한과 관련된 오류입니다.");
+    console.log(11)
+    if (!user) throw new HttpError(401, "unauthorized.");
     const data = await this.service.login({ username, password });
     // generate token
     const { accessToken, refreshToken } = generateToken(user.id);
+    console.log(111)
     setTokenCookies({ res, accessToken, refreshToken });
     res.status(200).send(data);
   };
