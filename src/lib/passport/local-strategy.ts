@@ -9,25 +9,24 @@ export const localStrategy = new LocalStrategy(
     usernameField: "username",
     passwordField: "password",
   },
-  async (username: string, passowrd: string, cb: VerifyCallBack) => {
+  async (username: string, password: string, cb: VerifyCallBack) => {
     try {
+      console.log(1)
       const user = await prisma.user.findUnique({
-        where: {
-          username
-        },
+        where: { username },
       });
-      if (!user || !user.password)
-        return cb(null, false, " 존재 하지 않는 입니다");
+      if (!user)
+        return cb(null, false, { message: "존재 하지 않는 유저 입니다" });
 
-      const isMatch = await bcrypt.compare(passowrd, user.password);
+      const isMatch = await bcrypt.compare(password, user.password);
 
       if (!isMatch) {
-        return cb(null, false, "틀린 비밀번호 입니다");
+        return cb(null, false, { message: "틀린 비밀번호 입니다" });
       } else {
-        cb(null, user);
+        return cb(null, user);
       }
     } catch (error) {
-      cb(error)
+      return cb(error)
     }
   }
 );
