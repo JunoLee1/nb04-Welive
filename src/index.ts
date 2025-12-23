@@ -15,9 +15,9 @@ app.use(cors({
     origin:"http://localhost:3000", 
     credentials: true
 }));
+app.use(passport.initialize());
 app.use("/api/v2", apiRouter);
 app.use(errorHandler as ErrorRequestHandler);
-app.use(passport.initialize());
 app.listen(PORT,() => {
     console.log(`Server is ruunnig ${PORT}`)
 })
