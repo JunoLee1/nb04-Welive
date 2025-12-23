@@ -1,32 +1,39 @@
 import prisma from "../src/lib/prisma.js";
+import bcrypt from "bcrypt";
 
 const main = async () => {
-  const Alice = await prisma.user.upsert({
+  const hashedPassword = await bcrypt.hash("12345678", 10);
+  const juno = await prisma.user.upsert({
     where: {
-      email: "Alice@test.com",
+      email: "juno@test.com",
     },
-    update: {},
+    update: {
+       password: hashedPassword,
+    },
     create: {
-      username: "alice12",
-      email: "Alice@test.com",
-      password: "12345678",
-      name: "Alice",
-      contact: "01000000000",
+      username: "Juno12",
+      email: "juno@test.com",
+      password: hashedPassword,
+      name: "Juno",
+      contact: "01011112222",
       role: "SUPER_ADMIN",
       approvedAt: null,
+      joinStatus: "APPROVED"
     },
   });
   const Hana = await prisma.user.upsert({
     where: {
       email: "hana@test.com",
     },
-    update: {},
+    update: {
+       password: hashedPassword,
+    },
     create: {
       username: "hana12",
       email: "hana@test.com",
-      password: "12345678",
+      password: hashedPassword,
       name: "Hana Lee",
-      contact: "01000000000",
+      contact: "010022221111",
       role: "ADMIN",
       joinStatus:"APPROVED",
       approvedAt: null,
@@ -39,7 +46,7 @@ const main = async () => {
           buildingNumberTo: 4,
           floorCountPerBuilding: 1,
           unitCountPerFloor: 1,
-          officeNumber: "0510000000",
+          officeNumber: "051000111",
         },
       },
     },
