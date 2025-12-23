@@ -10,21 +10,22 @@ export const localStrategy = new LocalStrategy(
     passwordField: "password",
   },
   async (username: string, password: string, cb: VerifyCallBack) => {
-    try {
-      const user = await prisma.user.findUnique({
+    try{
+      const exUser = await prisma.user.findUnique({
         where: { username },
       });
-      if (!user)
-        return cb(null, false, { message: "존재 하지 않는 유저 입니다" });
-
-      const isMatch = await bcrypt.compare(password, user.password);
-
-      if (!isMatch) {
-        return cb(null, false, { message: "틀린 비밀번호 입니다" });
+      console.log("exUser", exUser);
+      if (exUser){
+        const result = await bcrypt.compare( password, exUser.password);
+        if (result) { 
+          return cb(null, exUser)
+        } else { 
+          return cb(null, false, { message: "invalid password" });
+        }
       } else {
-        return cb(null, user);
+        return cb(null, false, { message : "invalid user" })
       }
-    } catch (error) {
+    } catch (error){
       return cb(error)
     }
   }
