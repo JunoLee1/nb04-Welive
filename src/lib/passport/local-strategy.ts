@@ -11,7 +11,6 @@ export const localStrategy = new LocalStrategy(
   },
   async (username: string, password: string, cb: VerifyCallBack) => {
     try {
-      console.log(1)
       const user = await prisma.user.findUnique({
         where: { username },
       });
