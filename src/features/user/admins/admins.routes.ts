@@ -3,7 +3,7 @@ import { Controller } from "./admins.controller.js";
 import  idRouter  from './id/admin-id.routes.js';
 import { validate } from '../../../lib/middleware/validator.js';
 import  { requestBodySchema, requestQuerySchema, joinStatusSchema } from './admins.validation.js';
-import passport from "passport"
+import passport from "../../../lib/passport/index.js"
 const controller = new Controller();
 const router = Router();
 
@@ -18,7 +18,7 @@ router.post("/",
 // access admins API
 // address : users/admins
 router.get("/",
-    passport.authenticate('jwt', { session: false }),
+    passport.authenticate('accessToken', { session: false }),
     validate(requestQuerySchema,'query'),
     controller.accessList
 )
@@ -27,6 +27,7 @@ router.get("/",
 // address : users/admins/joinStatus
 router.patch("/joinStatus",
     //TODO: check the user is super admin
+    passport.authenticate('accessToken', { session: false }),
     validate(joinStatusSchema,'body'),
     controller.modifyStatus
 )
