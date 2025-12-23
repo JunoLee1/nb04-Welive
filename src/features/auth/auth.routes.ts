@@ -10,7 +10,7 @@ const service = new Service();
 const controller = new Controller(service);
 
 //로그인 API
-authRouter.post("/login",passport.authenticate('local', { session: false }), validate(loginSchema, "body"), controller.loginHandler);
+authRouter.post("/login", validate(loginSchema, "body"),passport.authenticate('local', { session: false }), controller.loginHandler );
 // 로그아웃 라우트
 authRouter.post("/logout", controller.logoutHandler); 
 // 토큰 갱신 라우트
