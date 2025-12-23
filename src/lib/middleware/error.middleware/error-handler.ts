@@ -7,7 +7,8 @@ export const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
     return res.status(400).json({ success: false, errors: (error as ZodError).issues });
   }
    if (error instanceof HttpError) { 
-        return res.status(error.status).json({ success: false, message: error.message });
+        res.status(error.status).send({ success: false, message: error.message });
+        return ;
    }
     const status = error.status || 500;
     const message = error.message || "INTERNAL SERVER ERROR"
