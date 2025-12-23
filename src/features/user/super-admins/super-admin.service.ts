@@ -31,7 +31,7 @@ export class Service {
             name,
             contact,
             username,
-            approvedAt:"",
+            approvedAt: null,
             joinStatus: "APPROVED",
             role: "SUPER_ADMIN",
             avatar: null

@@ -7,14 +7,13 @@ const main = async () => {
     },
     update: {},
     create: {
-      id: "1",
       username: "alice12",
       email: "Alice@test.com",
       password: "12345678",
       name: "Alice",
       contact: "01000000000",
       role: "SUPER_ADMIN",
-      approvedAt: "",
+      approvedAt: null,
     },
   });
   const Hana = await prisma.user.upsert({
@@ -23,7 +22,6 @@ const main = async () => {
     },
     update: {},
     create: {
-      id: "2",
       username: "hana12",
       email: "hana@test.com",
       password: "12345678",
@@ -31,11 +29,10 @@ const main = async () => {
       contact: "01000000000",
       role: "ADMIN",
       joinStatus:"APPROVED",
-      approvedAt: "",
+      approvedAt: null,
       adminOf: {
         create: {
           name: "sk view 아파트",
-          id: "12",
           address: "부산광역시 수영구 망미동",
           description: "수영동 sk view아파트 입니다",
           buildingNumberFrom: 1,
