@@ -5,7 +5,7 @@ import type {
 } from "./super-admin.dto.js";
 import { Repository } from "./super-admin.repository.js";
 import prisma from "../../../lib/prisma.js";
-
+import bcrypt from "bcrypt"
 export class Service {
   constructor(readonly repository: Repository) {}
 
@@ -24,10 +24,11 @@ export class Service {
     const userName = this.repository.findUniqueUsername(username);
     if(!userName)  throw new HttpError(400, "잘못된 요청 입니다.");
     console.log("✅ finished prunning");
+    const hashedPassword = await bcrypt.hash(password, 10)
     const DATA = await prisma.user.create({
         data:{
             email,
-            password,
+            password:hashedPassword,
             name,
             contact,
             username,
