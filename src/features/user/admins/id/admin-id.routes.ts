@@ -17,7 +17,7 @@ adminRouter.patch("/joinStatus",
 adminRouter.patch("/",
     //TODO: check the user super-admin
     //TODO: validate
-    controller.modifyAdminsInfo
+    controller.modifyAdminInfo
 )
 
 // delete admin account API
