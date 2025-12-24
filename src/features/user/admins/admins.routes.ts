@@ -6,12 +6,18 @@ import {
   requestBodySchema,
   requestQuerySchema,
   joinStatusSchema,
+  requestParamSchema,
 } from "./admins.validation.js";
 import passport from "../../../lib/passport/index.js";
 const controller = new Controller();
 const adminRouter = Router();
 
-adminRouter.use('/id', idRouter)
+adminRouter.use(
+  "/id",
+  validate(requestParamSchema, "params"),
+  passport.authenticate("accessToken", { session: false }),
+  idRouter
+);
 // create admin Api
 // address : users/admins
 adminRouter.post("/", validate(requestBodySchema, "body"), controller.register);
