@@ -141,13 +141,12 @@ export class Repository {
     });
     return newAdmin;
   };
-  /*
-  deleteAdmins = async () => {
-    await prisma.user.delete({
+  
+  deleteMany = async (joinStatus:StatusAction) => {
+    await prisma.user.deleteMany({
       where:{
-        
+        joinStatus: "REJECTED"
       }
     })
   }
-    */
 }
