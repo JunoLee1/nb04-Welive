@@ -115,10 +115,9 @@ export class Service {
       hasNext:true
     }
   };
-  //TODO: PATH check
-  /*
-  deleteAdmins = async (): Promise<void> => {
-    await this.repo.deleteAdmins();
+
+  deleteRejectedAdmins = async (joinStatus:StatusAction): Promise<void> => {
+    if(joinStatus !== "REJECTED") throw new HttpError(400, "승인된 유저는 삭제 할 수 없습니다.")
+    return await this.repo.deleteMany(joinStatus);
   };
-  */
 }
