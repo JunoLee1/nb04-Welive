@@ -50,7 +50,7 @@ export class Controller {
     });
   };
 
-  modifyStatus: RequestHandler = async (req, res, next) => {
+  modifyStatus: RequestHandler = async (req, res, next) => { //TODO: test
     const { joinStatus } = req.body;
     const user = req.user;
     if (!user) throw new HttpError(401, "인증되지 않은 유저 입니다");
@@ -61,6 +61,7 @@ export class Controller {
   };
 
   deleteRejectedAdmins: RequestHandler = async (req, res, next) => {// 거절된 관리자 계정 일괄 삭제
+    //TODO: test
     const user = req.user;
     if (!user) throw new HttpError(401, "인증되지 않은 유저 입니다");
     if (user.role !== "SUPER_ADMIN")
