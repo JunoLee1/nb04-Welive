@@ -56,7 +56,7 @@ export class Controller {
     if (!user) throw new HttpError(401, "인증되지 않은 유저 입니다");
     if (user.role !== "SUPER_ADMIN")
       throw new HttpError(403, "권한이 없습니다");
-    //await service.modifyStatus(joinStatus);
+    await service.modifyStatus(joinStatus);
     return res.status(204).json();
   };
 
