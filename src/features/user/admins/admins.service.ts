@@ -4,6 +4,7 @@ import type {
   AdminsCreateResponseDTO,
   ReqParams,
   AccessListOfAdminsResDTO,
+  StatusAction,
 } from "./admin.dto.js";
 import { Repository } from "./admins.repository.js";
 export class Service {
@@ -81,13 +82,41 @@ export class Service {
       hasNext: true,
     };
   };
-// TODO: 리턴 타입 확인 
-/*
-  modifyStatus = async (joinStatus: string): Promise<> => {
-    return;
+
+  modifyStatus = async (joinStatus: StatusAction): Promise<AccessListOfAdminsResDTO> => {
+    const modifiedStatusAdmins = await this.repo.updateMany(joinStatus)
+    const admins = await this.repo.findManyByStatus(joinStatus)
+    const data = admins.map((u)=>({
+      id: u.id,
+      contact: u.contact,
+      name: u.name,
+      role: "ADMIN",
+      avatar: u.avatar,
+      isActive: u.isActive,
+      approvedAt: null,
+      adminOf: u.adminOf
+        ? {
+            id: u.adminOf.id,
+            name: u.adminOf.name,
+            createdAt: u.adminOf.createdAt,
+            updatedAt: u.adminOf.updatedAt,
+            address: u.adminOf.address,
+            description: u.adminOf.description,
+            officeNumber: u.adminOf.officeNumber,
+            buildingNumberFrom: u.adminOf.buildingNumberFrom,
+            buildingNumberTo: u.adminOf.buildingNumberTo,
+            floorCountPerBuilding: u.adminOf.floorCountPerBuilding,
+            unitCountPerFloor: u.adminOf?.unitCountPerFloor,
+            adminId: u.adminOf?.adminId,
+          }:null
+  }))
+    return{
+      data,
+      hasNext:true
+    }
   };
   //TODO: PATH check
-  
+  /*
   deleteAdmins = async (): Promise<void> => {
     await this.repo.deleteAdmins();
   };
