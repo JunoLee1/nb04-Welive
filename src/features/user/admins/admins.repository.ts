@@ -1,5 +1,5 @@
 import prisma from "../../../lib/prisma.js";
-import type { RequestBody } from "./admin.dto.js";
+import type { RequestBody,StatusAction } from "./admin.dto.js";
 import { JoinStatus } from "../../../../prisma/generated/client.js";
 
 type Param = {
@@ -9,9 +9,34 @@ type Param = {
   status: JoinStatus | null;
 };
 
+type StatusResult = //TODO: 좀더 공부 해보기
+  | { action: "APPROVED"; from: "PENDING"; to: "APPROVED" }
+  | { action: "REJECTED"; from: "PENDING"; to: "REJECTED" };
+
 export class Repository {
   constructor() {}
 
+  findManyByStatus = async (joinStatus:StatusAction) => { //TODO: 제너릭으로 ?
+    const result = await prisma.user.findMany({
+      where:{
+        joinStatus:JoinStatus.PENDING
+      },
+      include:{
+        adminOf:true
+      }
+    })
+    return result
+  }
+  updateMany = async (joinStatus:StatusAction) => {//TODO: updateMany 좀더 깊게 알아보기
+    const toStatus = 
+      joinStatus === "APPROVED" ? JoinStatus.APPROVED : JoinStatus.REJECTED
+    
+    const result = await prisma.user.updateMany({
+      where:{joinStatus: JoinStatus.PENDING},
+      data:{joinStatus:toStatus}
+    })
+    return result
+  };
   findMany = async ({ whereCondition, skip, limitNumber, status }: Param) => {
     const result = await prisma.user.findMany({
       where: {
@@ -50,7 +75,7 @@ export class Repository {
     return result;
   };
 
-  findById = async (id: string) => {
+  findById = async (id: string) => { //TODO: 제너릭으로 할수 있지 않을까 고민 해보기
     const userId = await prisma.user.findUnique({
       where: {
         id,
@@ -58,13 +83,13 @@ export class Repository {
     });
     return userId;
   };
-  findByUsername = async (username: string) => {
+  findByUsername = async (username: string) => {//TODO: 제너릭으로 할수 있지 않을까 고민 해보기
     const userName = await prisma.user.findUnique({
       where: { username },
     });
     return userName;
   };
-  findByEmail = async (email: string) => {
+  findByEmail = async (email: string) => { //TODO: 제너릭으로 할수 있지 않을까 고민 해보기
     const userEmail = await prisma.user.findUnique({
       where: {
         email,
