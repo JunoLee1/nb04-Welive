@@ -79,14 +79,17 @@ export class Service {
     }));
     return {
       data,
+      totalCount: data.length,
       hasNext: true,
     };
   };
 
-  modifyStatus = async (joinStatus: StatusAction): Promise<AccessListOfAdminsResDTO> => {
-    const modifiedStatusAdmins = await this.repo.updateMany(joinStatus)
-    const admins = await this.repo.findManyByStatus(joinStatus)
-    const data = admins.map((u)=>({
+  modifyStatus = async (
+    joinStatus: StatusAction
+  ): Promise<AccessListOfAdminsResDTO> => {
+    const modifiedStatusAdmins = await this.repo.updateMany(joinStatus);
+    const admins = await this.repo.findManyByStatus(joinStatus);
+    const data = admins.map((u) => ({
       id: u.id,
       contact: u.contact,
       name: u.name,
@@ -108,16 +111,19 @@ export class Service {
             floorCountPerBuilding: u.adminOf.floorCountPerBuilding,
             unitCountPerFloor: u.adminOf?.unitCountPerFloor,
             adminId: u.adminOf?.adminId,
-          }:null
-  }))
-    return{
+          }
+        : null,
+    }));
+    return {
       data,
-      hasNext:true
-    }
+      totalCount: data.length,
+      hasNext: true,
+    };
   };
 
-  deleteRejectedAdmins = async (joinStatus:StatusAction): Promise<void> => {
-    if(joinStatus !== "REJECTED") throw new HttpError(400, "승인된 유저는 삭제 할 수 없습니다.")
+  deleteRejectedAdmins = async (joinStatus: StatusAction): Promise<void> => {
+    if (joinStatus !== "REJECTED")
+      throw new HttpError(400, "승인된 유저는 삭제 할 수 없습니다.");
     return await this.repo.deleteMany(joinStatus);
   };
 }
