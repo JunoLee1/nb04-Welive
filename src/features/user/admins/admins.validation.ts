@@ -20,9 +20,14 @@ export const joinStatusSchema = z.object({
     joinStatus: z.string(),
 });
 
+export const requestParamSchema = z.object({
+    id: z.string()
+})
 // ------ infer the schema
 export type ReqQuerySchema = z.infer<typeof requestQuerySchema>;
 
 export type BodySchema = z.infer<typeof requestBodySchema>;
 
 export type JoinStatusSchema = z.infer<typeof joinStatusSchema>;
+
+export type ParamSchema = z.infer<typeof requestParamSchema >
