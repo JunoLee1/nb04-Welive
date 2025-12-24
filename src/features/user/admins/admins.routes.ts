@@ -18,8 +18,8 @@ router.post("/",
 // access admins API
 // address : users/admins
 router.get("/",
-    passport.authenticate('accessToken', { session: false }),
     validate(requestQuerySchema,'query'),
+    passport.authenticate('accessToken', { session: false }),
     controller.accessList
 )
 
@@ -27,8 +27,8 @@ router.get("/",
 // address : users/admins/joinStatus
 router.patch("/joinStatus",
     //TODO: check the user is super admin
-    passport.authenticate('accessToken', { session: false }),
     validate(joinStatusSchema,'body'),
+    passport.authenticate('accessToken', { session: false }),
     controller.modifyStatus
 )
 
