@@ -5,12 +5,14 @@ export const requestBodySchema = z.object({
     email: z.email(),
     contact:z.string(),
     password:z.string(),
+    name:z.string(),
+    avatar:z.string().optional()
 });
 
 export const requestQuerySchema = z.object({
-    page: z.number(),
-    limit: z.number(),
-    searchKeyword: z.string(),
+    page: z.coerce.number(),
+    limit: z.coerce.number(),
+    searchKeyword: z.string().optional(),
     joinStatus: z.string(),
 });
 
