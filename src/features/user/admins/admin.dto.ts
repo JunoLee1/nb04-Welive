@@ -29,7 +29,7 @@ export interface RequestBody {
     avatar: string | null,
     contact: string,
 }
-
+export type StatusAction = "APPROVED" | "REJECTED"
 //------------response DTO
 export interface AdminsCreateResponseDTO {
     id: string,
@@ -47,6 +47,7 @@ export interface AccessAdminItemDTO {
     contact: string;
     name: string;
     role: string;
+    joinStatus: JoinStatus,
     avatar: string | null;
     isActive: boolean;
     approvedAt: Date | null;
