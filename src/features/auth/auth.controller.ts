@@ -20,17 +20,18 @@ export class Controller {
     // generate token
     const { accessToken, refreshToken } = generateToken(user.id);
     setTokenCookies({ res, accessToken, refreshToken });
+    console.log("accessToken: ", accessToken); //Do not remove it till test
     return res.status(200).json();
   };
 
   logoutHandler: RequestHandler = async (req, res, next) => {
     // logout success ? delete cookie, return 204 status
     clearTokenCookies(res);
-    return res.status(204);
+    return res.status(204).json();
   };
 
   refreshTokenHandler: RequestHandler = async (req, res, next) => {
-    // renew token  sucucess, set token to cookie, return 204 status 
+    // renew token  sucucess, set token to cookie, return 204 status
     const refreshToken = req.cookies.refreshToken;
     if (!refreshToken) {
       throw new HttpError(401, "권한과 관련된 오류입니다.");
