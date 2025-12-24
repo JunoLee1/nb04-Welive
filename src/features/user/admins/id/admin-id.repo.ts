@@ -29,9 +29,10 @@ export class Repository {
         })
         return result;
     }
-    delete = async(id: string) => {
+    delete = async(field:findUniqueKey,value: string) => {
+        const where = buildWhereClause(field, value)
         await prisma.user.delete({
-            where:{id},
+            where,
         })
         return ;
     }
