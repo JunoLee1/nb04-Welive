@@ -1,5 +1,5 @@
 type JoinStatus ="PENDING" | "APPROVED"| "REJECTED";
-type Role = "SUPER_ADMIN" | "ADMIN"| "USER";
+export type Role = "SUPER_ADMIN" | "ADMIN"| "USER";
 export interface SuperAdminCreateReqDTO {
     email:string,
     password: string,
