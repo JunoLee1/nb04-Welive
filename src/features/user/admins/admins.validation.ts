@@ -30,4 +30,4 @@ export type BodySchema = z.infer<typeof requestBodySchema>;
 
 export type JoinStatusSchema = z.infer<typeof joinStatusSchema>;
 
-export type ParamSchema = z.infer<typeof requestParamSchema >
+export type ParamSchema = z.infer<typeof requestParamSchema >;
