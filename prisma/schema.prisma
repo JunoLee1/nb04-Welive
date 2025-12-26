@@ -65,6 +65,9 @@ model Resident { // 입주민 거주지 정보
   name        String
   building    Int
   unit        Int
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime       @updatedAt
+
   isHouseholder Boolean @default(false)
   apartmentId String
   apartment   Apartment @relation(fields: [apartmentId], references: [id])

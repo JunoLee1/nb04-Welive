@@ -115,6 +115,8 @@ export const ResidentScalarFieldEnum = {
   name: 'name',
   building: 'building',
   unit: 'unit',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   isHouseholder: 'isHouseholder',
   apartmentId: 'apartmentId',
   userId: 'userId'
