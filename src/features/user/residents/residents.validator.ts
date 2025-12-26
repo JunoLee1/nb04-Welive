@@ -19,6 +19,8 @@ export const reqParamQuerySchema = z.object({
   limit: z.coerce.number(),
   unit: z.coerce.number(),
   building: z.coerce.number(),
+  searchKeyword: z.string(),
+  joinStatus: z.string(),
 });
 
 export type ResidentCreateSchema = z.infer<typeof residentCreateSchema>;
