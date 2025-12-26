@@ -60,7 +60,7 @@ model User {
   resident  Resident?
 }
 
-model Resident { // 입주민
+model Resident { // 입주민 거주지 정보
   id          String    @unique@id @default(uuid())
   name        String
   building    Int
