@@ -23,5 +23,15 @@ export const reqParamQuerySchema = z.object({
   joinStatus: z.string(),
 });
 
+export const joinStatusSchema = z.object({
+  joinStatus: z.string(),
+});
+
+export const paramSchema = z.object({
+  id: z.string(),
+});
+
 export type ResidentCreateSchema = z.infer<typeof residentCreateSchema>;
 export type ReqParamQuerySchema = z.infer<typeof reqParamQuerySchema>;
+export type JoinStatusSchema = z.infer<typeof joinStatusSchema>;
+export type ParamSchema = z.infer<typeof paramSchema>;
