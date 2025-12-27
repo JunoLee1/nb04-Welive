@@ -36,7 +36,7 @@ export class Controller {
 
     if (!userId) throw new HttpError(401,"unauthorized") 
     await service.deleteAdmin( userId )
-    return res.status(204).json
+    return res.status(204).json();
 
   };
 }
