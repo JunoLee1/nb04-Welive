@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  output   = "./generated"
 }
 
 datasource db {
@@ -15,50 +15,65 @@ datasource db {
 
 enum Role {
   ADMIN
-  SUPERADMIN
+  SUPER_ADMIN
+  USER
 }
-enum joinStatus {
+enum JoinStatus {
   PENDING
   APPROVED
   REJECTED
 }
-
-model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  name      String
-  username  String
-  password  String
-  role      Role
-  hasNext   Boolean  @default(false)
-  joinStatus joinStatus @default(PENDING)
-  isActive  Boolean  @default(true)
-  avatar    String
-  adminOf   Resident[]
-
-}
-
-model Resident {
-  id          String    @id @default(uuid())
-  
-  apartmentId String
-  apartment   Apartment @relation(fields: [apartmentId], references: [id])
-  adminId     String 
-  admin       User     @relation(fields: [adminId], references: [id])
-
-  @@unique([apartmentId, adminId])
-}
-model Apartment {
-  id                      String   @id @default(uuid())
+model Apartment { // 아파트
+  id                      String   @unique@id @default(uuid())
   name                    String
   address                 String
   description             String
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime       @updatedAt
   buildingNumberFrom      Int
   buildingNumberTo        Int
   floorCountPerBuilding   Int
   unitCountPerFloor       Int
-
-
+  officeNumber String
   residents Resident[]  // 👈 주민들
+  adminId     String    @unique
+  admin       User      @relation(fields: [adminId], references: [id])
 }
 
+//---------------------------------------------------
+model User {
+  id        String   @unique @id @default(uuid())
+  email     String   @unique
+  name      String
+  username  String    @unique
+  contact   String    @unique
+  password  String
+  role      Role
+  hasNext   Boolean  @default(false)
+  joinStatus JoinStatus @default(PENDING)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime       @updatedAt
+  approvedAt DateTime? 
+  isActive  Boolean  @default(true)
+  avatar    String?
+  adminOf   Apartment?
+  resident  Resident?
+}
+
+model Resident { // 입주민 거주지 정보
+  id          String    @unique@id @default(uuid())
+  name        String
+  building    Int
+  unit        Int
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime       @updatedAt
+
+  isHouseholder Boolean @default(false)
+  apartmentId String
+  apartment   Apartment @relation(fields: [apartmentId], references: [id])
+  
+  userId      String    @unique
+  user        User      @relation(fields: [userId], references: [id])
+  @@unique([userId, apartmentId]) // 한 사용자는 하나의 아파트에만 입주민으로 등록될 수 있음
+  
+}
