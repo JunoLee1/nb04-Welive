@@ -51,7 +51,7 @@ const main = async () => {
       },
     },
   });
-  /*
+  
   const Chloe = await prisma.user.upsert({
     where: {
       email: "chloe@test.com",
@@ -65,16 +65,18 @@ const main = async () => {
       name: "Chloe Lee",
       contact: "01000000000",
       role: "USER",
-      approvedAt: "",
+      approvedAt: null,
       joinStatus:"APPROVED",
-      adminOf:{
+      resident:{
         create:{
-
+          isHouseholder:true,
+          name:"자이아파트",
+          unit:1,
+          building:1
         }
       }
     },
   });
-  */
 };
 main()
   .catch((e) => {
