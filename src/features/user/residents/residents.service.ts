@@ -4,6 +4,8 @@ import type {
 } from "./residents.validator.js";
 import { Repository } from "./residents.repo.js";
 import type { ResidentUserFindAllPageResponse } from "./residents.dto.js";
+import type { StatusAction } from "../admins/admin.dto.js";
+import { HttpError } from "../../../lib/middleware/error.middleware/httpError.js";
 export class Service {
   constructor(readonly repo: Repository) {}
   createResident = async (input: ResidentCreateSchema) => {
@@ -68,7 +70,17 @@ export class Service {
     };
     return result;
   };
-  modifyResidentsStatus = async () => {};
-  modifyResidentStatus = async () => {};
-  delete = async () => {};
+  modifyResidentsStatus = async (joinStatus: StatusAction)=> {
+    // find all user that join status is Pending.
+    // request value => approved? status => approved all | status => reject all
+    const result = await this.repo.updateMany(joinStatus);
+    return result;
+  };
+  modifyResidentStatus = async (id: string, joinStatus: StatusAction)=> {
+    const result = await this.repo.update(id,joinStatus)
+    return result
+  };
+  deleteMany = async (joinStatus: "REJECTED") => {
+    await this.repo.deleteMany( joinStatus )
+  };
 }
