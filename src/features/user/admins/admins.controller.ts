@@ -61,13 +61,12 @@ export class Controller {
   };
 
   deleteRejectedAdmins: RequestHandler = async (req, res, next) => {// 거절된 관리자 계정 일괄 삭제
-    //TODO: test
     const user = req.user;
     if (!user) throw new HttpError(401, "인증되지 않은 유저 입니다");
     if (user.role !== "SUPER_ADMIN")
       throw new HttpError(403, "권한이 없습니다");
     const{ joinStatus } = req.body
     await service.deleteRejectedAdmins(joinStatus);
-    return res.status(204).json()
+    return res.status(204).json()//TODO: test
   };
 }
