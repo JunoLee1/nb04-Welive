@@ -10,6 +10,7 @@ idRouter.patch(
   "/joinStatus",
   //TODO: check the user super-admin
   //TODO: validate
+  //TODO:TEST
   controller.modifyJoinStatus
 );
 
@@ -19,11 +20,14 @@ idRouter.patch(
   "/",
   //TODO: check the user super-admin
   //TODO: validate
+    //TODO:TEST
   controller.modifyUserInfo
 );
 
 // delete admin account API
 // address : users/admins/{id}
+  //TODO:TEST
 idRouter.delete("/", controller.deleteAdmin);
+  //TODO:TEST
 
 export default idRouter;

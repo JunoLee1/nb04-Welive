@@ -13,7 +13,7 @@ export const requestQuerySchema = z.object({
     page: z.coerce.number(),
     limit: z.coerce.number(),
     searchKeyword: z.string().optional(),
-    joinStatus: z.string(),
+    joinStatus: z.string().default("PENDING"),
 });
 
 export const joinStatusSchema = z.object({
