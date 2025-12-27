@@ -1,7 +1,7 @@
 import Router from "express";
 import { Controller } from "./residents.controller.js"
 import { validate } from "../../../lib/middleware/validator.js";
-import { residentCreateSchema,reqParamQuerySchema } from "./residents.validator.js";
+import { residentCreateSchema,reqParamQuerySchema, joinStatusSchema, paramSchema} from "./residents.validator.js";
 const uResidentsRouter = Router();
 import passport from "../../../lib/passport/index.js";
 
@@ -20,14 +20,15 @@ uResidentsRouter.get("/",
 );
 
 uResidentsRouter.patch("/joinStatus",
-     //TODO: validator
+    validate(joinStatusSchema, "body"),
     passport.authenticate("accessToken", {session: false}),
     //TODO: Test
     controller.modifyResidentsStatus
 );
 
 uResidentsRouter.patch("/:id/joinStatus",
-    //TODO: validator
+    validate(paramSchema, "params"),
+    validate(joinStatusSchema, "body"),
     passport.authenticate("accessToken", {session: false}),
     //TODO: Test
     controller.modifyResidentStatus
