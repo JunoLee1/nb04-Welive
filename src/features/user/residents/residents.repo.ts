@@ -8,9 +8,9 @@ import type {
   ResidentCreateSchema,
   ReqParamQuerySchema,
 } from "./residents.validator.js";
+import { JoinStatus } from "../../../../prisma/generated/client.js";
 
-type FindKey = "id" | "username" | "contact" | "email";
-type StatusAction = "APPROVED" | "REJECTED";
+type FindKey = "id" | "username" | "contact" | "email" ;
 const buildWhereClause = (field: FindKey, value: string) => {
   //통합
   switch (field) {
@@ -29,6 +29,7 @@ type Query = {
   limit: number;
   keyword: object;
 };
+export type StatusAction = "APPROVED" | "REJECTED"
 
 export class Repository {
   constructor() {}
@@ -100,7 +101,19 @@ export class Repository {
     });
     return residents;
   };
-  modifyResidentStatus = async (id: string, joinStatus: StatusAction) => {};
-  modifyResidentsStatus = async (joinStatus: StatusAction) => {};
-  delete = async (field: FindKey, value: string) => {};
+  updateMany = async (joinStatus: StatusAction) => {
+    const toStatus =
+      joinStatus === "APPROVED" ? JoinStatus.APPROVED : JoinStatus.REJECTED;
+
+    const result = await prisma.user.updateMany({
+      where: { joinStatus: JoinStatus.PENDING },
+      data: { joinStatus: toStatus },
+    });
+    return result;
+  };
+
+  update = async ( id: string, joinStatus:StatusAction ) => {
+
+  };
+  deleteMany = async (joinStatus:"REJECTED") => {};
 }
