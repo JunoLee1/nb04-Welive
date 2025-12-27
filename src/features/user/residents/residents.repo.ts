@@ -113,7 +113,21 @@ export class Repository {
   };
 
   update = async ( id: string, joinStatus:StatusAction ) => {
+    const residentId = await this.findOne("id",id);
+    const toStatus = 
+      joinStatus === "APPROVED" ? JoinStatus.APPROVED : JoinStatus.REJECTED;
 
+    if (!residentId) throw new HttpError(401, "해당유저의 정보가 없습니다");
+    const result = await prisma.user.update({
+      where:{
+        ...residentId,
+        joinStatus:JoinStatus.PENDING
+      },
+      data:{
+        joinStatus :toStatus
+      }
+    })
+    return result
   };
   deleteMany = async (joinStatus:"REJECTED") => {};
 }
