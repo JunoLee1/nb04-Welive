@@ -55,6 +55,8 @@ export interface AccessAdminItemDTO {
 }
 export interface AccessListOfAdminsResDTO {
     data: AdminsCreateResponseDTO[];
+    page?: number,
+    limit?: number,
     totalCount: number,
     hasNext:boolean;
 }
