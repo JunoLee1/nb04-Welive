@@ -79,12 +79,14 @@ export class Service {
     }));
     return {
       data,
+      page:pageNumber,
+      limit:limitNumber,
       totalCount: data.length,
       hasNext: true,
     };
   };
 
-  modifyStatus = async (
+  modifyStatus = async (// TODO: fix it
     joinStatus: StatusAction
   ): Promise<AccessListOfAdminsResDTO> => {
     const modifiedStatusAdmins = await this.repo.updateMany(joinStatus);
@@ -117,7 +119,7 @@ export class Service {
     return {
       data,
       totalCount: data.length,
-      hasNext: true,
+      hasNext: true, //TODO : test 
     };
   };
 
