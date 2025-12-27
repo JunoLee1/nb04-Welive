@@ -17,6 +17,7 @@ adminRouter.use(
   validate(requestParamSchema, "params"),
   passport.authenticate("accessToken", { session: false }),
   idRouter
+  //TODO : test
 );
 // create admin Api
 // address : users/admins
@@ -29,6 +30,7 @@ adminRouter.get(
   validate(requestQuerySchema, "query"),
   passport.authenticate("accessToken", { session: false }),
   controller.accessList
+  //TODO : test
 );
 
 // patch the admins Join status API
@@ -38,9 +40,10 @@ adminRouter.patch(
   validate(joinStatusSchema, "body"),
   passport.authenticate("accessToken", { session: false }),
   controller.modifyStatus
+  //TODO : test
 );
 
 // delete rejected Admin user
 // address : users/admins/
-adminRouter.delete("/", controller.deleteRejectedAdmins);
+adminRouter.delete("/", controller.deleteRejectedAdmins);//TODO : test
 export default adminRouter;
