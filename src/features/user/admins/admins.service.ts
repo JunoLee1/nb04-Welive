@@ -7,15 +7,15 @@ import type {
   StatusAction,
 } from "./admin.dto.js";
 import { Repository } from "./admins.repository.js";
+import  bcrypt  from "bcrypt";
 export class Service {
   constructor(readonly repo: Repository) {}
 
   register = async (input: RequestBody): Promise<AdminsCreateResponseDTO> => {
-    const { email, name, username, password, avatar } = input;
-    console.log("⚓️receivded:", email, name, username, password, avatar);
+    const { email, name, username, password, avatar, contact } = input;
     const duplicatedEmail = await this.repo.findByEmail(email);
     if (duplicatedEmail)
-      throw new HttpError(400, "해당 이메일은 이미 존재하는 이메일 입니다."); //TODO:fix error message
+      throw new HttpError(400, "잘못된 요청(필수사항 누락 또는 잘못된 입력값)입니다."); //TODO:fix error message
     const duplicatedUsername = await this.repo.findByUsername(username);
     if (duplicatedUsername)
       throw new HttpError(
@@ -23,11 +23,11 @@ export class Service {
         "해당 이메일은 이미 존재하는 유저 아이디 입니다."
       );
 
-    const newAdmin = this.repo.createAdmin(input);
+    const hashedPassword = await bcrypt.hash(password,10)
+    const newAdmin = this.repo.createAdmin({ email, name, username, password: hashedPassword, avatar, contact});
     const result = {
       ...newAdmin,
     };
-    console.log("✌️result: ", result);
     return result;
   };
   accessList = async (input: ReqParams): Promise<AccessListOfAdminsResDTO> => {
