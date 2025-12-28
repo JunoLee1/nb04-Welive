@@ -1,5 +1,7 @@
 import { Router } from "express";
 import { Controller } from "./admin-id.controller.js";
+import { validate } from "../../../../lib/middleware/validator.js";
+import { joinStatusSchema,requestBodySchema } from "../admins.validation.js";
 
 const idRouter = Router();
 const controller = new Controller();
@@ -8,9 +10,9 @@ const controller = new Controller();
 // address : users/admins/{id}/joinStatus
 idRouter.patch(
   "/joinStatus",
-  //TODO: check the user super-admin
-  //TODO: validate
   //TODO:TEST
+
+  validate(joinStatusSchema,"body"),
   controller.modifyJoinStatus
 );
 
@@ -18,9 +20,8 @@ idRouter.patch(
 // address : users/admins/{id}
 idRouter.patch(
   "/",
-  //TODO: check the user super-admin
-  //TODO: validate
-    //TODO:TEST
+  //TODO:TEST
+  validate(requestBodySchema,"body"),
   controller.modifyUserInfo
 );
 
