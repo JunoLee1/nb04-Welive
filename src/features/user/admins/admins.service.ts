@@ -24,7 +24,7 @@ export class Service {
       );
 
     const hashedPassword = await bcrypt.hash(password,10)
-    const newAdmin = this.repo.createAdmin({ email, name, username, password: hashedPassword, avatar, contact});
+    const newAdmin = await this.repo.createAdmin({ email, name, username, password: hashedPassword, avatar, contact});
     const result = {
       ...newAdmin,
     };
