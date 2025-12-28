@@ -41,6 +41,6 @@ export class Controller {
     const { accessToken, refreshToken: newRefreshToken }: TokenType =
       generateToken(userId);
     setTokenCookies({ res, accessToken, refreshToken: newRefreshToken });
-    return res.status(204);
+    return res.status(204).json();
   };
 }
