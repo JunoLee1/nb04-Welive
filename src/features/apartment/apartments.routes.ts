@@ -1,6 +1,6 @@
 import Router from "express";
 import { Controller } from "./apartments.controller.js";
-import { queryParamSchema, paramSchema } from "./apartments.validataion.js";
+import { queryParamSchema, paramSchema } from "./apartments.validation.js";
 
 const controller = new Controller();
 const aptRouter = Router();

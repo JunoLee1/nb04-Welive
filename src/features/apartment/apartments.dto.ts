@@ -19,7 +19,7 @@ export interface RequestPathParam {
 // Response DTO
 //====================================
 
-export interface AparmentDto {
+export interface ApartmentDto {
     id : string,
     name : string, // apt name
     address: string,
@@ -30,7 +30,7 @@ export interface AparmentDto {
 }
 
 export interface GetApartmentsResponseDto {
-    data: AparmentDto,
+    data: ApartmentDto [],
     totalCount: number,
     hasNext: boolean,
     page: number;
