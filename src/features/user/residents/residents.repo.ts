@@ -117,10 +117,10 @@ export class Repository {
     const toStatus = 
       joinStatus === "APPROVED" ? JoinStatus.APPROVED : JoinStatus.REJECTED;
 
-    if (!residentId) throw new HttpError(401, "해당유저의 정보가 없습니다");
+    if (!residentId) throw new HttpError(404, "해당유저의 정보가 없습니다");
     const result = await prisma.user.update({
       where:{
-        ...residentId,
+        id:id,
         joinStatus:JoinStatus.PENDING
       },
       data:{
