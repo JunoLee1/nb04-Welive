@@ -13,7 +13,7 @@ const lowerToUpper = z
 export const queryParamSchema = z.object({
     page: stringToNumber,
     limit: stringToNumber,
-    searchKeyword:lowerToUpper,
+    searchKeyword:lowerToUpper.optional(),
 })
 
 export const paramSchema = z.object({
