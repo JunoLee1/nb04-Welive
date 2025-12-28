@@ -13,9 +13,8 @@ export const validate = <T extends z.ZodTypeAny>(schema:T, target:Target):Reques
             return res.status(400).json({
                 message: '잘못된 요청 입니다.',
                 error: result.error.issues
-            })
+            });
         }
-    }
-    
-}
-
+        next();
+    };
+};
