@@ -5,7 +5,7 @@ import type {
   ReqParamQuerySchema,
   JoinStatusSchema,
   ParamSchema
-} from "./residents.validator.ts";
+} from "./residents.validator.js";
 import { Repository } from "./residents.repo.js";
 import { HttpError } from "../../../lib/middleware/error.middleware/httpError.js";
 
@@ -60,6 +60,7 @@ export class Controller {
   };
 
   delete: RequestHandler = async (req, res, next) => {
-    await service.deleteMany;
+    const { joinStatus } = req.body;
+    await service.deleteMany(joinStatus);
   };
 }
