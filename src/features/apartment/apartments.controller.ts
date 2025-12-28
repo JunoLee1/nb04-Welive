@@ -14,7 +14,7 @@ export class Controller {
         name: searchKeyword,
         address: searchKeyword,
         contact: searchKeyword,
-        descrption: searchKeyword,
+        description: searchKeyword,
         officeNumber: searchKeyword,
       };
     }

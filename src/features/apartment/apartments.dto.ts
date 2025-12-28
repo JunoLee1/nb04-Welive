@@ -3,7 +3,7 @@
 //====================================
 
 export type SearchKeyword = {
-  [key in "address" | "descrption" | "contact" | "name" | "officeNumber"]: string;
+  [key in "address" | "description" | "contact" | "name" | "officeNumber"]: string;
 };
 export interface RequestQuery {
   page: number;
