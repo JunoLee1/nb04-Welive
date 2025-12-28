@@ -34,8 +34,8 @@ export class Controller {
     console.log(user.role);
     console.log("📧 connect to the service");
 
-    const pageNumber = Number(page) ?? 1;
-    const limitNumber = Number(limit) ?? 10;
+    const pageNumber = Number(page) ||  1;
+    const limitNumber = Number(limit) || 10;
     const status = (joinStatus ?? "PENDING") as JoinStatus;
     const keyword = searchKeyword as string;
     const result = await service.accessList({
