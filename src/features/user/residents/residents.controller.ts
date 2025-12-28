@@ -62,5 +62,6 @@ export class Controller {
   delete: RequestHandler = async (req, res, next) => {
     const { joinStatus } = req.body;
     await service.deleteMany(joinStatus);
+    return res.status(204).json();
   };
 }
