@@ -17,8 +17,8 @@ export class Service {
     query: ReqParamQuerySchema
   ): Promise<ResidentUserFindAllPageResponse> => {
     const { page, limit, searchKeyword, joinStatus, building, unit } = query;
-    const pageNumber = Number(page) | 1;
-    const limitNumber = Number(limit) | 11;
+    const pageNumber = Number(page) || 1;
+    const limitNumber = Number(limit) || 10;
     const keyword = searchKeyword as string;
     const whereCondition = keyword
       ? {
