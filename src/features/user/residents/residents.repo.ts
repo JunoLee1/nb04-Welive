@@ -9,7 +9,7 @@ import type {
   ReqParamQuerySchema,
 } from "./residents.validator.js";
 import { JoinStatus } from "../../../../prisma/generated/client.js";
-
+import bcrypt from "bcrypt"
 type FindKey = "id" | "username" | "contact" | "email" ;
 const buildWhereClause = (field: FindKey, value: string) => {
   //통합
@@ -41,6 +41,7 @@ export class Repository {
     const duplicatedContact = await this.findOne("contact", contact);
     const duplicatedUsername = await this.findOne("username", username);
 
+    const hashedPassword = await bcrypt.hash(password, 10)
     if (dulplicatedEmail)
       throw new HttpError(400, "해당 이메일은 이미 존재 합니다");
     if (duplicatedContact)
@@ -54,7 +55,7 @@ export class Repository {
         role: "USER",
         name,
         contact,
-        password,
+        password: hashedPassword,
         joinStatus: "PENDING",
       },
       select: {
@@ -63,7 +64,7 @@ export class Repository {
         role: true,
         name: true,
         contact: true,
-        password: true,
+        password: false,
         joinStatus: true,
         isActive: true,
         createdAt: true,
