@@ -7,7 +7,7 @@ import type {
   StatusAction,
 } from "./admin.dto.js";
 import { Repository } from "./admins.repository.js";
-import  bcrypt  from "bcrypt";
+import bcrypt from "bcrypt";
 export class Service {
   constructor(readonly repo: Repository) {}
 
@@ -15,15 +15,26 @@ export class Service {
     const { email, name, username, password, avatar, contact } = input;
     const duplicatedEmail = await this.repo.findByEmail(email);
     if (duplicatedEmail)
-      throw new HttpError(400);
+      throw new HttpError(
+        400,
+        "	잘못된 요청(필수사항 누락 또는 잘못된 입력값)입니다."
+      );
     const duplicatedUsername = await this.repo.findByUsername(username);
     if (duplicatedUsername)
       throw new HttpError(
-        400
+        400,
+        "	잘못된 요청(필수사항 누락 또는 잘못된 입력값)입니다."
       );
 
-    const hashedPassword = await bcrypt.hash(password,10)
-    const newAdmin = await this.repo.createAdmin({ email, name, username, password: hashedPassword, avatar, contact});
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newAdmin = await this.repo.createAdmin({
+      email,
+      name,
+      username,
+      password: hashedPassword,
+      avatar,
+      contact,
+    });
     const result = {
       ...newAdmin,
     };
@@ -78,14 +89,15 @@ export class Service {
     }));
     return {
       data,
-      page:pageNumber,
-      limit:limitNumber,
+      page: pageNumber,
+      limit: limitNumber,
       totalCount: data.length,
       hasNext: true,
     };
   };
 
-  modifyStatus = async (// TODO: fix it
+  modifyStatus = async (
+    // TODO: fix it
     joinStatus: StatusAction
   ): Promise<AccessListOfAdminsResDTO> => {
     const modifiedStatusAdmins = await this.repo.updateMany(joinStatus);
@@ -118,13 +130,16 @@ export class Service {
     return {
       data,
       totalCount: data.length,
-      hasNext: true, //TODO : test 
+      hasNext: true, //TODO : test
     };
   };
 
   deleteRejectedAdmins = async (joinStatus: StatusAction): Promise<void> => {
     if (joinStatus !== "REJECTED")
-      throw new HttpError(400);
+      throw new HttpError(
+        400,
+        "잘못된 요청(필수사항 누락 또는 잘못된 입력값)입니다."
+      );
     return await this.repo.deleteMany(joinStatus);
   };
 }
