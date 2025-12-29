@@ -1,11 +1,8 @@
-export class HttpError extends Error {
+export class HttpError {
     status: number;
-    message: string;
-  constructor(status: number, message: string) {
+  constructor(status: number) {
     {
-      super(message);
       this.status = status;
-      this.message = message;
     }
   }
 }

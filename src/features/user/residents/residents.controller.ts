@@ -25,7 +25,7 @@ export class Controller {
       contact,
       resident,
     });
-    if (!result) throw new HttpError(500, "알수없는 에러 입니다");
+    if (!result) throw new HttpError(500);
     return res.status(204).json();
   };
 
@@ -40,14 +40,14 @@ export class Controller {
       building,
       unit,
     } as unknown as ReqParamQuerySchema);
-    if (!result) throw new HttpError(500, "알수없는 에러 입니다");
+    if (!result) throw new HttpError(500);
     return res.status(204).json();
   };
 
   modifyResidentsStatus: RequestHandler = async (req, res, next) => {
     const { joinStatus } = req.body;
     const result = await service.modifyResidentsStatus(joinStatus);
-     if (!result) throw new HttpError(500, "알수없는 에러 입니다");
+     if (!result) throw new HttpError(500);
     return res.status(204).json();
   };
 
@@ -55,7 +55,7 @@ export class Controller {
     const { id } = req.params as ParamSchema ;
     const { joinStatus } = req.body;
     const result = await service.modifyResidentStatus(id, joinStatus);
-    if (!result) throw new HttpError(500, "알수없는 에러 입니다");
+    if (!result) throw new HttpError(500);
     return res.status(204).json();
   };
 

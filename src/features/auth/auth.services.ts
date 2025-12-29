@@ -31,12 +31,12 @@ export class Service {
       },
     });
     if (!user) {
-      throw new HttpError(400, "잘못된 요청입니다");
+      throw new HttpError(404);
     }
     // password checker
     const passwordCheker = await bcrypt.compare(password, user.password);
     if (!passwordCheker) {
-      throw new HttpError(400, "잘못된 요청입니다");
+      throw new HttpError(400);
     }
     return {
       id: user.id,

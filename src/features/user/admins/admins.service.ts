@@ -15,12 +15,11 @@ export class Service {
     const { email, name, username, password, avatar, contact } = input;
     const duplicatedEmail = await this.repo.findByEmail(email);
     if (duplicatedEmail)
-      throw new HttpError(400, "잘못된 요청(필수사항 누락 또는 잘못된 입력값)입니다."); //TODO:fix error message
+      throw new HttpError(400);
     const duplicatedUsername = await this.repo.findByUsername(username);
     if (duplicatedUsername)
       throw new HttpError(
-        400,
-        "해당 이메일은 이미 존재하는 유저 아이디 입니다."
+        400
       );
 
     const hashedPassword = await bcrypt.hash(password,10)
@@ -125,7 +124,7 @@ export class Service {
 
   deleteRejectedAdmins = async (joinStatus: StatusAction): Promise<void> => {
     if (joinStatus !== "REJECTED")
-      throw new HttpError(400, "승인된 유저는 삭제 할 수 없습니다.");
+      throw new HttpError(400);
     return await this.repo.deleteMany(joinStatus);
   };
 }
