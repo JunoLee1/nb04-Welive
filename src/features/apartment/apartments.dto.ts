@@ -22,11 +22,11 @@ export interface RequestPathParam {
 export interface ApartmentDto {
     id : string,
     name : string, // apt name
-    address: string,
-    officeNumber: string,
-    description: string,
-    building: number[],
-    unit: number[],
+    address?: string,
+    officeNumber?: string,
+    description?: string,
+    building?: number[],
+    unit?: number[],
 }
 
 export interface GetApartmentsResponseDto {
