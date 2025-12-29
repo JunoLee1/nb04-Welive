@@ -21,13 +21,13 @@ export class Controller {
     const { accessToken, refreshToken } = generateToken(user.id);
     setTokenCookies({ res, accessToken, refreshToken });
     console.log("accessToken: ", accessToken); //Do not remove it till test
-    return res.status(200).json();
+    return res.status(200).end();
   };
 
   logoutHandler: RequestHandler = async (req, res, next) => {
     // logout success ? delete cookie, return 204 status
     clearTokenCookies(res);
-    return res.status(204).json();
+    return res.status(204).end();
   };
 
   refreshTokenHandler: RequestHandler = async (req, res, next) => {
@@ -41,6 +41,6 @@ export class Controller {
     const { accessToken, refreshToken: newRefreshToken }: TokenType =
       generateToken(userId);
     setTokenCookies({ res, accessToken, refreshToken: newRefreshToken });
-    return res.status(204).json();
+    return res.status(204).end();
   };
 }
