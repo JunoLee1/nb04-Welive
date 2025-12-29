@@ -35,7 +35,6 @@ uResidentsRouter.patch("/:id/joinStatus",
 );
 
 uResidentsRouter.delete("/rejected",
-    //TODO: validator
     passport.authenticate("accessToken", {session: false}),
     //TODO: Test
     controller.delete
