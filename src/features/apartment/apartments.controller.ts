@@ -1,8 +1,11 @@
 import type { RequestHandler } from "express";
 import { Service } from "./apartments.service.js";
 import type { SearchKeyword } from "./apartments.dto.js";
+import { Repository } from "./apartments.repo.js";
+import { HttpError } from "../../lib/middleware/error.middleware/httpError.js";
+const repo = new Repository();
+const service = new Service(repo);
 
-const service = new Service();
 export class Controller {
   findMany: RequestHandler = async (req, res) => {
     const { page, limit, searchKeyword } = req.query;
@@ -28,5 +31,12 @@ export class Controller {
     });
   };
 
-  findOne: RequestHandler = async (req, res) => {};
+  findOne: RequestHandler = async (req, res) => {
+    const { id } = req.params;
+    if (!id) return new HttpError(404, "NotFound");
+    const result = await service.findOne(id);
+    return res.status(204).json({
+      data: result,
+    });
+  };
 }
