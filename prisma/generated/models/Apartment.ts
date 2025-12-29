@@ -307,11 +307,11 @@ export type ApartmentOrderByWithRelationInput = {
 
 export type ApartmentWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  name?: string
   adminId?: string
   AND?: Prisma.ApartmentWhereInput | Prisma.ApartmentWhereInput[]
   OR?: Prisma.ApartmentWhereInput[]
   NOT?: Prisma.ApartmentWhereInput | Prisma.ApartmentWhereInput[]
-  name?: Prisma.StringFilter<"Apartment"> | string
   address?: Prisma.StringFilter<"Apartment"> | string
   description?: Prisma.StringFilter<"Apartment"> | string
   createdAt?: Prisma.DateTimeFilter<"Apartment"> | Date | string
@@ -323,7 +323,7 @@ export type ApartmentWhereUniqueInput = Prisma.AtLeast<{
   officeNumber?: Prisma.StringFilter<"Apartment"> | string
   residents?: Prisma.ResidentListRelationFilter
   admin?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id" | "id" | "adminId">
+}, "id" | "id" | "name" | "adminId">
 
 export type ApartmentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
