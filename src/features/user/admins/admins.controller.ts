@@ -28,7 +28,7 @@ export class Controller {
     console.log("received request from router");
     const { page, limit, searchKeyword, joinStatus } = req.query;
     const user = req.user;
-    if (!user) throw new HttpError(401, "인증되지 않은 유저 입니다"); //TODO 에러 메시지 수정
+    if (!user) throw new HttpError(401, "권한과 관련된 오류입니다.");
     if (user.role !== "SUPER_ADMIN")
       throw new HttpError(403, "권한이 없습니다");
     console.log(user.role);
@@ -53,7 +53,7 @@ export class Controller {
   modifyStatus: RequestHandler = async (req, res, next) => { //TODO: test
     const { joinStatus } = req.body;
     const user = req.user;
-    if (!user) throw new HttpError(401, "인증되지 않은 유저 입니다");
+    if (!user) throw new HttpError(401, "권한과 관련된 오류입니다.");
     if (user.role !== "SUPER_ADMIN")
       throw new HttpError(403, "권한이 없습니다");
     await service.modifyStatus(joinStatus);
@@ -62,7 +62,7 @@ export class Controller {
 
   deleteRejectedAdmins: RequestHandler = async (req, res, next) => {// 거절된 관리자 계정 일괄 삭제
     const user = req.user;
-    if (!user) throw new HttpError(401, "인증되지 않은 유저 입니다");
+    if (!user) throw new HttpError(401, "권한과 관련된 오류입니다.");
     if (user.role !== "SUPER_ADMIN")
       throw new HttpError(403, "권한이 없습니다");
     const{ joinStatus } = req.body
