@@ -10,7 +10,7 @@ export class Service {
   constructor(readonly repo: Repository) {}
   createResident = async (input: ResidentCreateSchema) => {
     const { username, name, password, contact, resident, email } = input;
-    const result = await this.repo.register(input);
+    const result = await this.repo.register({ username, name, password, contact, resident, email });
     return result;
   };
   findMany = async (
