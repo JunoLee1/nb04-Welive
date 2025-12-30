@@ -134,12 +134,7 @@ export class Service {
     };
   };
 
-  deleteRejectedAdmins = async (joinStatus: StatusAction): Promise<void> => {
-    if (joinStatus !== "REJECTED")
-      throw new HttpError(
-        400,
-        "잘못된 요청(필수사항 누락 또는 잘못된 입력값)입니다."
-      );
-    return await this.repo.deleteMany(joinStatus);
+  deleteRejectedAdmins = async (): Promise<void> => {
+    return await this.repo.deleteMany();
   };
 }
