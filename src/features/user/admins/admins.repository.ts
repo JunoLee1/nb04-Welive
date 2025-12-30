@@ -143,9 +143,10 @@ export class Repository {
     return newAdmin;
   };
 
-  deleteMany = async (joinStatus: StatusAction) => {
+  deleteMany = async () => {
     await prisma.user.deleteMany({
       where: {
+        role: "ADMIN",
         joinStatus: "REJECTED",
       },
     });
