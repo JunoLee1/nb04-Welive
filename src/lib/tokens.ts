@@ -11,7 +11,7 @@ interface Tokens {
 
 export function generateToken( id : string): Tokens {
   const accessToken = jwt.sign({sub: id}, JWT_ACCESS_TOKEN_SECRET, {
-    expiresIn:'10m',
+    expiresIn:'7h', // temp
   });
 
   const refreshToken = jwt.sign({ sub:id }, JWT_REFRESH_TOKEN_SECRET,{
