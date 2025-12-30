@@ -42,6 +42,16 @@ export class Repository {
     });
     return result;
   };
-  
-  modifiedAvatar = async () => {};
+
+  modifiedAvatar = async (id: string, avatarImage: string) => {
+    const user = this.findById(id);
+    if (!user) throw new HttpError(404, "유저가 존재 하지 않습니다");
+    const result = await prisma.user.update({
+        where:{id},
+        data:{
+            avatar:avatarImage,
+        }
+    })
+    return result;
+  };
 }
