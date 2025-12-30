@@ -9,8 +9,9 @@ export class Controller {
 
   modifyUserInfo: RequestHandler = async (req, res, next) => {
     try {
-      console.log("received from Client");
       const { id } = req.params;
+      const { email, username, adminOf, contact } = req.body;
+
       const user = req.user;
       const userId = user?.id;
       if (!user)
@@ -22,7 +23,12 @@ export class Controller {
         throw new HttpError(403, "권한과 관련된 오류입니다.");
       if (!userId) throw new HttpError(401, "권한과 관련된 오류입니다.");
 
-      await service.modifyUserInfo(userId);
+      await service.modifyUserInfo(userId, {
+        email,
+        username,
+        adminOf,
+        contact,
+      });
 
       return res.status(204).end();
     } catch (error) {
