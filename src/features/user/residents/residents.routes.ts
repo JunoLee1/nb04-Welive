@@ -8,7 +8,6 @@ import passport from "../../../lib/passport/index.js";
 const controller = new Controller();
 uResidentsRouter.post("/",
     validate(residentCreateSchema,"body"),
-    //TODO: Test
     controller.createResident
 );
 
