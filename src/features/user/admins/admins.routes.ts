@@ -14,7 +14,7 @@ const controller = new Controller();
 const adminRouter = Router();
 
 adminRouter.use(
-  "/id",
+  "/:id",
   validate(requestParamSchema, "params"),
   passport.authenticate("accessToken", { session: false }),
   idRouter
