@@ -1,5 +1,5 @@
 import prisma from "../../../../lib/prisma.js";
-import type { StatusAction } from "../admin.dto.js";
+import type { StatusAction, RequestPayloadDTO } from "../admin.dto.js";
 type FindUniqueKey = "id" | "email" | "username" | "contact";
 
 const buildWhereClause = (field: FindUniqueKey, value: string) => {
@@ -22,17 +22,22 @@ export class Repository {
     const result = await prisma.user.findUnique({ where });
     return result;
   };
-  modifyInfo = async (id: string) => {
+  modifyInfo = async (id: string, input: RequestPayloadDTO) => {
     const user = await this.findOne("id", id);
     if (!user) throw new Error("User not found");
+    const data: any = {
+      username: input.username ?? user.username,
+      email: input.email ?? user.email,
+      contact: input.contact ?? user.contact,
+    };
+    if (input.adminOf !== null) {
+      data.adminOf = {
+        set: input.adminOf.map((id) => ({ id })), // []도 가능 → 삭제
+      };
+    }
     const result = await prisma.user.update({
-      where: { id }, //TODO: 관리자 수정시 리턴 타입
-      data: {
-        //TODO : 관리자가 어떤 관리자 정보를 수정 가능 한가 ?
-        username: user.username,
-        email: user.email,
-        contact: user.contact,
-      },
+      where: { id },
+      data,
       include: {
         adminOf: true,
       },
@@ -45,10 +50,7 @@ export class Repository {
     const toStatus = joinStatus === "APPROVED" ? "APPROVED" : "REJECTED";
     if (!user) throw new Error("NotFound");
     const result = await prisma.user.update({
-      where: {
-        id,
-        joinStatus: "PENDING",
-      },
+      where: { id },
       data: {
         joinStatus: toStatus,
       },
@@ -56,6 +58,7 @@ export class Repository {
         adminOf: true,
       },
     });
+
     return result;
   };
   delete = async (field: FindUniqueKey, value: string) => {
