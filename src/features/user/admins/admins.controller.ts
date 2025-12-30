@@ -41,7 +41,7 @@ export class Controller {
 
       const pageNumber = Number(page) || 1;
       const limitNumber = Number(limit) || 10;
-      const status = (joinStatus ?? "PENDING") as JoinStatus;
+      const status = joinStatus as JoinStatus;
       const keyword = searchKeyword as string;
       const result = await service.accessList({
         pageNumber,
