@@ -33,7 +33,7 @@ export class Controller {
     } catch (error) {
       next(error);
     }
-  };
+  }
 
   findOne: RequestHandler = async (req, res, next) => {
     try {
