@@ -14,14 +14,12 @@ uResidentsRouter.post("/",
 uResidentsRouter.get("/",
     validate(reqParamQuerySchema,"query"),
     passport.authenticate("accessToken", {session: false}),
-    //TODO: Test
     controller.findMany
 );
 
 uResidentsRouter.patch("/joinStatus",
     validate(joinStatusSchema, "body"),
     passport.authenticate("accessToken", {session: false}),
-    //TODO: Test
     controller.modifyResidentsStatus
 );
 
@@ -29,13 +27,11 @@ uResidentsRouter.patch("/:id/joinStatus",
     validate(paramSchema, "params"),
     validate(joinStatusSchema, "body"),
     passport.authenticate("accessToken", {session: false}),
-    //TODO: Test
     controller.modifyResidentStatus
 );
 
 uResidentsRouter.delete("/rejected",
     passport.authenticate("accessToken", {session: false}),
-    //TODO: Test
     controller.delete
 );
 

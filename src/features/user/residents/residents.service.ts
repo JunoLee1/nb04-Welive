@@ -73,6 +73,7 @@ export class Service {
   modifyResidentsStatus = async (joinStatus: StatusAction)=> {
     // find all user that join status is Pending.
     // request value => approved? status => approved all | status => reject all
+    // Im not to sure for adding pending checker
     const result = await this.repo.updateMany(joinStatus);
     return result;
   };
@@ -81,6 +82,6 @@ export class Service {
     return result
   };
   deleteMany = async (joinStatus: "REJECTED") => {
-    await this.repo.deleteMany( joinStatus )
+    return await this.repo.deleteMany( joinStatus )
   };
 }
