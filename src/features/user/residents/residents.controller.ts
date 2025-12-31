@@ -17,7 +17,7 @@ export class Controller {
     try {
       const { username, email, name, password, contact, resident } =
         req.body as ResidentCreateSchema;
-      const result = await service.createResident({
+      await service.createResident({
         username,
         email,
         name,
@@ -25,7 +25,6 @@ export class Controller {
         contact,
         resident,
       });
-      if (!result) throw new HttpError(500, "알수 없는 에러");
       return res.status(204).end();
     } catch (error) {
       next(error);
@@ -36,6 +35,10 @@ export class Controller {
     try {
       const { page, limit, searchKeyword, joinStatus, building, unit } =
         req.query;
+      const user = req.user;
+      if (!user) throw new HttpError(404, "NotFound");
+      if (user.role !== "ADMIN")
+        throw new HttpError(401, "권한과 관련된 오류입니다.");
       const result = await service.findMany({
         page,
         limit,
@@ -53,7 +56,13 @@ export class Controller {
   modifyResidentsStatus: RequestHandler = async (req, res, next) => {
     try {
       const { joinStatus } = req.body;
-      const result = await service.modifyResidentsStatus(joinStatus);
+      const user = req.user;
+
+      if (!user) throw new HttpError(404, "NotFound");
+      if (user.role !== "ADMIN")
+        throw new HttpError(401, "권한과 관련된 오류입니다.");
+
+      await service.modifyResidentsStatus(joinStatus);
       return res.status(204).end();
     } catch (error) {
       next(error);
@@ -64,7 +73,7 @@ export class Controller {
     try {
       const { id } = req.params as ParamSchema;
       const { joinStatus } = req.body;
-      const result = await service.modifyResidentStatus(id, joinStatus);
+      await service.modifyResidentStatus(id, joinStatus);
       return res.status(204).end();
     } catch (error) {
       next(error);
