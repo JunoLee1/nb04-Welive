@@ -1,6 +1,6 @@
 import type { RequestHandler } from "express";
 import { Service } from "./admins.service.js";
-import type { RequestBody, ReqParams } from "./admin.dto.js";
+import type { RequestBody } from "./admin.dto.js";
 import { Repository } from "./admins.repository.js";
 import { HttpError } from "../../../lib/middleware/error.middleware/httpError.js";
 import { JoinStatus } from "../../../../prisma/generated/client.js";
@@ -61,11 +61,14 @@ export class Controller {
   modifyStatus: RequestHandler = async (req, res, next) => {
     try {
       const { joinStatus } = req.body;
+      const { page, limit } = req.query;
+      const pageNumber = Number(page) || 1;
+      const limitNumber = Number(limit) || 10;
       const user = req.user;
       if (!user) throw new HttpError(401, "권한과 관련된 오류입니다.");
       if (user.role !== "SUPER_ADMIN")
         throw new HttpError(403, "권한과 관련된 오류입니다.");
-      await service.modifyStatus(joinStatus);
+      await service.modifyStatus({pageNumber, limitNumber},joinStatus);
       return res.status(204).end();
     } catch (error) {
       next(error);
