@@ -9,11 +9,16 @@ export class Service {
   constructor(readonly repo: Repository) {}
   findMany = async (input: RequestQuery): Promise<GetApartmentsResponseDto> => {
     const { page, limit, searchKeyword } = input;
-    const apts = await this.repo.findMany({ page, limit, searchKeyword });
+    const { data: apts, totalCount } = await this.repo.findMany({
+      page,
+      limit,
+      searchKeyword,
+    });
+    const hasNext = (page - 1) * limit < totalCount;
     const result = {
       data: apts,
-      hasNext: true,
-      totalCount: apts.length,
+      hasNext,
+      totalCount,
       page,
       limit,
     };
