@@ -2,22 +2,26 @@ import type { RequestQuery } from "./apartments.dto.js";
 import prisma from "../../lib/prisma.js";
 
 export class Repository {
-  findMany = async ({ searchKeyword }: RequestQuery) => {
+  findMany = async ({ page, limit, searchKeyword }: RequestQuery) => {
+    const skip = (page - 1) * limit
     const where =
       searchKeyword && Object.entries(searchKeyword).length > 0
         ? {
             OR: Object.entries(searchKeyword).map(([key, value]) => ({
               [key]: {
                 contains: value,
-                mode: "strict",
+                mode: "insensitive",
               },
             })),
           }
         : {};
-    const apts = await prisma.apartment.findMany({
-      where
+    const totalCount = await prisma.apartment.count({ where });
+    const data = await prisma.apartment.findMany({
+      where,
+      take: limit,
+      skip
     });
-    return apts
+    return { data, totalCount}
   };
 
   findOne = async ( id: string ) => {
