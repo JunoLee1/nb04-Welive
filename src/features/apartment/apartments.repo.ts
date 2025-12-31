@@ -3,7 +3,7 @@ import prisma from "../../lib/prisma.js";
 
 export class Repository {
   findMany = async ({ page, limit, searchKeyword }: RequestQuery) => {
-    const skip = (page - 1) * limit
+    const skip = (page - 1) * limit;
     const where =
       searchKeyword && Object.entries(searchKeyword).length > 0
         ? {
@@ -19,18 +19,17 @@ export class Repository {
     const data = await prisma.apartment.findMany({
       where,
       take: limit,
-      skip
+      skip,
     });
-    return { data, totalCount}
+    return { data, totalCount };
   };
 
-  findOne = async ( id: string ) => {
+  findOne = async (id: string) => {
     const apt = await prisma.apartment.findUnique({
-        where: {
-            id
-        },
-
-    })
+      where: {
+        id,
+      },
+    });
     return apt;
   };
 }
