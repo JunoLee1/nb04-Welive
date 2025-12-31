@@ -36,18 +36,6 @@ const main = async () => {
       contact: "010022225232",
       role: "ADMIN",
       joinStatus: "APPROVED",
-      adminOf: {
-        create: {
-          name: "sk view2 아파트",
-          address: "부산광역시 수영구 망미동",
-          description: "수영동 sk view아파트 입니다",
-          buildingNumberFrom: 1,
-          buildingNumberTo: 4,
-          floorCountPerBuilding: 1,
-          unitCountPerFloor: 1,
-          officeNumber: "051000111",
-        },
-      },
     },
   });
 
@@ -57,41 +45,80 @@ const main = async () => {
     },
     update: {
       password: hashedPassword,
-      resident: {
-      upsert: {
-        create: {
-          name: "자이 아파트",
-          apartmentId: "b63fcbee-0b62-480b-8276-40c4bcf59b71",
-          building: 101,
-          unit: 1001,
-          isHouseholder: true,
-        },
-        update: {
-          name: "자이 아파트",
-          building: 101,
-          unit: 1001,
-          isHouseholder: true,
-        },
-      }
-    }
     },
     create: {
       username: "Chloe961",
-      email: "Chloe1@test.com",
+      email: "chloe1@test.com",
       password: "12345678",
       name: "Chloe Lee",
       contact: "01000015232",
       role: "USER",
       joinStatus: "APPROVED",
-      resident: {
-        create: {
-          apartmentId: "b63fcbee-0b62-480b-8276-40c4bcf59b71",
-          building: 101,
-          unit: 1001,
-          isHouseholder: true,
-          name: "자이 아파트",
-        },
-      },
+    },
+  });
+
+
+  await prisma.apartment.upsert({
+    where: {
+      adminId: Hana.id,
+    },
+    update: {
+      name: "sk view 아파트",
+      address: "부산광역시 수영구 망미동",
+      description: "수영동 sk view아파트 입니다",
+      buildingNumberFrom: 2,
+      buildingNumberTo: 5,
+      floorCountPerBuilding: 1,
+      unitCountPerFloor: 2,
+      officeNumber: "051000111",
+    },
+    create: {
+      adminId:Hana.id,
+      name: "sk view 아파트",
+      address: "부산광역시 수영구 망미동",
+      description: "수영동 sk view아파트 입니다",
+      buildingNumberFrom: 2,
+      buildingNumberTo: 5,
+      floorCountPerBuilding: 1,
+      unitCountPerFloor: 2,
+      officeNumber: "051000111",
+    },
+  });
+  await prisma.apartment.upsert({
+    where: {
+      adminId: juno.id,
+    },
+    update: {},
+    create: {
+      adminId:juno.id,
+      name: "sk view2 아파트",
+      address: "부산광역시 수영구 망미동",
+      description: "수영동 sk view아파트 입니다",
+      buildingNumberFrom: 1,
+      buildingNumberTo: 4,
+      floorCountPerBuilding: 1,
+      unitCountPerFloor: 1,
+      officeNumber: "051000111",
+    },
+  });
+  await prisma.resident.upsert({
+    where: {
+      userId: Chloe.id,
+    },
+    update: {
+      userId: Chloe.id,
+      name: "자이 아파트",
+      isHouseholder: true,
+      building: 101,
+      unit: 1001,
+    },
+    create: {
+      userId: Chloe.id,
+      name: "자이 아파트",
+      apartmentId: "604603d5-4012-4bd2-8254-d47ef4659669",
+      isHouseholder: true,
+      building: 101,
+      unit: 1001,
     },
   });
 };
