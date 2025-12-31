@@ -272,12 +272,11 @@ export type ResidentOrderByWithRelationInput = {
 
 export type ResidentWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  name?: string
   userId?: string
-  userId_apartmentId?: Prisma.ResidentUserIdApartmentIdCompoundUniqueInput
   AND?: Prisma.ResidentWhereInput | Prisma.ResidentWhereInput[]
   OR?: Prisma.ResidentWhereInput[]
   NOT?: Prisma.ResidentWhereInput | Prisma.ResidentWhereInput[]
+  name?: Prisma.StringFilter<"Resident"> | string
   building?: Prisma.IntFilter<"Resident"> | number
   unit?: Prisma.IntFilter<"Resident"> | number
   createdAt?: Prisma.DateTimeFilter<"Resident"> | Date | string
@@ -286,7 +285,7 @@ export type ResidentWhereUniqueInput = Prisma.AtLeast<{
   apartmentId?: Prisma.StringFilter<"Resident"> | string
   apartment?: Prisma.XOR<Prisma.ApartmentScalarRelationFilter, Prisma.ApartmentWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id" | "id" | "name" | "userId" | "userId_apartmentId">
+}, "id" | "userId">
 
 export type ResidentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -415,11 +414,6 @@ export type ResidentOrderByRelationAggregateInput = {
 export type ResidentNullableScalarRelationFilter = {
   is?: Prisma.ResidentWhereInput | null
   isNot?: Prisma.ResidentWhereInput | null
-}
-
-export type ResidentUserIdApartmentIdCompoundUniqueInput = {
-  userId: string
-  apartmentId: string
 }
 
 export type ResidentCountOrderByAggregateInput = {
