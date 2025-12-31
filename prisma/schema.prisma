@@ -61,8 +61,8 @@ model User {
 }
 
 model Resident { // 입주민 거주지 정보
-  id          String    @unique@id @default(uuid())
-  name        String    @unique
+  id          String   @id @default(uuid())
+  name        String  
   building    Int
   unit        Int
   createdAt  DateTime     @default(now())
@@ -74,5 +74,4 @@ model Resident { // 입주민 거주지 정보
   
   userId      String    @unique
   user        User      @relation(fields: [userId], references: [id])
-  @@unique([userId, apartmentId]) // 한 사용자는 하나의 아파트에만 입주민으로 등록될 수 있음
 }
