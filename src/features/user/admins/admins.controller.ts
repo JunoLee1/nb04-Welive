@@ -60,14 +60,16 @@ export class Controller {
 
   modifyStatus: RequestHandler = async (req, res, next) => {
     try {
-    } catch (error) {}
-    const { joinStatus } = req.body;
-    const user = req.user;
-    if (!user) throw new HttpError(401, "권한과 관련된 오류입니다.");
-    if (user.role !== "SUPER_ADMIN")
-      throw new HttpError(403, "권한과 관련된 오류입니다.");
-    await service.modifyStatus(joinStatus);
-    return res.status(204).end();
+      const { joinStatus } = req.body;
+      const user = req.user;
+      if (!user) throw new HttpError(401, "권한과 관련된 오류입니다.");
+      if (user.role !== "SUPER_ADMIN")
+        throw new HttpError(403, "권한과 관련된 오류입니다.");
+      await service.modifyStatus(joinStatus);
+      return res.status(204).end();
+    } catch (error) {
+      next(error);
+    }
   };
 
   deleteRejectedAdmins: RequestHandler = async (req, res, next) => {
