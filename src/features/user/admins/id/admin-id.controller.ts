@@ -8,35 +8,71 @@ export class Controller {
   contructor(service: Service) {}
 
   modifyUserInfo: RequestHandler = async (req, res, next) => {
-    console.log("received from Client");
-    const { id } = req.params;
-    const user = req.user
-    const userId = user?.id
-    if (!userId) throw new HttpError(401,"unauthorized") 
-    
-    await service.modifyUserInfo(userId)
-    
-    return res.status(204).json();
+    try {
+      const { id } = req.params;
+      const { email, username, adminOf, contact } = req.body;
+
+      const user = req.user;
+      const userId = user?.id;
+      if (!user)
+        throw new HttpError(
+          400,
+          "잘못된 요청(필수사항 누락 또는 잘못된 입력값)입니다"
+        );
+      if (user.role !== "SUPER_ADMIN")
+        throw new HttpError(403, "권한과 관련된 오류입니다.");
+      if (!userId) throw new HttpError(401, "권한과 관련된 오류입니다.");
+
+      await service.modifyUserInfo(userId, {
+        email,
+        username,
+        adminOf,
+        contact,
+      });
+
+      return res.status(204).end();
+    } catch (error) {
+      next(error);
+    }
   };
   modifyJoinStatus: RequestHandler = async (req, res, next) => {
-    const { id } = req.params;
-    const { joinStatus } = req.body;
+    try {
+      const { id } = req.params;
+      const { joinStatus } = req.body;
 
-    const user = req.user
-    const userId = user?.id
+      const user = req.user;
+      const userId = user?.id;
 
-    if (!userId) throw new HttpError(401,"unauthorized") 
-    await service.modifyStatus( userId, joinStatus)
-    return res.status(204).json();
+      if (!user) throw new HttpError(404, "해당 유저를 찾을수 없습니다");
+      if (user.role !== "SUPER_ADMIN")
+        throw new HttpError(403, "권한과 관련된 오류입니다.");
+      if(!id) throw  new HttpError(404, "해당 id를 찾을 수 없습니다");
+      if (!userId) throw new HttpError(401, "권한과 관련된 오류입니다.");
+      await service.modifyStatus(id, joinStatus);
+      return res.status(204).end();
+    } catch (error) {
+      next(error);
+    }
   };
   deleteAdmin: RequestHandler = async (req, res, next) => {
-    const { id } = req.params;
-     const user = req.user
-    const userId = user?.id
+    try {
+      const { id } = req.params;
+      const user = req.user;
+      const userId = user?.id;
 
-    if (!userId) throw new HttpError(401,"unauthorized") 
-    await service.deleteAdmin( userId )
-    return res.status(204).json();
-
+      if (!user)
+        throw new HttpError(
+          400,
+          "잘못된 요청(필수사항 누락 또는 잘못된 입력값)입니다"
+        );
+      if (user.role !== "SUPER_ADMIN")
+        throw new HttpError(403, "권한과 관련된 오류입니다.");
+      if (!userId) throw new HttpError(401, "권한과 관련된 오류입니다.");
+      if(!id) throw  new HttpError(404, "해당 id를 찾을 수 없습니다");
+      await service.deleteAdmin(id);
+      return res.status(204).end();
+    } catch (error) {
+      next(error);
+    }
   };
 }

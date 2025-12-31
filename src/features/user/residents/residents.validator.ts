@@ -14,13 +14,15 @@ export const residentCreateSchema = z.object({
   }),
 });
 
+
+// TODO: refactor  seperate the query param
 export const reqParamQuerySchema = z.object({
-  page: z.coerce.number(),
-  limit: z.coerce.number(),
-  unit: z.coerce.number(),
-  building: z.coerce.number(),
-  searchKeyword: z.string(),
-  joinStatus: z.string(),
+  page: z.coerce.number().optional().default(1),
+  limit: z.coerce.number().optional().default(10),
+  unit: z.coerce.number().optional(),
+  building: z.coerce.number().optional(),
+  searchKeyword: z.string().optional(),
+  joinStatus: z.string().optional(),
 });
 
 export const joinStatusSchema = z.object({

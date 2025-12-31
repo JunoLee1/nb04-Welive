@@ -8,8 +8,7 @@ export class Controller {
     console.log("received from routes");
     const { email, password, name, username, contact } =
       req.body as SuperAdminCreateReqDTO; // validated value from validator
-    service.signUpHandler({ email, password, name, username, contact });
-    console.log("✅ result");
-    return res.status(200);
+    await service.signUpHandler({ email, password, name, username, contact });
+    return res.status(204).end();
   };
 }

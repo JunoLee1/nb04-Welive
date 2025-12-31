@@ -5,9 +5,10 @@ import type {
   ReqParams,
   AccessListOfAdminsResDTO,
   StatusAction,
+  Pagenation,
 } from "./admin.dto.js";
 import { Repository } from "./admins.repository.js";
-import  bcrypt  from "bcrypt";
+import bcrypt from "bcrypt";
 export class Service {
   constructor(readonly repo: Repository) {}
 
@@ -15,16 +16,26 @@ export class Service {
     const { email, name, username, password, avatar, contact } = input;
     const duplicatedEmail = await this.repo.findByEmail(email);
     if (duplicatedEmail)
-      throw new HttpError(400, "잘못된 요청(필수사항 누락 또는 잘못된 입력값)입니다."); //TODO:fix error message
+      throw new HttpError(
+        400,
+        "	잘못된 요청(필수사항 누락 또는 잘못된 입력값)입니다."
+      );
     const duplicatedUsername = await this.repo.findByUsername(username);
     if (duplicatedUsername)
       throw new HttpError(
         400,
-        "해당 이메일은 이미 존재하는 유저 아이디 입니다."
+        "	잘못된 요청(필수사항 누락 또는 잘못된 입력값)입니다."
       );
 
-    const hashedPassword = await bcrypt.hash(password,10)
-    const newAdmin = this.repo.createAdmin({ email, name, username, password: hashedPassword, avatar, contact});
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newAdmin = await this.repo.createAdmin({
+      email,
+      name,
+      username,
+      password: hashedPassword,
+      avatar,
+      contact,
+    });
     const result = {
       ...newAdmin,
     };
@@ -77,19 +88,24 @@ export class Service {
           }
         : null,
     }));
+    const totalCount = data.length;
+    const hasNext = pageNumber * limitNumber < totalCount;
     return {
       data,
-      page:pageNumber,
-      limit:limitNumber,
-      totalCount: data.length,
-      hasNext: true,
+      page: pageNumber,
+      limit: limitNumber,
+      totalCount,
+      hasNext,
     };
   };
 
-  modifyStatus = async (// TODO: fix it
+  modifyStatus = async (
+    // TODO: fix it
+    pagenation: Pagenation,
     joinStatus: StatusAction
   ): Promise<AccessListOfAdminsResDTO> => {
     const modifiedStatusAdmins = await this.repo.updateMany(joinStatus);
+    const { pageNumber, limitNumber } = pagenation;
     const admins = await this.repo.findManyByStatus(joinStatus);
     const data = admins.map((u) => ({
       id: u.id,
@@ -116,16 +132,18 @@ export class Service {
           }
         : null,
     }));
+    const totalCount = data.length;
+    const hasNext = pageNumber * limitNumber < totalCount;
     return {
       data,
-      totalCount: data.length,
-      hasNext: true, //TODO : test 
+      totalCount,
+      hasNext,
+      page: pageNumber,
+      limit: limitNumber,
     };
   };
 
-  deleteRejectedAdmins = async (joinStatus: StatusAction): Promise<void> => {
-    if (joinStatus !== "REJECTED")
-      throw new HttpError(400, "승인된 유저는 삭제 할 수 없습니다.");
-    return await this.repo.deleteMany(joinStatus);
+  deleteRejectedAdmins = async (): Promise<void> => {
+    return await this.repo.deleteMany();
   };
 }
