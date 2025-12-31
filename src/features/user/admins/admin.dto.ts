@@ -36,7 +36,10 @@ export interface RequestPayloadDTO {
   email: string | null;
   adminOf: apartmentDTO[] | null;
 }
-
+export interface Pagenation {
+  pageNumber: number,
+  limitNumber: number
+}
 export type StatusAction = "APPROVED" | "REJECTED";
 //------------response DTO
 export interface AdminsCreateResponseDTO {
