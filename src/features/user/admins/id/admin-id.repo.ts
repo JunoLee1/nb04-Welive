@@ -1,5 +1,5 @@
 import prisma from "../../../../lib/prisma.js";
-import type { StatusAction, RequestPayloadDTO } from "../admin.dto.js";
+import type { StatusAction } from "../admin.dto.js";
 type FindUniqueKey = "id" | "email" | "username" | "contact";
 
 const buildWhereClause = (field: FindUniqueKey, value: string) => {
@@ -14,6 +14,7 @@ const buildWhereClause = (field: FindUniqueKey, value: string) => {
       return { contact: value };
   }
 };
+
 export class Repository {
   constructor() {}
   findOne = async (field: FindUniqueKey, value: string) => {
@@ -21,25 +22,17 @@ export class Repository {
     const result = await prisma.user.findUnique({ where });
     return result;
   };
-  modifyInfo = async (id: string, input: RequestPayloadDTO) => {
+  modifyInfo = async (id: string) => {
     const user = await this.findOne("id", id);
     if (!user) throw new Error("User not found");
-    const data: any = {
-      username: input.username ?? user.username,
-      email: input.email ?? user.email,
-      contact: input.contact ?? user.contact,
-    };
-    if (input.adminOf !== null) {
-      data.adminOf = {
-        upadate: input.adminOf.map(apt => ({
-          where :{id: apt.id},
-          data: { name: apt.name, address: apt.address }
-        }))
-      };
-    }
     const result = await prisma.user.update({
-      where: { id },
-      data,
+      where: { id }, //TODO: 관리자 수정시 리턴 타입
+      data: {
+        //TODO : 관리자가 어떤 관리자 정보를 수정 가능 한가 ?
+        username: user.username,
+        email: user.email,
+        contact: user.contact,
+      },
       include: {
         adminOf: true,
       },
@@ -52,7 +45,10 @@ export class Repository {
     const toStatus = joinStatus === "APPROVED" ? "APPROVED" : "REJECTED";
     if (!user) throw new Error("NotFound");
     const result = await prisma.user.update({
-      where: { id },
+      where: {
+        id,
+        joinStatus: "PENDING",
+      },
       data: {
         joinStatus: toStatus,
       },
@@ -60,7 +56,6 @@ export class Repository {
         adminOf: true,
       },
     });
-
     return result;
   };
   delete = async (field: FindUniqueKey, value: string) => {

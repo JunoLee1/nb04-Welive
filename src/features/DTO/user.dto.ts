@@ -16,7 +16,7 @@ export interface AccessAdminsRequestDTO {
     page?: number;
     limit?: number;
     searchKeyword?: string;
-    joinStatus?: JoinStatus;
+    joingStatus?: JoinStatus;
 }
 
 export interface AccessAdminsResponseDTO {

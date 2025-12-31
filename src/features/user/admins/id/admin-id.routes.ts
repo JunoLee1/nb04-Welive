@@ -1,29 +1,33 @@
 import { Router } from "express";
 import { Controller } from "./admin-id.controller.js";
-import { validate } from "../../../../lib/middleware/validator.js";
-import { joinStatusSchema, requestPatchSchema } from "../admins.validation.js";
 
 const idRouter = Router();
 const controller = new Controller();
 
 // patch an admin Join status API
-// address : users/admins/:{id}/joinStatus
+// address : users/admins/{id}/joinStatus
 idRouter.patch(
   "/joinStatus",
-  validate(joinStatusSchema, "body"),
+  //TODO: check the user super-admin
+  //TODO: validate
+  //TODO:TEST
   controller.modifyJoinStatus
 );
 
 // Patch an admin user info
-// address : users/admins/:{id}
+// address : users/admins/{id}
 idRouter.patch(
   "/",
-  validate(requestPatchSchema, "body"),
+  //TODO: check the user super-admin
+  //TODO: validate
+    //TODO:TEST
   controller.modifyUserInfo
 );
 
 // delete admin account API
 // address : users/admins/{id}
+  //TODO:TEST
 idRouter.delete("/", controller.deleteAdmin);
+  //TODO:TEST
 
 export default idRouter;

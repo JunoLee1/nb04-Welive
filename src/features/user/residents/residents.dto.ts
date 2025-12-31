@@ -46,6 +46,7 @@ export interface ResidentCreateRequest {
 export interface ResidentCreateResponse {
   email: string,
   name: string,
+  password: string,
   contact: string,
   role: Role,
   joinStatus: Status,

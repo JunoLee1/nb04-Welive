@@ -3,8 +3,9 @@ import { Service } from "./residents.service.js";
 import type {
   ResidentCreateSchema,
   ReqParamQuerySchema,
-  ParamSchema,
-} from "./residents.validator.js";
+  JoinStatusSchema,
+  ParamSchema
+} from "./residents.validator.ts";
 import { Repository } from "./residents.repo.js";
 import { HttpError } from "../../../lib/middleware/error.middleware/httpError.js";
 
@@ -14,79 +15,51 @@ export class Controller {
   constructor() {}
 
   createResident: RequestHandler = async (req, res, next) => {
-    try {
-      const { username, email, name, password, contact, resident } =
-        req.body as ResidentCreateSchema;
-      await service.createResident({
-        username,
-        email,
-        name,
-        password,
-        contact,
-        resident,
-      });
-      return res.status(204).end();
-    } catch (error) {
-      next(error);
-    }
+    const { username, email, name, password, contact, resident } =
+      req.body as ResidentCreateSchema;
+    const result = await service.createResident({
+      username,
+      email,
+      name,
+      password,
+      contact,
+      resident,
+    });
+    if (!result) throw new HttpError(500, "알수없는 에러 입니다");
+    return res.status(204).json();
   };
 
   findMany: RequestHandler = async (req, res, next) => {
-    try {
-      const { page, limit, searchKeyword, joinStatus, building, unit } =
-        req.query;
-      const user = req.user;
-      if (!user) throw new HttpError(404, "NotFound");
-      if (user.role !== "ADMIN")
-        throw new HttpError(401, "권한과 관련된 오류입니다.");
-      const result = await service.findMany({
-        page,
-        limit,
-        searchKeyword,
-        joinStatus,
-        building,
-        unit,
-      } as unknown as ReqParamQuerySchema);
-      return res.status(204).end();
-    } catch (error) {
-      next(error);
-    }
+    const { page, limit, searchKeyword, joinStatus, building, unit } =
+      req.query;
+    const result = await service.findMany({
+      page,
+      limit,
+      searchKeyword,
+      joinStatus,
+      building,
+      unit,
+    } as unknown as ReqParamQuerySchema);
+    if (!result) throw new HttpError(500, "알수없는 에러 입니다");
+    return res.status(204).json();
   };
 
   modifyResidentsStatus: RequestHandler = async (req, res, next) => {
-    try {
-      const { joinStatus } = req.body;
-      const user = req.user;
-
-      if (!user) throw new HttpError(404, "NotFound");
-      if (user.role !== "ADMIN")
-        throw new HttpError(401, "권한과 관련된 오류입니다.");
-
-      await service.modifyResidentsStatus(joinStatus);
-      return res.status(204).end();
-    } catch (error) {
-      next(error);
-    }
+    const { joinStatus } = req.body;
+    const result = await service.modifyResidentsStatus(joinStatus);
+     if (!result) throw new HttpError(500, "알수없는 에러 입니다");
+    return res.status(204).json();
   };
 
   modifyResidentStatus: RequestHandler = async (req, res, next) => {
-    try {
-      const { id } = req.params as ParamSchema;
-      const { joinStatus } = req.body;
-      await service.modifyResidentStatus(id, joinStatus);
-      return res.status(204).end();
-    } catch (error) {
-      next(error);
-    }
+    const { id } = req.params as ParamSchema ;
+    const { joinStatus } = req.body;
+    const result = await service.modifyResidentStatus(id, joinStatus);
+    if (!result) throw new HttpError(500, "알수없는 에러 입니다");
+    return res.status(204).json();
   };
 
   delete: RequestHandler = async (req, res, next) => {
-    try {
-      const { joinStatus } = req.body;
-      await service.deleteMany(joinStatus);
-      return res.status(204).end();
-    } catch (error) {
-      next(error);
-    }
+    await service.deleteMany;
   };
 }

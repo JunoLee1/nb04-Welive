@@ -8,7 +8,7 @@ const JWT_ACCESS_TOKEN_SECRET =
   process.env.JWT_ACCESS_TOKEN_SECRET || "yourJwtAccessTokenSecret";
 const JWT_REFRESH_TOKEN_SECRET =
   process.env.JWT_REFRESH_TOKEN_SECRET || "yourJwtRefreshTokenSecret";
-const ACCESS_TOKEN_COOKIE_NAME = "accessToken";
+const ACCESS_TOKEN_COOKIE_NAME = "accesToken";
 const REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
 
 

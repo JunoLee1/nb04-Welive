@@ -1,13 +1,16 @@
 import { HttpError } from "../../../lib/middleware/error.middleware/httpError.js";
 import prisma from "../../../lib/prisma.js";
-import type { ResidentCreateResponse } from "./residents.dto.js";
+import type {
+  ResidentCreateResponse,
+  ResidentUserFindAllPageResponse,
+} from "./residents.dto.js";
 import type {
   ResidentCreateSchema,
   ReqParamQuerySchema,
 } from "./residents.validator.js";
 import { JoinStatus } from "../../../../prisma/generated/client.js";
-import bcrypt from "bcrypt";
-type FindKey = "id" | "username" | "contact" | "email";
+
+type FindKey = "id" | "username" | "contact" | "email" ;
 const buildWhereClause = (field: FindKey, value: string) => {
   //통합
   switch (field) {
@@ -26,7 +29,7 @@ type Query = {
   limit: number;
   keyword: object;
 };
-export type StatusAction = "APPROVED" | "REJECTED";
+export type StatusAction = "APPROVED" | "REJECTED"
 
 export class Repository {
   constructor() {}
@@ -37,7 +40,6 @@ export class Repository {
     const dulplicatedEmail = await this.findOne("email", email);
     const duplicatedContact = await this.findOne("contact", contact);
     const duplicatedUsername = await this.findOne("username", username);
-    const hashedPassword = await bcrypt.hash(password, 10);
 
     if (dulplicatedEmail)
       throw new HttpError(400, "해당 이메일은 이미 존재 합니다");
@@ -45,7 +47,6 @@ export class Repository {
       throw new HttpError(400, "해당 휴대폰 번호는 이미 존재 합니다");
     if (duplicatedUsername)
       throw new HttpError(400, "해당 아이디는 이미 존재 합니다");
-
     const newResident = await prisma.user.create({
       data: {
         email,
@@ -53,9 +54,8 @@ export class Repository {
         role: "USER",
         name,
         contact,
-        password: hashedPassword,
-        joinStatus: JoinStatus.PENDING,
-        isActive: false,
+        password,
+        joinStatus: "PENDING",
       },
       select: {
         email: true,
@@ -63,6 +63,7 @@ export class Repository {
         role: true,
         name: true,
         contact: true,
+        password: true,
         joinStatus: true,
         isActive: true,
         createdAt: true,
@@ -82,7 +83,6 @@ export class Repository {
     });
     return newResident;
   };
-
   findOne = async (field: FindKey, value: string) => {
     const where = buildWhereClause(field, value);
     const resident = await prisma.user.findUnique({
@@ -90,7 +90,6 @@ export class Repository {
     });
     return resident;
   };
-
   findMany = async ({ keyword }: Query) => {
     const residents = await prisma.user.findMany({
       where: {
@@ -102,7 +101,6 @@ export class Repository {
     });
     return residents;
   };
-
   updateMany = async (joinStatus: StatusAction) => {
     const toStatus =
       joinStatus === "APPROVED" ? JoinStatus.APPROVED : JoinStatus.REJECTED;
@@ -114,23 +112,22 @@ export class Repository {
     return result;
   };
 
-  update = async (id: string, joinStatus: StatusAction) => {
-    const residentId = await this.findOne("id", id);
-    const toStatus =
+  update = async ( id: string, joinStatus:StatusAction ) => {
+    const residentId = await this.findOne("id",id);
+    const toStatus = 
       joinStatus === "APPROVED" ? JoinStatus.APPROVED : JoinStatus.REJECTED;
 
-    if (!residentId) throw new HttpError(404, "해당유저의 정보가 없습니다");
+    if (!residentId) throw new HttpError(401, "해당유저의 정보가 없습니다");
     const result = await prisma.user.update({
-      where: {
-        id: id,
-        joinStatus: JoinStatus.PENDING,
+      where:{
+        ...residentId,
+        joinStatus:JoinStatus.PENDING
       },
-      data: {
-        joinStatus: toStatus,
-      },
-    });
-    return result;
+      data:{
+        joinStatus :toStatus
+      }
+    })
+    return result
   };
-
-  deleteMany = async (joinStatus: "REJECTED") => {};
+  deleteMany = async (joinStatus:"REJECTED") => {};
 }

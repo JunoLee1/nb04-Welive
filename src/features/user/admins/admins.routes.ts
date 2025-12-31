@@ -9,17 +9,16 @@ import {
   requestParamSchema,
 } from "./admins.validation.js";
 import passport from "../../../lib/passport/index.js";
-
 const controller = new Controller();
 const adminRouter = Router();
 
 adminRouter.use(
-  "/:id",
+  "/id",
   validate(requestParamSchema, "params"),
   passport.authenticate("accessToken", { session: false }),
   idRouter
+  //TODO : test
 );
-
 // create admin Api
 // address : users/admins
 adminRouter.post("/", validate(requestBodySchema, "body"), controller.register);
@@ -31,6 +30,7 @@ adminRouter.get(
   validate(requestQuerySchema, "query"),
   passport.authenticate("accessToken", { session: false }),
   controller.accessList
+  //TODO : test
 );
 
 // patch the admins Join status API
@@ -40,14 +40,10 @@ adminRouter.patch(
   validate(joinStatusSchema, "body"),
   passport.authenticate("accessToken", { session: false }),
   controller.modifyStatus
+  //TODO : test
 );
 
 // delete rejected Admin user
-// address : users/admins/rejected
-adminRouter.delete(
-  "/rejected",
-  passport.authenticate("accessToken", { session: false }),
-  controller.deleteRejectedAdmins
-);
-
+// address : users/admins/
+adminRouter.delete("/", controller.deleteRejectedAdmins);//TODO : test
 export default adminRouter;

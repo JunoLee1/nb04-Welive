@@ -41,11 +41,7 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": false,
-    "esModuleInterop": true,
+    "esModuleInterop": true
   },
-   "ts-node": {
-    "logError": true,
-    "pretty": true,
-  },
-  "include": ["src/**/*", "test/**/*"]
+  "include": ["src/**/*"]
 }

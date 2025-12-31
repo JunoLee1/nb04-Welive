@@ -31,28 +31,23 @@ export class Service {
       },
     });
     if (!user) {
-      throw new HttpError(
-        400,
-        "잘못된 요청(필수사항 누락 또는 잘못된 입력값)입니다."
-      );
+      throw new HttpError(400, "잘못된 요청입니다");
     }
     // password checker
     const passwordCheker = await bcrypt.compare(password, user.password);
     if (!passwordCheker) {
-      throw new HttpError(
-        400,
-        "잘못된 요청(필수사항 누락 또는 잘못된 입력값)입니다."
-      );
+      throw new HttpError(400, "잘못된 요청입니다");
     }
     return {
       id: user.id,
       username: user.username,
       email: user.email,
       contact: user.contact,
-      avatar: user.avatar ?? "",
+      avatar: user.avatar ?? '',
       isActive: user.isActive,
       role: user.role,
       adminOf: user.adminOf,
     };
   };
 }
+

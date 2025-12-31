@@ -9,7 +9,7 @@ type Param = {
   status: JoinStatus | null;
 };
 
-type StatusResult =
+type StatusResult = //TODO: 좀더 공부 해보기
 
     | { action: "APPROVED"; from: "PENDING"; to: "APPROVED" }
     | { action: "REJECTED"; from: "PENDING"; to: "REJECTED" };
@@ -18,6 +18,7 @@ export class Repository {
   constructor() {}
 
   findManyByStatus = async (joinStatus: StatusAction) => {
+    //TODO: 제너릭으로 ?
     const result = await prisma.user.findMany({
       where: {
         joinStatus: JoinStatus.PENDING,
@@ -29,6 +30,7 @@ export class Repository {
     return result;
   };
   updateMany = async (joinStatus: StatusAction) => {
+    //TODO: updateMany 좀더 깊게 알아보기
     const toStatus =
       joinStatus === "APPROVED" ? JoinStatus.APPROVED : JoinStatus.REJECTED;
 
@@ -77,6 +79,7 @@ export class Repository {
   };
 
   findById = async (id: string) => {
+    //TODO: 제너릭으로 할수 있지 않을까 고민 해보기
     const userId = await prisma.user.findUnique({
       where: {
         id,
@@ -85,12 +88,14 @@ export class Repository {
     return userId;
   };
   findByUsername = async (username: string) => {
+    //TODO: 제너릭으로 할수 있지 않을까 고민 해보기
     const userName = await prisma.user.findUnique({
       where: { username },
     });
     return userName;
   };
   findByEmail = async (email: string) => {
+    //TODO: 제너릭으로 할수 있지 않을까 고민 해보기
     const userEmail = await prisma.user.findUnique({
       where: {
         email,
@@ -143,10 +148,9 @@ export class Repository {
     return newAdmin;
   };
 
-  deleteMany = async () => {
+  deleteMany = async (joinStatus: StatusAction) => {
     await prisma.user.deleteMany({
       where: {
-        role: "ADMIN",
         joinStatus: "REJECTED",
       },
     });
