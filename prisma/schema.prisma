@@ -24,7 +24,7 @@ enum JoinStatus {
   REJECTED
 }
 model Apartment { // 아파트
-  id                      String   @unique@id @default(uuid())
+  id                      String    @id @default(uuid())
   name                    String    @unique
   address                 String
   description             String
