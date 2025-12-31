@@ -14,7 +14,6 @@ const buildWhereClause = (field: FindUniqueKey, value: string) => {
       return { contact: value };
   }
 };
-
 export class Repository {
   constructor() {}
   findOne = async (field: FindUniqueKey, value: string) => {
@@ -32,7 +31,10 @@ export class Repository {
     };
     if (input.adminOf !== null) {
       data.adminOf = {
-        set: input.adminOf.map((id) => ({ id })), // []도 가능 → 삭제
+        upadate: input.adminOf.map(apt => ({
+          where :{id: apt.id},
+          data: { name: apt.name, address: apt.address }
+        }))
       };
     }
     const result = await prisma.user.update({

@@ -46,8 +46,9 @@ export class Controller {
       if (!user) throw new HttpError(404, "해당 유저를 찾을수 없습니다");
       if (user.role !== "SUPER_ADMIN")
         throw new HttpError(403, "권한과 관련된 오류입니다.");
+      if(!id) throw  new HttpError(404, "해당 id를 찾을 수 없습니다");
       if (!userId) throw new HttpError(401, "권한과 관련된 오류입니다.");
-      await service.modifyStatus(userId, joinStatus);
+      await service.modifyStatus(id, joinStatus);
       return res.status(204).end();
     } catch (error) {
       next(error);
@@ -67,7 +68,8 @@ export class Controller {
       if (user.role !== "SUPER_ADMIN")
         throw new HttpError(403, "권한과 관련된 오류입니다.");
       if (!userId) throw new HttpError(401, "권한과 관련된 오류입니다.");
-      await service.deleteAdmin(userId);
+      if(!id) throw  new HttpError(404, "해당 id를 찾을 수 없습니다");
+      await service.deleteAdmin(id);
       return res.status(204).end();
     } catch (error) {
       next(error);
