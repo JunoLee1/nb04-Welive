@@ -5,6 +5,7 @@ import type {
   ReqParams,
   AccessListOfAdminsResDTO,
   StatusAction,
+  Pagenation,
 } from "./admin.dto.js";
 import { Repository } from "./admins.repository.js";
 import bcrypt from "bcrypt";
@@ -87,20 +88,24 @@ export class Service {
           }
         : null,
     }));
+    const totalCount = data.length;
+    const hasNext = pageNumber * limitNumber < totalCount;
     return {
       data,
       page: pageNumber,
       limit: limitNumber,
-      totalCount: data.length,
-      hasNext: true,
+      totalCount,
+      hasNext,
     };
   };
 
   modifyStatus = async (
     // TODO: fix it
+    pagenation: Pagenation,
     joinStatus: StatusAction
   ): Promise<AccessListOfAdminsResDTO> => {
     const modifiedStatusAdmins = await this.repo.updateMany(joinStatus);
+    const { pageNumber, limitNumber } = pagenation;
     const admins = await this.repo.findManyByStatus(joinStatus);
     const data = admins.map((u) => ({
       id: u.id,
@@ -127,10 +132,14 @@ export class Service {
           }
         : null,
     }));
+    const totalCount = data.length;
+    const hasNext = pageNumber * limitNumber < totalCount;
     return {
       data,
-      totalCount: data.length,
-      hasNext: true, //TODO : test
+      totalCount,
+      hasNext,
+      page: pageNumber,
+      limit: limitNumber,
     };
   };
 
