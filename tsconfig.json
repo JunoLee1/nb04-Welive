@@ -47,5 +47,5 @@
     "logError": true,
     "pretty": true,
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "test/**/*"]
 }
