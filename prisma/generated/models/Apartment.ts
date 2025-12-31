@@ -323,7 +323,7 @@ export type ApartmentWhereUniqueInput = Prisma.AtLeast<{
   officeNumber?: Prisma.StringFilter<"Apartment"> | string
   residents?: Prisma.ResidentListRelationFilter
   admin?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id" | "id" | "name" | "adminId">
+}, "id" | "name" | "adminId">
 
 export type ApartmentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
