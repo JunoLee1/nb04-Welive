@@ -11,7 +11,7 @@ const lowerToUpper = z
 .transform((str) => str.toUpperCase())
 
 export const queryParamSchema = z.object({
-    page: stringToNumber.default(1),
+    page: stringToNumber.optional().default(1),
     limit: stringToNumber.optional().default(20),
     searchKeyword:lowerToUpper.optional(),
 })
