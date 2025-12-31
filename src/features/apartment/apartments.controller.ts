@@ -40,7 +40,7 @@ export class Controller {
       const { id } = req.params;
       if (!id) throw new HttpError(404, "NotFound");
       await service.findOne(id);
-      return res.status(204).end;
+      return res.status(204).end();
     } catch (error) {
       next(error);
     }

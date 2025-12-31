@@ -6,6 +6,6 @@ import { validate } from "../../lib/middleware/validator.js";
 const controller = new Controller();
 const aptRouter = Router();
 
-aptRouter.get("/", validate(queryParamSchema, "query"), controller.findMany);//TODO :TEST
-aptRouter.get("/:id", validate(paramSchema, "params"), controller.findOne);//TODO :TEST
+aptRouter.get("/", validate(queryParamSchema, "query"), controller.findMany);
+aptRouter.get("/:id", validate(paramSchema, "params"), controller.findOne);
 export default aptRouter;
