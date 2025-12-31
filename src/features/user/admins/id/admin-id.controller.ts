@@ -5,7 +5,7 @@ import { HttpError } from "../../../../lib/middleware/error.middleware/httpError
 const repo = new Repository();
 const service = new Service(repo);
 export class Controller {
-  contructor(service: Service) {}
+  constructor(service: Service) {}
 
   modifyUserInfo: RequestHandler = async (req, res, next) => {
     try {
