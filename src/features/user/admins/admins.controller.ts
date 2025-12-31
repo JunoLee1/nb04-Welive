@@ -31,13 +31,11 @@ export class Controller {
 
   accessList: RequestHandler = async (req, res, next) => {
     try {
-      console.log("received request from router");
       const { page, limit, searchKeyword, joinStatus } = req.query;
       const user = req.user;
       if (!user) throw new HttpError(401, "권한과 관련된 오류입니다.");
       if (user.role !== "SUPER_ADMIN")
         throw new HttpError(403, "권한과 관련된 오류입니다.");
-      console.log(user.role);
 
       const pageNumber = Number(page) || 1;
       const limitNumber = Number(limit) || 10;
@@ -49,8 +47,7 @@ export class Controller {
         keyword,
         joinStatus: status,
       });
-      console.log("📧 return from service ", result);
-      return res.status(201).json({
+      return res.status(200).json({
         data: result,
       });
     } catch (error) {
