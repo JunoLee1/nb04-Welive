@@ -31,7 +31,7 @@ export class Repository {
     };
     if (input.adminOf !== null) {
       data.adminOf = {
-        upadate: input.adminOf.map(apt => ({
+        update: input.adminOf.map(apt => ({
           where :{id: apt.id},
           data: { name: apt.name, address: apt.address }
         }))

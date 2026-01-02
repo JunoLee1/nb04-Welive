@@ -8,14 +8,14 @@ const meRouter = Router();
 const controller = new Controller();
 meRouter.patch(
   "/avatar",
+  passport.authenticate("accessToken", { session: false }),
   validate(avatarImageSchema, "body"),
-  passport.authenticate("accessToken", {session:false}),
   controller.modifiedAvatar
 ); // TODO:test
 meRouter.patch(
   "/password",
-  passport.authenticate("accessToken", {session:false}),
+  passport.authenticate("accessToken", { session: false }),
   validate(passwordSchema, "body"),
   controller.modifiedPassword
-); // TODO:test
+);
 export default meRouter;

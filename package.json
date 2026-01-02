@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "homepage": "https://github.com/JunoLee1/nb04-liv-it-team01-back#readme",
+  "typecheck": "tsc --noEmit",
   "bugs": {
     "url": "https://github.com/JunoLee1/nb04-liv-it-team01-back/issues"
   },
@@ -42,6 +43,7 @@
     "zod": "^4.2.1"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.958.0",
     "@prisma/client": "^7.1.0",
     "cors": "^2.8.5",
     "jsonwebtoken": "^9.0.3",
