@@ -30,6 +30,7 @@
     "@types/multer": "^2.0.0",
     "@types/passport": "^1.0.17",
     "@types/pg": "^8.16.0",
+    "@types/supertest": "^6.0.3",
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "dotenv": "^17.2.3",

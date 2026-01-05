@@ -12,7 +12,7 @@
     //"types": [],
     // For nodejs:
     "lib": ["esnext"],
-    "types": ["node"],
+    "types": ["node", "jest"],
     "moduleResolution": "nodenext",
     // and npm install -D @types/node
 
@@ -47,5 +47,5 @@
     "logError": true,
     "pretty": true,
   },
-  "include": ["src/**/*", "test/**/*"]
+  "include": ["src/**/*", "src//**/*.test.ts"]
 }
