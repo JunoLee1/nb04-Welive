@@ -12,24 +12,37 @@ export const s3Client = new S3Client({
   },
 });
 
-export async function uploadText() {
+export async function uploadImageToS3(file:  Express.Multer.File) {
   try {
+    const s3Client = new S3Client({ region: "ap-northeast-2" });
+
+    const key = `images/${Date.now()}-${file.originalname}`;
+
     const command = new PutObjectCommand({
       Bucket: process.env.AWS_S3_BUCKET_NAME || "BucketName",
-      Key: "text.txt",
-      Body: "text",
+      Key: key,
+      Body:file.buffer
     });
-    const respone = await s3Client.send(command);
+    await s3Client.send(command);
+    
+    const imageUrl = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.amazonaws.com/${key}`
+    return imageUrl
   } catch (error) {
     console.log(error);
+    throw(error)
   }
 }
-export async function delText() {
+export async function deleteImageToS3(key:string) {
   try {
+    const s3Client = new S3Client({ region: "ap-northeast-2" });
+
+
     const command = new DeleteObjectCommand({
       Bucket: process.env.AWS_S3_BUCKET_NAME||"BucketName",
-      Key: "text.txt",
+      Key: key,
     });
+    await s3Client.send(command)
+    return ;
   } catch (error) {
     console.log(error);
   }
