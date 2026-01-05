@@ -9,9 +9,11 @@ import {
   requestParamSchema,
 } from "./admins.validation.js";
 import passport from "../../../lib/passport/index.js";
+import upload from "../../../lib/middleware/upload.js";
 
 const controller = new Controller();
-const adminRouter = Router();
+const 
+adminRouter = Router();
 
 adminRouter.use(
   "/:id",
@@ -22,7 +24,12 @@ adminRouter.use(
 
 // create admin Api
 // address : users/admins
-adminRouter.post("/", validate(requestBodySchema, "body"), controller.register);
+adminRouter.post(
+  "/",
+  upload.single("avatarImage"),
+  validate(requestBodySchema, "body"),
+  controller.register
+);
 
 // access admins API
 // address : users/admins
