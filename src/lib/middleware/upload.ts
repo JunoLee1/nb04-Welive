@@ -1,6 +1,5 @@
 import multer, { type FileFilterCallback } from "multer";
 import path from "path";
-import type { Request } from "express";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
