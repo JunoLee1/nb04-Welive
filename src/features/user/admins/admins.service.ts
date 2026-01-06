@@ -12,7 +12,7 @@ import bcrypt from "bcrypt";
 export class Service {
   constructor(readonly repo: Repository) {}
 
-  register = async (input: RequestBody): Promise<AdminsCreateResponseDTO> => {
+  registerAdmin = async (input: RequestBody): Promise<void> => {
     const { email, name, username, password, avatar, contact } = input;
     const duplicatedEmail = await this.repo.findByEmail(email);
     if (duplicatedEmail)
@@ -28,7 +28,7 @@ export class Service {
       );
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newAdmin = await this.repo.createAdmin({
+    await this.repo.createAdmin({
       email,
       name,
       username,
@@ -36,10 +36,7 @@ export class Service {
       avatar,
       contact,
     });
-    const result = {
-      ...newAdmin,
-    };
-    return result;
+    return ;
   };
   accessList = async (input: ReqParams): Promise<AccessListOfAdminsResDTO> => {
     console.log("received request from access list routes");

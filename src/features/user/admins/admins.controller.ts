@@ -19,7 +19,7 @@ export class Controller {
       if (req.file) {
         avatarImage = await uploadImageToS3(req.file);
       }
-      await service.register({
+      await service.registerAdmin({
         email,
         name,
         username,

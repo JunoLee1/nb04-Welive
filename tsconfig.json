@@ -20,7 +20,7 @@
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
-
+    "resolveJsonModule": true,
     // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
@@ -42,10 +42,16 @@
     "moduleDetection": "force",
     "skipLibCheck": false,
     "esModuleInterop": true,
+    "allowJs": true,
+    "paths": {
+      "*": ["src/*"]
+    },
+    "baseUrl": ".",
   },
    "ts-node": {
     "logError": true,
     "pretty": true,
   },
-  "include": ["src/**/*", "src//**/*.test.ts"]
+  
+  "include": ["src/**/*.ts", "src/test/**/*.ts"]
 }
