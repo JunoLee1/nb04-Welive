@@ -6,10 +6,8 @@ import { HttpError } from "../../../lib/middleware/error.middleware/httpError.js
 import { JoinStatus } from "../../../../prisma/generated/client.js";
 import { uploadImageToS3 } from "../../../lib/middleware/S3.Client.js";
 
-const repo = new Repository();
-const service = new Service(repo);
 export class Controller {
-  constructor() {}
+  constructor(private service: Service) {}
 
   register: RequestHandler = async (req, res, next) => {
     try {
@@ -19,7 +17,7 @@ export class Controller {
       if (req.file) {
         avatarImage = await uploadImageToS3(req.file);
       }
-      await service.registerAdmin({
+      await this.service.registerAdmin({
         email,
         name,
         username,
@@ -35,9 +33,11 @@ export class Controller {
 
   accessList: RequestHandler = async (req, res, next) => {
     try {
+      console.log(1)
       const { page, limit, searchKeyword, joinStatus } = req.query;
       const user = req.user;
       if (!user) throw new HttpError(401, "인증과 관련된 오류입니다.");
+       console.log(11)
       if (user.role !== "SUPER_ADMIN")
         throw new HttpError(403, "권한과 관련된 오류입니다.");
 
@@ -45,7 +45,7 @@ export class Controller {
       const limitNumber = Number(limit) || 10;
       const status = joinStatus as JoinStatus;
       const keyword = searchKeyword as string;
-      const result = await service.accessList({
+      const result = await this.service.accessList({
         pageNumber,
         limitNumber,
         keyword,
@@ -69,7 +69,7 @@ export class Controller {
       if (!user) throw new HttpError(401, "권한과 관련된 오류입니다.");
       if (user.role !== "SUPER_ADMIN")
         throw new HttpError(403, "권한과 관련된 오류입니다.");
-      await service.modifyStatus({ pageNumber, limitNumber }, joinStatus);
+      await this.service.modifyStatus({ pageNumber, limitNumber }, joinStatus);
       return res.status(204).end();
     } catch (error) {
       next(error);
@@ -83,7 +83,7 @@ export class Controller {
       if (!user) throw new HttpError(401, "인증과 관련된 오류입니다.");
       if (user.role !== "SUPER_ADMIN")
         throw new HttpError(403, "권한과 관련된 오류입니다.");
-      await service.deleteRejectedAdmins();
+      await this.service.deleteRejectedAdmins();
       return res.status(204).end();
     } catch (error) {
       next(error);
