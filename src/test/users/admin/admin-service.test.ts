@@ -4,7 +4,7 @@ import { adminInput, admins} from './admins.data.js' with { type: 'json' };
 import { jest, describe, it, expect } from '@jest/globals';
 import * as jwtStrategy from "../../../lib/passport/jwt-strategy.js";
 import { HttpError } from "../../../lib/middleware/error.middleware/httpError.js";
-
+import {userList} from"./admins.data.js"
 interface RequestBody {
   email: string;
   password: string;
@@ -73,6 +73,7 @@ describe("admin.service", () => {
     let adminRepository: jest.Mocked<Repository>;
     let service: Service;
     let mockInput: any;
+    let adminsList:any
     beforeEach(() => {
       jest.clearAllMocks();
       adminRepository = {
@@ -86,47 +87,39 @@ describe("admin.service", () => {
         findById: jest.fn(),
         deleteMany: jest.fn(),
       };
-      mockInput = {}
+      adminsList = userList
     service = new Service(adminRepository);
     })
-    describe("failed cases", () => {
-      test.todo("해당 유저가 권한이 super-admin이 아닌 경우 403 에러 뱉기")
-    });
-    test.todo("리스트 조회 성공 시 데이터 보이기");
+    test("리스트 조회 성공 시 데이터와 데이터 갯수 page 랑 Limit 보이기",
+      async() => {
+        adminRepository.findMany.mockResolvedValue(adminsList)
+        adminRepository.count.mockResolvedValue(4)
+
+        const data = await service.accessList({ pageNumber: 1, limitNumber: 10, keyword:"",joinStatus:"PENDING" })
+    
+  expect(data.totalCount).toBe(4);
+expect(data.hasNext).toBe(false);
+      }
+    );
   });
   //-------------------------------------------
   describe("access an admin api", () => {
-    describe("failed cases", () => {
-      test.todo("해당 유저가 권한이 super-admin이 아닌 경우 403에러 뱉기");
-    });
     test.todo("관리자 조회 성공 시 관리자 정보 반환");
   });
   //-------------------------------------------
   describe("patch admins joinStatus api", () => {
-    describe("failed cases", () => {
-      test.todo("해당 유저가 권한이 super-admin이 아닌 경우 403에러 뱉기");
-    });
     test.todo("관리자(다건) 가입 상태변경 성공 시 204 반환");
   });
   //-------------------------------------------
   describe("patch an admin joinStatus api", () => {
-    describe("failed cases", () => {
-      test.todo("해당 유저가 권한이 super-admin이 아닌 경우 403에러 뱉기");
-    });
     test.todo("관리자 (단건) 가입 상태 변경 성공 시 관리자 정보 리턴");
   });
   //-------------------------------------------
   describe("patch an admin info api", () => {
-    describe("failed cases", () => {
-      it.todo("해당 유저가 권한이 super-admin이 아닌 경우 403에러 뱉기");
-    });
     it.todo("관리자 정보 수정 성공 시관리자 정보 리턴");
   });
   //-------------------------------------------
   describe("delete rejected admins", () => {
-    describe("failed cases", () => {
-      it.todo("해당 유저가 권한이 super-admin이 아닌 경우 403에러 뱉기");
-    });
     it.todo("거절된 관리자 일괄 삭제 성공시 204 반환");
   });
 });
