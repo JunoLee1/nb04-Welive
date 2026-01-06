@@ -1,5 +1,7 @@
 import { Router } from "express";
 import { Controller } from "./admins.controller.js";
+import { Service } from "./admins.service.js";
+import { Repository } from "./admins.repository.js";
 import idRouter from "./id/admin-id.routes.js";
 import { validate } from "../../../lib/middleware/validator.js";
 import {
@@ -11,9 +13,10 @@ import {
 import passport from "../../../lib/passport/index.js";
 import upload from "../../../lib/middleware/upload.js";
 
-const controller = new Controller();
-const 
-adminRouter = Router();
+const repo = new Repository()
+const service = new Service (repo)
+const controller = new Controller(service);
+const adminRouter = Router();
 
 adminRouter.use(
   "/:id",
