@@ -1,3 +1,4 @@
+import { HttpError } from "../../../../lib/middleware/error.middleware/httpError.js";
 import prisma from "../../../../lib/prisma.js";
 import type { StatusAction, RequestPayloadDTO } from "../admin.dto.js";
 type FindUniqueKey = "id" | "email" | "username" | "contact";
@@ -18,12 +19,13 @@ export class Repository {
   constructor() {}
   findOne = async (field: FindUniqueKey, value: string) => {
     const where = buildWhereClause(field, value);
-    const result = await prisma.user.findUnique({ where });
-    return result;
+    const user = await prisma.user.findUnique({ where });
+    return user;
   };
-  modifyInfo = async (id: string, input: RequestPayloadDTO) => {
+  modifyUserInfo = async (id: string, input: RequestPayloadDTO) => {
     const user = await this.findOne("id", id);
-    if (!user) throw new Error("User not found");
+    console.log(1111)
+    if (!user) throw new HttpError(404, "NotFound");
     const data: any = {
       username: input.username ?? user.username,
       email: input.email ?? user.email,
