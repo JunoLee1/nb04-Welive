@@ -72,7 +72,7 @@ export interface AccessListOfAdminsResDTO {
   hasNext: boolean;
 }
 
-export interface AdminsModifiedRsponseDTO {
+export interface AdminsModifiedResponseDTO {
   id: string;
   contact: string;
   username:string;
@@ -80,6 +80,17 @@ export interface AdminsModifiedRsponseDTO {
   email: string;
   role: string;
   avatar: string | null;
+  isActive: boolean;
+  approvedAt: Date | null;
+  adminOf: apartmentDTO | null;
+} 
+export interface AdminsModifiedRequestDTO {
+  contact?: string;
+  username?:string;
+  name?: string;
+  email?: string;
+  role: string;
+  avatar?: Express.Multer.File | null;
   isActive: boolean;
   approvedAt: Date | null;
   adminOf: apartmentDTO | null;

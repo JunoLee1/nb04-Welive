@@ -21,7 +21,7 @@ export class Repository {
     const result = await prisma.user.findUnique({ where });
     return result;
   };
-  modifyInfo = async (id: string, input: RequestPayloadDTO) => {
+  modifyUserInfo = async (id: string, input: RequestPayloadDTO) => {
     const user = await this.findOne("id", id);
     if (!user) throw new Error("User not found");
     const data: any = {
