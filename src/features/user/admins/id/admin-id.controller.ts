@@ -23,13 +23,13 @@ export class Controller {
       if (user.role !== "SUPER_ADMIN")
         throw new HttpError(403, "권한과 관련된 오류입니다.");
 
-      console.log(1)
+      const file = req.file as Express.Multer.File | undefined;
       await this.service.modifyUserInfo(userId, {
         email,
         username,
         adminOf,
         contact,
-        avatar: req.file,
+        avatar: file?.filename
       });
 
       return res.status(204).end();

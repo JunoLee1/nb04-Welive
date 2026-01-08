@@ -6,7 +6,8 @@ declare global {
             id: string;
             role: string;
             approvedAt: Date| null,
-            avatar: string| null
+            avatar: File| undefined
+            Multer: File | null
         }
     }
 }

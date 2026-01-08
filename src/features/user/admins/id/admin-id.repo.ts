@@ -29,7 +29,7 @@ export class Repository {
       email: input.email ?? user.email,
       contact: input.contact ?? user.contact,
     };
-    if (input.adminOf !== null) {
+    if (input.adminOf !== null && input.adminOf !== undefined ) {
       data.adminOf = {
         update: input.adminOf.map(apt => ({
           where :{id: apt.id},

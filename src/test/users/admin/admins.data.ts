@@ -85,7 +85,6 @@ export const admins = {
 
 export const userList = [
   admins.approvedAdmin,
-  admins.superAdmin,
   admins.pendingAdmin,
   admins.rejectedAdmin,
 ];

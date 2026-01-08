@@ -12,7 +12,7 @@ export const s3Client = new S3Client({
   },
 });
 
-export async function uploadImageToS3(file:  Express.Multer.File) {
+export async function uploadImageToS3(file:  Express.Multer.File  ) {
   try {
     const s3Client = new S3Client({ region: "ap-northeast-2" });
 

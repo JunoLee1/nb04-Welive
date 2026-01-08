@@ -7,7 +7,7 @@ import type {
   StatusAction,
   AdminsCreateResponseDTO,
   RequestPayloadDTO,
-  AdminsModifiedResponseDTO
+  AdminsModifiedResponseDTO,
 } from "../admin.dto.js";
 import { Repository } from "./admin-id.repo.js";
 
@@ -19,28 +19,34 @@ export class Service {
     input: RequestPayloadDTO
   ): Promise<AdminsModifiedResponseDTO> => {
     const { email, username, adminOf, contact, avatar } = input;
-    const existingUser = await repo.findOne("id", id);
+    console.log("id", id);
+    const existingUser = await this.repo.findOne("id", id);
+    console.log("existingUser:", existingUser);
     if (!existingUser) throw new HttpError(404, "NotFound");
-    let profileImageKey = existingUser.avatar; // 기존 key 유지
-
+    let profileImageKey = existingUser.avatar || undefined; // 기존 key 유지
+    console.log(1234);
     if (avatar) {
-      // 1️⃣ 기존 이미지 삭제
-      if (profileImageKey) {
-        await deleteImageToS3(profileImageKey);
+      if (typeof avatar === "string") {
+        // 테스트나 이미 업로드된 URL이라면 그대로 사용
+        profileImageKey = avatar;
+      } else {
+        // Multer File 객체
+        if (profileImageKey) await deleteImageToS3(profileImageKey);
+        const uploadedKey = await uploadImageToS3(avatar);
+        profileImageKey = uploadedKey;
       }
-
-      // 2️⃣ 새 이미지 업로드
-      const uploadedKey = await uploadImageToS3(avatar);
-      profileImageKey = uploadedKey;
+      console.log(12345);
     }
 
-    const admin = await this.repo.modifyUserInfo(id, {
-      email,
-      username,
-      adminOf,
-      contact,
-      avatar,
-    });
+    const updatedUser = {
+      ...existingUser,
+      id: existingUser.id,
+      ...(input.username !== undefined && { username: input.username }),
+      ...(input.email !== undefined && { email: input.email }),
+      ...(input.adminOf !== undefined && { adminOf: input.adminOf }),
+      ...(input.avatar !== undefined && { avatar: profileImageKey }),
+    };
+    const admin = await this.repo.modifyUserInfo(id, updatedUser);
     return admin;
   };
 
