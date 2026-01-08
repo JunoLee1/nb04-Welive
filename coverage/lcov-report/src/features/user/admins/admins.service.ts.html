@@ -365,7 +365,7 @@ import type {
 import { Repository } from "./admins.repository.js";
 import bcrypt from "bcrypt";
 export class Service {
-  constructor(readonly repo: Repository) {}
+<span class="fstat-no" title="function not covered" >  constructor(readonly <span class="cstat-no" title="statement not covered" >r</span>epo: Repository)</span> {}
 &nbsp;
   registerAdmin = <span class="fstat-no" title="function not covered" >async </span>(input: RequestBody): Promise&lt;void&gt; =&gt; {
     const { email, name, username, password, avatar, contact } = <span class="cstat-no" title="statement not covered" >input;</span>
@@ -393,7 +393,7 @@ export class Service {
     });
 <span class="cstat-no" title="statement not covered" >    return ;</span>
   };
-  accessList = <span class="fstat-no" title="function not covered" >async </span>(input: ReqParams): Promise&lt;AccessListOfAdminsResDTO&gt; =&gt; {
+  accessList = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async </span>(input: ReqParams): Promise&lt;AccessListOfAdminsResDTO&gt; =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    console.log("received request from access list routes");</span>
     const { pageNumber, limitNumber, keyword, joinStatus } = <span class="cstat-no" title="statement not covered" >input;</span>
     const skip = <span class="cstat-no" title="statement not covered" >(pageNumber - 1) * limitNumber;</span>
@@ -450,7 +450,7 @@ export class Service {
     };
   };
 &nbsp;
-  modifyStatus = <span class="fstat-no" title="function not covered" >async </span>(
+  modifyStatus = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async </span>(</span>
     // TODO: fix it
     pagenation: Pagenation,
     joinStatus: StatusAction
@@ -494,7 +494,7 @@ export class Service {
     };
   };
 &nbsp;
-  deleteRejectedAdmins = <span class="fstat-no" title="function not covered" >async </span>(): Promise&lt;void&gt; =&gt; {
+  deleteRejectedAdmins = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async </span>(): Promise&lt;void&gt; =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    return await this.repo.deleteMany();</span>
   };
 }
