@@ -29,7 +29,7 @@ export class Controller {
         username,
         adminOf,
         contact,
-        avatar: file?.filename
+        avatar: file?.filename,
       });
 
       return res.status(204).end();
@@ -39,18 +39,29 @@ export class Controller {
   };
   modifyJoinStatus: RequestHandler = async (req, res, next) => {
     try {
-      const { id } = req.params;
-      const { joinStatus } = req.body;
-
-      const user = req.user;
-      const userId = user?.id;
-
-      if (!user) throw new HttpError(404, "해당 유저를 찾을수 없습니다");
-      if (user.role !== "SUPER_ADMIN")
+      // 1️⃣ 인증
+      if (!req.user) {
+        throw new HttpError(401, "인증과 관련된 오류입니다.");
+      }
+      console.log(req.user.role)
+      
+      // 2️⃣ 권한
+      if (req.user.role !== "SUPER_ADMIN") {
         throw new HttpError(403, "권한과 관련된 오류입니다.");
-      if (!id) throw new HttpError(404, "해당 id를 찾을 수 없습니다");
-      if (!userId) throw new HttpError(401, "권한과 관련된 오류입니다.");
-      await service.modifyStatus(id, joinStatus);
+      }
+      // 3️⃣ 요청 유효성
+      const { id } = req.params;
+      console.log("id:",id)
+      if (!id) {
+        throw new HttpError(400, "잘못된 요청입니다.");
+      }
+
+      const { joinStatus } = req.body;
+      if (!joinStatus) {
+        throw new HttpError(400, "joinStatus가 필요합니다.");
+      }
+
+      await this.service.modifyStatus(id, joinStatus);
       return res.status(204).end();
     } catch (error) {
       next(error);

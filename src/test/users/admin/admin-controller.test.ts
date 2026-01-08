@@ -6,9 +6,7 @@ import { Service as adminIdService } from "../../../features/user/admins/id/admi
 import { Repository as adminIdRepo } from "../../../features/user/admins/id/admin-id.repo.js";
 import { Repository } from "../../../features/user/admins/admins.repository.js";
 import { accessTokenStrategy } from "../../../lib/passport/jwt-strategy.js";
-import * as jwtModule from "../../../lib/passport/jwt-strategy.js";
 import { HttpError } from "../../../lib/middleware/error.middleware/httpError.js";
-import type { VerifiedCallback } from "passport-jwt";
 
 jest.mock("../../../features/user/admins/id/admin-id.service.js");
 jest.mock("../../../features/user/admins/id/admin-id.repo.js");
@@ -230,6 +228,7 @@ describe("관리자 컨트롤러 테스트", () => {
           username: "hana lee",
         },
         user: { id: "admin-1" },
+        params: { id: "admin-1" }, // ✅ 반드시 필요
       }),
         (next = jest.fn()),
         (repo = new adminIdRepo());
@@ -295,32 +294,123 @@ describe("관리자 컨트롤러 테스트", () => {
       req.user = {
         id: "admin-1",
         role: "SUPER_ADMIN",
-      }
+      };
       req.body = {
-        contact:"01011112222"
-      }
+        contact: "01011112222",
+      };
       const mockResponse = {
-          id: "admin-1",
-          role: "SUPER_ADMIN",
-          contact: "01011112222",
-          username:"hana",
-          name: "hana lee",
-          email: "test@test.com",
-          avatar: null,
-          isActive: true,
-          approvedAt: null,
-          adminOf: null
-      }
+        id: "admin-1",
+        role: "SUPER_ADMIN",
+        contact: "01011112222",
+        username: "hana",
+        name: "hana lee",
+        email: "test@test.com",
+        avatar: null,
+        isActive: true,
+        approvedAt: null,
+        adminOf: null,
+      };
       //2️⃣ when
-      jest.spyOn(service, "modifyUserInfo").mockResolvedValue(mockResponse); 
+      jest.spyOn(service, "modifyUserInfo").mockResolvedValue(mockResponse);
       await controller.modifyUserInfo(req, res, next);
       //3️⃣ then
-      expect(res.status).toHaveBeenCalledWith(204)
+      expect(res.status).toHaveBeenCalledWith(204);
     });
   });
 
   //=================================================================
+
   describe("관리자 가입 상태 수정 컨트롤러", () => {
+    let service: adminIdService;
+    let controller: adminIdController;
+    let repo: adminIdRepo;
+    let req: any;
+    let res: any;
+    let next: any;
+    beforeEach(() => {
+      res = {
+        status: jest.fn(),
+        end: jest.fn(),
+      };
+      req = {
+        body: {
+          joinStatus: "APPROVED",
+        },
+        user: { id: "admin-1" },
+        params: { id: "admin-1" }, // ✅ 반드시 필요
+      };
+      next = jest.fn();
+      repo = new adminIdRepo();
+      service = new adminIdService(repo);
+      controller = new adminIdController(service);
+      jest.clearAllMocks();
+    });
+    describe("실패 케이스", () => {
+      it("인증 실패 -> 401", async () => {
+        //1️⃣ given
+        req.user = undefined;
+        //2️⃣ when
+        await controller.modifyJoinStatus(req, res, next);
+        //3️⃣ then
+        expect(next).toHaveBeenCalledWith(
+          expect.objectContaining({
+            status: 401,
+            message: "인증과 관련된 오류입니다.",
+          })
+        );
+      });
+      it("권한 없음 -> 403", async () => {
+        //1️⃣ given
+        req.user = {
+          id: "ADMIN-1",
+          role: "ADMIN",
+        };
+        //2️⃣ when
+        await controller.modifyJoinStatus(req, res, next);
+        expect(next).toHaveBeenCalledWith(
+          expect.objectContaining({
+            status: 403,
+            message: "권한과 관련된 오류입니다.",
+          })
+        );
+        //3️⃣ then
+      });
+      it("잘못된 요청 값입니다", async () => {
+        //1️⃣ given
+        req.user = {
+           id: "ADMIN-1",
+          role: "SUPER_ADMIN",
+        }
+        req.params = {};
+        //2️⃣ when
+        await controller.modifyJoinStatus(req, res, next);
+        //3️⃣ then
+        expect(next).toHaveBeenCalledWith(
+          expect.objectContaining({
+            status: 400,
+            message:"잘못된 요청입니다."
+          })
+        );
+      });
+      it.todo(
+        "서비스로부터 서비스 값을 반환 실패 -> 500"
+        //1️⃣ given
+        //2️⃣ when
+        //3️⃣ then
+      );
+    });
+    it.todo(
+      "서비스로부터 서비스 값을 반환 성공 -> 204"
+      //1️⃣ given
+      //2️⃣ when
+      //3️⃣ then
+    );
+  });
+
+  //=================================================================
+  describe("관리자들 가입 상태 수정 컨트롤러", () => {
+    //let service =
+    beforeEach(() => {});
     describe("실패 케이스", () => {
       it.todo(
         "인증 실패 -> 401"
