@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "homepage": "https://github.com/JunoLee1/nb04-liv-it-team01-back#readme",
-  "typecheck": "tsc --noEmit",
   "bugs": {
     "url": "https://github.com/JunoLee1/nb04-liv-it-team01-back/issues"
   },
@@ -19,7 +18,8 @@
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "start": "node ./dist/src/index.js",
     "build": "tsc",
-    "seed": "node --loader ts-node/esm prisma/seed.ts"
+    "seed": "node --loader ts-node/esm prisma/seed.ts",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@babel/core": "^7.28.5",
