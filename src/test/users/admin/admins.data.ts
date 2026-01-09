@@ -2,7 +2,6 @@ import { Role } from "../../../../prisma/generated/enums.js";
 import { JoinStatus } from "../../../../prisma/generated/enums.js";
 
 export const adminInput = {
-  
   validAdmin: {
     email: "test@test.com",
     password: "hashed1234",
@@ -63,6 +62,20 @@ export const admins = {
     approvedAt: null,
     isActive: true,
     avatar: null,
+    adminOf: {
+      id: "apt-1",
+      name: "모라주공",
+      createdAt: new Date("1990-12-01"),
+      updatedAt: new Date("1999-12-01"),
+      address: "부산광역시 사상구 모라동",
+      description: "모라 주공 아파트 102동 입니다",
+      buildingNumberFrom: 101,
+      buildingNumberTo: 404,
+      floorCountPerBuilding: 4,
+      unitCountPerFloor: 4,
+      officeNumber: "0515557777",
+      adminId: "exist-4",
+    },
   },
 
   rejectedAdmin: {
