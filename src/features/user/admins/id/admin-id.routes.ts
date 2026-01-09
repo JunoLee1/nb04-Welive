@@ -16,7 +16,7 @@ const controller = new Controller(service);
 idRouter.patch(
   "/joinStatus",
   validate(joinStatusSchema, "body"),
-  controller.modifyJoinStatus
+  controller.modifyStatus
 );
 
 // Patch an admin user info

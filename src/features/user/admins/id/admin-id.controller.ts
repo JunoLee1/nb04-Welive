@@ -37,7 +37,7 @@ export class Controller {
       next(error);
     }
   };
-  modifyJoinStatus: RequestHandler = async (req, res, next) => {
+  modifyStatus: RequestHandler = async (req, res, next) => {
     try {
       // 1️⃣ 인증
       if (!req.user) {
@@ -59,7 +59,7 @@ export class Controller {
         throw new HttpError(400, "joinStatus가 필요합니다.");
       }
 
-      await this.service.modifyJoinStatus(id, joinStatus);
+      await this.service.modifyStatus(id, joinStatus);
       return res.status(204).end();
     } catch (error) {
       next(error);
