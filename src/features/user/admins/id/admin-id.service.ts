@@ -46,10 +46,12 @@ export class Service {
     return admin;
   };
 
-  modifyJoinStatus = async (
+  modifyStatus = async (
     id: string,
-    joinStatus: StatusAction
+    joinStatus: StatusAction,
   ): Promise<AdminsCreateResponseDTO> => {
+    const existingUser = await this.repo.findOne("id", id);
+    if (!existingUser) throw new HttpError(404, "존재 하지 않는 유저 입니다");
     const admin = await this.repo.modifyStatus(id, joinStatus);
     return admin;
   };
