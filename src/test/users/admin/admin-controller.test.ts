@@ -280,7 +280,6 @@ describe("관리자 컨트롤러 테스트", () => {
         });
         await controller.modifyUserInfo(req, res, next);
         //3️⃣ then
-        console.log(next);
         expect(next).toHaveBeenCalledWith(
           expect.objectContaining({
             status: 500,
@@ -378,9 +377,9 @@ describe("관리자 컨트롤러 테스트", () => {
       it("잘못된 요청 값입니다", async () => {
         //1️⃣ given
         req.user = {
-           id: "ADMIN-1",
+          id: "ADMIN-1",
           role: "SUPER_ADMIN",
-        }
+        };
         req.params = {};
         //2️⃣ when
         await controller.modifyJoinStatus(req, res, next);
@@ -388,23 +387,69 @@ describe("관리자 컨트롤러 테스트", () => {
         expect(next).toHaveBeenCalledWith(
           expect.objectContaining({
             status: 400,
-            message:"잘못된 요청입니다."
+            message: "잘못된 요청입니다.",
           })
         );
       });
-      it.todo(
-        "서비스로부터 서비스 값을 반환 실패 -> 500"
+      it("서비스로부터 서비스 값을 반환 실패 -> 500", async () => {
         //1️⃣ given
+        req.user = {
+          id: "ADMIN-1",
+          role: "SUPER_ADMIN",
+        };
+        jest.spyOn(service, "modifyJoinStatus").mockImplementation(() => {
+          throw new HttpError(500, "알 수 없는 에러 입니다.");
+        });
         //2️⃣ when
+        await controller.modifyJoinStatus(req, res, next);
         //3️⃣ then
-      );
+        expect(next).toHaveBeenCalledWith(
+          expect.objectContaining({
+            status: 500,
+            message: "알 수 없는 에러 입니다.",
+          })
+        );
+      });
     });
-    it.todo(
-      "서비스로부터 서비스 값을 반환 성공 -> 204"
+    it("서비스로부터 서비스 값을 반환 성공 -> 204", async () => {
       //1️⃣ given
+      req.user = {
+        id: "ADMIN-1",
+        role: "SUPER_ADMIN",
+        joinStatus: "APPROVED",
+      };
+      jest
+        .spyOn(service, "modifyJoinStatus")
+        .mockImplementation(async (id, joinStatus) => {
+          return {
+            id,
+            contact: "01011112222",
+            name: "Hana",
+            role: "ADMINS",
+            avatar: null,
+            isActive: true,
+            joinStatus: req.user.joinStatus ?? "PENDING",
+            approvedAt: null,
+            adminOf: {
+              id: "apt - 1",
+              createdAt: new Date("2015-01-01"),
+              updatedAt:new Date("2025-01-01"),
+              name:"망미 주공 아파트",
+              address:"부산 광역시",
+              description:"안녕하세요. 망미 주공아파트 101동 입니다",
+              officeNumber:"0511112222",
+              buildingNumberFrom:104,
+              buildingNumberTo:404,
+              floorCountPerBuilding:4,
+              unitCountPerFloor:4,
+              adminId: id,
+            },
+          };
+        });
       //2️⃣ when
+      await controller.modifyJoinStatus(req, res, next);
       //3️⃣ then
-    );
+    });
   });
 
   //=================================================================
@@ -413,29 +458,37 @@ describe("관리자 컨트롤러 테스트", () => {
     beforeEach(() => {});
     describe("실패 케이스", () => {
       it.todo(
-        "인증 실패 -> 401"
+        "인증 실패 -> 401" // async () => {
         //1️⃣ given
         //2️⃣ when
         //3️⃣ then
+        //}
+        //
       );
       it.todo(
         "권한 없음 -> 403"
+        //async () => {
         //1️⃣ given
         //2️⃣ when
         //3️⃣ then
+        //}
       );
       it.todo(
         "서비스로부터 서비스 값을 반환 실패 -> 500"
+        //async () => {
         //1️⃣ given
         //2️⃣ when
         //3️⃣ then
+        //}
       );
     });
     it.todo(
       "서비스로부터 서비스 값을 반환 성공 -> 204"
+      //async () => {
       //1️⃣ given
       //2️⃣ when
       //3️⃣ then
+      //}
     );
   });
 
@@ -444,28 +497,36 @@ describe("관리자 컨트롤러 테스트", () => {
     describe("실패 케이스", () => {
       it.todo(
         "인증 실패 -> 401"
+        //async () => {
         //1️⃣ given
         //2️⃣ when
         //3️⃣ then
+        //}
       );
       it.todo(
         "권한 없음 -> 403"
+        //async () => {
         //1️⃣ given
         //2️⃣ when
         //3️⃣ then
+        //}
       );
       it.todo(
         "서비스로부터 서비스 값을 반환 실패 -> 500"
+        //async () => {
         //1️⃣ given
         //2️⃣ when
         //3️⃣ then
+        //}
       );
     });
     it.todo(
       "서비스로부터 서비스 값을 반환 성공 -> 204"
+      //async () => {
       //1️⃣ given
       //2️⃣ when
       //3️⃣ then
+      //}
     );
   });
 });
