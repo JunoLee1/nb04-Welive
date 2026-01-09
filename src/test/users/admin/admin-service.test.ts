@@ -209,7 +209,6 @@ describe("admin.service", () => {
         avatar: null,
       };
       //2️⃣ when
-      console.log("repo.findOne is mock?", jest.isMockFunction(repo.findOne));
       const result = await service.modifyUserInfo(id, mockUser);
 
       //3️⃣ then
@@ -219,19 +218,48 @@ describe("admin.service", () => {
     });
   });
   //-------------------------------------------
-  describe("patch admins joinStatus api", () => {
-    test.todo(
-      "관리자(다건) 가입 상태변경 성공 시 204 반환" //async () => {
+  describe("patch admin joinStatus api", () => {
+    let repo: jest.Mocked<adminIdRepo>;
+    let service: adminIdService;
+    let mockUser:any;
+    beforeEach(() => {
+      repo = {
+        findOne: jest.fn(),
+        modifyUserInfo: jest.fn(),
+        modifyStatus: jest.fn(),
+        delete: jest.fn(),
+      };
+      mockUser = admins.approvedAdmin;
+      service = new adminIdService(repo);
+      jest.clearAllMocks();
+    });
+    test("해당 유저가 존재하지 않는 경우 -> 404", async () => {
       //1️⃣ given
+      repo.findOne.mockResolvedValue(null);
+      //2️⃣ when 3️⃣ then
+      await expect(
+       service.modifyStatus("not-exist-id", "APPROVED")
+      ).rejects.toThrow("존재 하지 않는 유저 입니다");
+    });
+      
+    test(
+      "관리자(단건) 가입 상태변경 성공시 해당 ",
+      async () => {
+      //1️⃣ given
+      repo.findOne.mockResolvedValue(mockUser);
+      repo.modifyStatus.mockResolvedValue(mockUser)
+      
       //2️⃣ when
+      await service.modifyStatus(mockUser.id, "APPROVED")
       //3️⃣ then
-      //});
+      expect(mockUser.joinStatus).toBe("APPROVED")
+      }
     );
   });
   //-------------------------------------------
-  describe("patch an admin joinStatus api", () => {
+  describe("patch admins joinStatus api", () => {
     test.todo(
-      "관리자 (단건) 가입 상태 변경 성공 시 관리자 정보 리턴" //async() => {
+      "관리자 (다건) 가입 상태 변경 성공 시 관리자들 정보 리턴" //async() => {
       //1️⃣ given
       //2️⃣ when
       //3️⃣ then
