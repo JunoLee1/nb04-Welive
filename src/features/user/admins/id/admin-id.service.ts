@@ -19,12 +19,9 @@ export class Service {
     input: RequestPayloadDTO
   ): Promise<AdminsModifiedResponseDTO> => {
     const { email, username, adminOf, contact, avatar } = input;
-    console.log("id", id);
     const existingUser = await this.repo.findOne("id", id);
-    console.log("existingUser:", existingUser);
     if (!existingUser) throw new HttpError(404, "NotFound");
     let profileImageKey = existingUser.avatar || undefined; // 기존 key 유지
-    console.log(1234);
     if (avatar) {
       if (typeof avatar === "string") {
         // 테스트나 이미 업로드된 URL이라면 그대로 사용
@@ -35,7 +32,6 @@ export class Service {
         const uploadedKey = await uploadImageToS3(avatar);
         profileImageKey = uploadedKey;
       }
-      console.log(12345);
     }
 
     const updatedUser = {
@@ -50,7 +46,7 @@ export class Service {
     return admin;
   };
 
-  modifyStatus = async (
+  modifyJoinStatus = async (
     id: string,
     joinStatus: StatusAction
   ): Promise<AdminsCreateResponseDTO> => {
