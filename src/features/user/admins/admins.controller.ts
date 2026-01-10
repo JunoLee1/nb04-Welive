@@ -64,7 +64,7 @@ export class Controller {
       const pageNumber = Number(page) || 1;
       const limitNumber = Number(limit) || 10;
       const user = req.user;
-      if (!user) throw new HttpError(401, "권한과 관련된 오류입니다.");
+      if (!user) throw new HttpError(401, "인증과 관련된 오류입니다.");
       if (user.role !== "SUPER_ADMIN")
         throw new HttpError(403, "권한과 관련된 오류입니다.");
       await this.service.modifyStatus({ pageNumber, limitNumber }, joinStatus);

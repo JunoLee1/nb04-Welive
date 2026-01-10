@@ -13,8 +13,8 @@ export class Controller {
 
   modifyUserInfo: RequestHandler = async (req, res, next) => {
     try {
-      //const { id } = req.params;
-      const { email, username, adminOf, contact } = req.body;
+      const { id } = req.params;
+      const { email, username, adminOf, contact, avatar } = req.body;
       const user = req.user;
       const userId = user?.id;
 
@@ -24,14 +24,13 @@ export class Controller {
         throw new HttpError(403, "권한과 관련된 오류입니다.");
 
       const file = req.file as Express.Multer.File | undefined;
-      await this.service.modifyUserInfo(userId, {
+      const result = await this.service.modifyUserInfo(userId, {
         email,
         username,
         adminOf,
         contact,
         avatar: file?.filename,
       });
-
       return res.status(204).end();
     } catch (error) {
       next(error);

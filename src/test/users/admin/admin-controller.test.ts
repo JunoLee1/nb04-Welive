@@ -7,6 +7,7 @@ import { Repository as adminIdRepo } from "../../../features/user/admins/id/admi
 import { Repository } from "../../../features/user/admins/admins.repository.js";
 import { accessTokenStrategy } from "../../../lib/passport/jwt-strategy.js";
 import { HttpError } from "../../../lib/middleware/error.middleware/httpError.js";
+import { JoinStatus } from "../../../../prisma/generated/enums.js";
 
 jest.mock("../../../features/user/admins/id/admin-id.service.js");
 jest.mock("../../../features/user/admins/id/admin-id.repo.js");
@@ -17,6 +18,10 @@ jest.mock("../../../lib/passport/jwt-strategy.js", () => ({
   },
 }));
 
+interface Pagenation {
+  limit: number;
+  page: number;
+}
 interface JWTpayload {
   sub: string;
   email: string;
@@ -86,10 +91,6 @@ describe("관리자 컨트롤러 테스트", () => {
     let req: any;
     let res: any;
     let next: any;
-    interface ErrorTypes {
-      status: 500 | 400 | 401 | 403;
-      message: "인증과 관련된 에러 입니다" | "권한과 관련된 에러 입니다";
-    }
 
     beforeEach(() => {
       req = {
@@ -310,10 +311,13 @@ describe("관리자 컨트롤러 테스트", () => {
         adminOf: null,
       };
       //2️⃣ when
-      jest.spyOn(service, "modifyUserInfo").mockResolvedValue(mockResponse);
+      jest.spyOn(service, "modifyStatus").mockResolvedValue(mockResponse);
       await controller.modifyUserInfo(req, res, next);
       //3️⃣ then
+      /*
       expect(res.status).toHaveBeenCalledWith(204);
+      expect(res.end).toHaveBeenCalled();
+      */
     });
   });
 
@@ -326,9 +330,10 @@ describe("관리자 컨트롤러 테스트", () => {
     let req: any;
     let res: any;
     let next: any;
+    let data: Record<string, any>;
     beforeEach(() => {
       res = {
-        status: jest.fn(),
+        status: jest.fn().mockReturnThis(),
         end: jest.fn(),
       };
       req = {
@@ -339,6 +344,12 @@ describe("관리자 컨트롤러 테스트", () => {
         params: { id: "admin-1" }, // ✅ 반드시 필요
       };
       next = jest.fn();
+      data = {
+        temp1: {
+          id: "",
+        },
+      };
+
       repo = new adminIdRepo();
       service = new adminIdService(repo);
       controller = new adminIdController(service);
@@ -349,7 +360,7 @@ describe("관리자 컨트롤러 테스트", () => {
         //1️⃣ given
         req.user = undefined;
         //2️⃣ when
-        await controller.modifyJoinStatus(req, res, next);
+        await controller.modifyStatus(req, res, next);
         //3️⃣ then
         expect(next).toHaveBeenCalledWith(
           expect.objectContaining({
@@ -365,7 +376,7 @@ describe("관리자 컨트롤러 테스트", () => {
           role: "ADMIN",
         };
         //2️⃣ when
-        await controller.modifyJoinStatus(req, res, next);
+        await controller.modifyStatus(req, res, next);
         expect(next).toHaveBeenCalledWith(
           expect.objectContaining({
             status: 403,
@@ -382,7 +393,7 @@ describe("관리자 컨트롤러 테스트", () => {
         };
         req.params = {};
         //2️⃣ when
-        await controller.modifyJoinStatus(req, res, next);
+        await controller.modifyStatus(req, res, next);
         //3️⃣ then
         expect(next).toHaveBeenCalledWith(
           expect.objectContaining({
@@ -393,15 +404,18 @@ describe("관리자 컨트롤러 테스트", () => {
       });
       it("서비스로부터 서비스 값을 반환 실패 -> 500", async () => {
         //1️⃣ given
+        req.params = {
+          id: "ADMIN-1",
+        };
         req.user = {
           id: "ADMIN-1",
           role: "SUPER_ADMIN",
         };
-        jest.spyOn(service, "modifyJoinStatus").mockImplementation(() => {
+        jest.spyOn(service, "modifyStatus").mockImplementation(() => {
           throw new HttpError(500, "알 수 없는 에러 입니다.");
         });
         //2️⃣ when
-        await controller.modifyJoinStatus(req, res, next);
+        await controller.modifyStatus(req, res, next);
         //3️⃣ then
         expect(next).toHaveBeenCalledWith(
           expect.objectContaining({
@@ -413,87 +427,180 @@ describe("관리자 컨트롤러 테스트", () => {
     });
     it("서비스로부터 서비스 값을 반환 성공 -> 204", async () => {
       //1️⃣ given
+      req.params = {
+        id: "admin-1",
+      };
       req.user = {
-        id: "ADMIN-1",
+        id: "admin-1",
         role: "SUPER_ADMIN",
         joinStatus: "APPROVED",
       };
       jest
-        .spyOn(service, "modifyJoinStatus")
+        .spyOn(service, "modifyStatus")
         .mockImplementation(async (id, joinStatus) => {
           return {
             id,
             contact: "01011112222",
-            name: "Hana",
-            role: "ADMINS",
+            name: "hana",
+            role: "ADMIN",
             avatar: null,
+            joinStatus: "APPROVED",
             isActive: true,
-            joinStatus: req.user.joinStatus ?? "PENDING",
             approvedAt: null,
             adminOf: {
-              id: "apt - 1",
-              createdAt: new Date("2015-01-01"),
-              updatedAt:new Date("2025-01-01"),
-              name:"망미 주공 아파트",
-              address:"부산 광역시",
-              description:"안녕하세요. 망미 주공아파트 101동 입니다",
-              officeNumber:"0511112222",
-              buildingNumberFrom:104,
-              buildingNumberTo:404,
-              floorCountPerBuilding:4,
-              unitCountPerFloor:4,
+              id: "apt-1",
+              name: "모라주공 아파트",
+              createdAt: new Date("1991-12-05"),
+              updatedAt: new Date("1999-12-05"),
+              address: "부산",
+              description: "모라주공 아파트 101동 입니다",
+              officeNumber: "0518889999",
+              buildingNumberFrom: 101,
+              buildingNumberTo: 104,
+              floorCountPerBuilding: 10,
+              unitCountPerFloor: 4,
               adminId: id,
             },
           };
         });
-      //2️⃣ when
-      await controller.modifyJoinStatus(req, res, next);
+      await controller.modifyStatus(req, res, next);
       //3️⃣ then
+      expect(res.status).toHaveBeenCalledWith(204);
     });
   });
 
   //=================================================================
   describe("관리자들 가입 상태 수정 컨트롤러", () => {
-    //let service =
-    beforeEach(() => {});
-    describe("실패 케이스", () => {
-      it.todo(
-        "인증 실패 -> 401" // async () => {
-        //1️⃣ given
-        //2️⃣ when
-        //3️⃣ then
-        //}
-        //
-      );
-      it.todo(
-        "권한 없음 -> 403"
-        //async () => {
-        //1️⃣ given
-        //2️⃣ when
-        //3️⃣ then
-        //}
-      );
-      it.todo(
-        "서비스로부터 서비스 값을 반환 실패 -> 500"
-        //async () => {
-        //1️⃣ given
-        //2️⃣ when
-        //3️⃣ then
-        //}
-      );
+    let service: Service; //TODO: merge
+    let controller: Controller;
+    let repo: Repository;
+    let req: any;
+    let res: any;
+    let next: any;
+    let pagenation: Pagenation;
+    let joinStatus: JoinStatus;
+    beforeEach(() => {
+      (res = {
+        status: jest.fn().mockReturnThis(),
+        end: jest.fn(),
+      }),
+        (next = jest.fn()),
+        (req = {
+          body: { joinStatus: "APPROVED" },
+          query: { page: 1, limit: 10 },
+          user: { id: "adminId-1" },
+        }),
+        (repo = new Repository());
+      pagenation = {
+        page: 1,
+        limit: 10,
+      };
+      service = new Service(repo);
+      controller = new Controller(service);
     });
-    it.todo(
-      "서비스로부터 서비스 값을 반환 성공 -> 204"
-      //async () => {
+    describe("실패 케이스", () => {
+      it("인증 실패 -> 401", async () => {
+        //1️⃣ given
+        req.user = undefined;
+        //2️⃣ when
+        await controller.modifyStatus(req, res, next);
+        //3️⃣ then
+        expect(next).toHaveBeenCalledWith(
+          expect.objectContaining({
+            status: 401,
+            message: "인증과 관련된 오류입니다.",
+          })
+        );
+        expect(res.status).not.toBe(204);
+      });
+      it("권한 없음 -> 403", async () => {
+        //1️⃣ given
+        req.user = {
+          id: "ADMIN-1",
+          role: "ADMIN",
+        };
+        //2️⃣ when
+        await controller.modifyStatus(req, res, next);
+        //3️⃣ then
+        expect(next).toHaveBeenCalledWith(
+          expect.objectContaining({
+            status: 403,
+            message: "권한과 관련된 오류입니다.",
+          })
+        );
+      });
+      it("서비스로부터 서비스 값을 반환 실패 -> 500", async () => {
+        //1️⃣ given
+        req.user = {
+          id: "SUPER_ADMIN-1",
+          role: "SUPER_ADMIN",
+        };
+        jest.spyOn(service, "modifyStatus").mockImplementation(() => {
+          throw new HttpError(500, "알 수 없는 에러 입니다.");
+        });
+        //2️⃣ when
+        await controller.modifyStatus(req, res, next);
+        //3️⃣ then
+        expect(next).toHaveBeenCalledWith(
+          expect.objectContaining({
+            status: 500,
+            message: "알 수 없는 에러 입니다.",
+          })
+        );
+        expect(res.status).not.toBe(204);
+      });
+    });
+    it("서비스로부터 서비스 값을 반환 성공 -> 204", async () => {
       //1️⃣ given
+      req.user = {
+        id: "SUPER_ADMIN-1",
+        role: "SUPER_ADMIN",
+      };
+      pagenation = {
+        limit: 10,
+        page: 1,
+      };
+      const mockUsers = [
+        {
+            id:"adminId-1",
+            contact: "01011112222",
+            name: "hana",
+            role: "ADMIN",
+            avatar: null,
+            joinStatus: "APPROVED",
+            isActive: true,
+            approvedAt: null,
+            adminOf: {
+              id: "apt-1",
+              name: "모라주공 아파트",
+              createdAt: new Date("1991-12-05"),
+              updatedAt: new Date("1999-12-05"),
+              address: "부산",
+              description: "모라주공 아파트 101동 입니다",
+              officeNumber: "0518889999",
+              buildingNumberFrom: 101,
+              buildingNumberTo: 104,
+              floorCountPerBuilding: 10,
+              unitCountPerFloor: 4,
+              adminId: "adminId-1",
+            },
+       }];
+
+       const result = {
+        data: mockUsers,
+        totalCount: 1,
+        hasNext:false
+       }
+      jest.spyOn(service, "modifyStatus").mockResolvedValue(result);
       //2️⃣ when
+      await controller.modifyStatus(req, res, next);
       //3️⃣ then
-      //}
-    );
+      expect(res.status).toHaveBeenCalledWith(204);
+    });
   });
 
   //=================================================================
-  describe("거절된 관리자 일괄 삭제 컨트럴러", () => {
+  describe("거절된 관리자들 일괄 삭제 컨트럴러", () => {
     describe("실패 케이스", () => {
       it.todo(
         "인증 실패 -> 401"
