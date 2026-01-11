@@ -15,11 +15,10 @@ export class Controller {
   loginHandler: RequestHandler = async (req, res, next) => {
     try {
       const { username, password }: LoginRequestDTO = req.body;
-      const user = req.user;
-      if (!user) throw new HttpError(401, "인증과 관련된 오류 입니다.");
-      await this.service.login({ username, password });
+      const user = await this.service.login({ username, password });
       // generate token
       const { accessToken, refreshToken } = generateToken(user.id);
+      if(!accessToken && refreshToken) throw new HttpError(500, "알 수 없는 에러 입니다")
       setTokenCookies({ res, accessToken, refreshToken });
       console.log("accessToken: ", accessToken); //Do not remove it till test
       return res.status(204).end();
