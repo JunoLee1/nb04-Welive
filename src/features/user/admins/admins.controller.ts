@@ -33,11 +33,9 @@ export class Controller {
 
   accessList: RequestHandler = async (req, res, next) => {
     try {
-      console.log(1)
       const { page, limit, searchKeyword, joinStatus } = req.query;
       const user = req.user;
       if (!user) throw new HttpError(401, "인증과 관련된 오류입니다.");
-       console.log(11)
       if (user.role !== "SUPER_ADMIN")
         throw new HttpError(403, "권한과 관련된 오류입니다.");
 

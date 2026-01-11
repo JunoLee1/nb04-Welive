@@ -13,15 +13,19 @@ export class Controller {
   constructor(private readonly service: Service) {}
 
   loginHandler: RequestHandler = async (req, res, next) => {
-    const { username, password }: LoginRequestDTO = req.body;
-    const user = req.user;
-    if (!user) throw new HttpError(401, "unauthorized.");
-    const data = await this.service.login({ username, password });
-    // generate token
-    const { accessToken, refreshToken } = generateToken(user.id);
-    setTokenCookies({ res, accessToken, refreshToken });
-    console.log("accessToken: ", accessToken); //Do not remove it till test
-    return res.status(200).end();
+    try {
+      const { username, password }: LoginRequestDTO = req.body;
+      const user = req.user;
+      if (!user) throw new HttpError(401, "인증과 관련된 오류 입니다.");
+      await this.service.login({ username, password });
+      // generate token
+      const { accessToken, refreshToken } = generateToken(user.id);
+      setTokenCookies({ res, accessToken, refreshToken });
+      console.log("accessToken: ", accessToken); //Do not remove it till test
+      return res.status(204).end();
+    } catch (error) {
+      next(error)
+    }
   };
 
   logoutHandler: RequestHandler = async (req, res, next) => {
