@@ -12,7 +12,7 @@
     //"types": [],
     // For nodejs:
     "lib": ["esnext"],
-    "types": ["node"],
+    "types": ["node", "jest"],
     "moduleResolution": "nodenext",
     // and npm install -D @types/node
 
@@ -20,7 +20,7 @@
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
-
+    "resolveJsonModule": true,
     // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
@@ -42,10 +42,16 @@
     "moduleDetection": "force",
     "skipLibCheck": false,
     "esModuleInterop": true,
+    "allowJs": true,
+    "paths": {
+      "*": ["src/*"]
+    },
+    "baseUrl": ".",
   },
    "ts-node": {
     "logError": true,
     "pretty": true,
   },
-  "include": ["src/**/*", "test/**/*"]
+  
+  "include": ["src/**/*.ts", "src/test/**/*.ts"]
 }

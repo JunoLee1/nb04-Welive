@@ -1,0 +1,14 @@
+{
+  "preset": "ts-jest/presets/default-esm",
+  "verbose": true,
+  "collectCoverage": true,
+  "rootDir": ".",
+  "testMatch": [
+    "**/?(*.)+(spec|test).[tj]s?(x)"
+  ],
+  "testEnvironment": "node",
+  "moduleNameMapper": {
+    "^(\\.{1,2}/.*)\\.js$": "$1"
+  },
+ "extensionsToTreatAsEsm": [".ts"]
+}

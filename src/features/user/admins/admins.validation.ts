@@ -25,11 +25,11 @@ export const requestQuerySchema = z.object({
   page: z.coerce.number(),
   limit: z.coerce.number(),
   searchKeyword: z.string().optional(),
-  joinStatus: z.string().default("PENDING"),
+  joinStatus: z.enum(["PENDING", "APPROVED", "REJECTED"]).default("PENDING"),
 });
 
 export const joinStatusSchema = z.object({
-  joinStatus: z.string(),
+  joinStatus: z.enum(["PENDING", "APPROVED", "REJECTED"]).default("PENDING"),
 });
 
 export const requestParamSchema = z.object({
@@ -44,4 +44,4 @@ export type JoinStatusSchema = z.infer<typeof joinStatusSchema>;
 
 export type ParamSchema = z.infer<typeof requestParamSchema>;
 
-export type  RequestPatchSchema = z.infer<typeof requestPatchSchema>;
+export type RequestPatchSchema = z.infer<typeof requestPatchSchema>;

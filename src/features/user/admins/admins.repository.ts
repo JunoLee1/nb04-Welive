@@ -75,7 +75,16 @@ export class Repository {
     });
     return result;
   };
-
+  count = async (whereCondition: Param, status: JoinStatus):Promise<number> => {
+    const result = await prisma.user.count({
+      where:{
+        role: "ADMIN",
+        joinStatus: status,
+        ...whereCondition,
+      }
+    })
+    return result;
+  }
   findById = async (id: string) => {
     const userId = await prisma.user.findUnique({
       where: {

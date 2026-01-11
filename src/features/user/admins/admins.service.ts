@@ -1,3 +1,4 @@
+import { JoinStatus } from "../../../../prisma/generated/enums.js";
 import { HttpError } from "../../../lib/middleware/error.middleware/httpError.js";
 import type {
   RequestBody,
@@ -12,7 +13,7 @@ import bcrypt from "bcrypt";
 export class Service {
   constructor(readonly repo: Repository) {}
 
-  register = async (input: RequestBody): Promise<AdminsCreateResponseDTO> => {
+  registerAdmin = async (input: RequestBody): Promise<void> => {
     const { email, name, username, password, avatar, contact } = input;
     const duplicatedEmail = await this.repo.findByEmail(email);
     if (duplicatedEmail)
@@ -28,7 +29,7 @@ export class Service {
       );
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newAdmin = await this.repo.createAdmin({
+    await this.repo.createAdmin({
       email,
       name,
       username,
@@ -36,16 +37,12 @@ export class Service {
       avatar,
       contact,
     });
-    const result = {
-      ...newAdmin,
-    };
-    return result;
+    return ;
   };
   accessList = async (input: ReqParams): Promise<AccessListOfAdminsResDTO> => {
     console.log("received request from access list routes");
     const { pageNumber, limitNumber, keyword, joinStatus } = input;
     const skip = (pageNumber - 1) * limitNumber;
-    console.log(pageNumber, limitNumber, skip);
 
     const whereCondition = keyword
       ? {
@@ -104,16 +101,27 @@ export class Service {
     pagenation: Pagenation,
     joinStatus: StatusAction
   ): Promise<AccessListOfAdminsResDTO> => {
-    const modifiedStatusAdmins = await this.repo.updateMany(joinStatus);
+    const toStatus =
+    joinStatus === "APPROVED"
+      ? JoinStatus.APPROVED
+      : JoinStatus.REJECTED;
+  await this.repo.updateMany(joinStatus);
+    const modifiedStatusAdmins = await this.repo.updateMany(toStatus);
     const { pageNumber, limitNumber } = pagenation;
-    const admins = await this.repo.findManyByStatus(joinStatus);
+    const admins = await this.repo.findManyByStatus(toStatus);
     const data = admins.map((u) => ({
       id: u.id,
       contact: u.contact,
+      email: u.email,
+      joinStatus:toStatus,
+      password:u.password,
+      username:u.username,
       name: u.name,
       role: "ADMIN",
       avatar: u.avatar,
       isActive: u.isActive,
+      createdAt: u.createdAt,
+      updatedAt: u.updatedAt,
       approvedAt: null,
       adminOf: u.adminOf
         ? {
