@@ -7,7 +7,7 @@ describe("../../services/auth.service", () => {
         "해당 유저의 비밀번호가 db 상에 존재 하는 비밀번호와 다른 경우 400 에러 뱉기"
       );
     });
-    it.todo("로그인 성공시 204");
+    it.todo("로그인 성공 => data 반환");
   });
 
   //auth refreshToken Handler API
