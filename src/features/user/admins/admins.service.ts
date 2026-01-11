@@ -1,3 +1,4 @@
+import { JoinStatus } from "../../../../prisma/generated/enums.js";
 import { HttpError } from "../../../lib/middleware/error.middleware/httpError.js";
 import type {
   RequestBody,
@@ -100,16 +101,27 @@ export class Service {
     pagenation: Pagenation,
     joinStatus: StatusAction
   ): Promise<AccessListOfAdminsResDTO> => {
-    const modifiedStatusAdmins = await this.repo.updateMany(joinStatus);
+    const toStatus =
+    joinStatus === "APPROVED"
+      ? JoinStatus.APPROVED
+      : JoinStatus.REJECTED;
+  await this.repo.updateMany(joinStatus);
+    const modifiedStatusAdmins = await this.repo.updateMany(toStatus);
     const { pageNumber, limitNumber } = pagenation;
-    const admins = await this.repo.findManyByStatus(joinStatus);
+    const admins = await this.repo.findManyByStatus(toStatus);
     const data = admins.map((u) => ({
       id: u.id,
       contact: u.contact,
+      email: u.email,
+      joinStatus:toStatus,
+      password:u.password,
+      username:u.username,
       name: u.name,
       role: "ADMIN",
       avatar: u.avatar,
       isActive: u.isActive,
+      createdAt: u.createdAt,
+      updatedAt: u.updatedAt,
       approvedAt: null,
       adminOf: u.adminOf
         ? {
