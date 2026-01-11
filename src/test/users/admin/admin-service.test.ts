@@ -6,7 +6,7 @@ import { Service as adminIdService } from "../../../features/user/admins/id/admi
 import { Repository as adminIdRepo } from "../../../features/user/admins/id/admin-id.repo.js";
 import * as jwtStrategy from "../../../lib/passport/jwt-strategy.js";
 import { HttpError } from "../../../lib/middleware/error.middleware/httpError.js";
-import { userList } from "./admins.data.js";
+import { userList, approvedUserList } from "./admins.data.js";
 import { Role } from "../../../../prisma/generated/enums.js";
 interface RequestBody {
   email: string;
@@ -79,14 +79,14 @@ describe("admin.service", () => {
       );
     });
   });
-  /*
+
   //-------------------------------------------
   describe("access admins api", () => {
     let adminRepository: jest.Mocked<Repository>;
     let service: Service;
     let mockInput: any;
     let adminsList: any;
-    beforeEach(async() => {
+    beforeEach(async () => {
       jest.clearAllMocks();
       adminRepository = {
         createAdmin: jest.fn(),
@@ -104,7 +104,7 @@ describe("admin.service", () => {
     });
     test("리스트 조회 성공 시 데이터와 데이터 갯수 page 랑 Limit 보이기", async () => {
       adminRepository.findMany.mockResolvedValue(adminsList);
-      adminRepository.count.mockResolvedValue(4);
+      adminRepository.count.mockResolvedValue(3);
 
       const data = await service.accessList({
         pageNumber: 1,
@@ -112,12 +112,10 @@ describe("admin.service", () => {
         keyword: "",
         joinStatus: "PENDING",
       });
-
-      expect(data.totalCount).toBe(4);
+      expect(data.totalCount).toBe(3);
       expect(data.hasNext).toBe(false);
     });
   });
-  */
   //-------------------------------------------
   describe("patch an admin info api", () => {
     let repo: jest.Mocked<adminIdRepo>;
@@ -221,7 +219,7 @@ describe("admin.service", () => {
   describe("patch admin joinStatus api", () => {
     let repo: jest.Mocked<adminIdRepo>;
     let service: adminIdService;
-    let mockUser:any;
+    let mockUser: any;
     beforeEach(() => {
       repo = {
         findOne: jest.fn(),
@@ -238,33 +236,88 @@ describe("admin.service", () => {
       repo.findOne.mockResolvedValue(null);
       //2️⃣ when 3️⃣ then
       await expect(
-       service.modifyStatus("not-exist-id", "APPROVED")
+        service.modifyStatus("not-exist-id", "APPROVED")
       ).rejects.toThrow("존재 하지 않는 유저 입니다");
     });
-      
-    test(
-      "관리자(단건) 가입 상태변경 성공시 해당 ",
-      async () => {
+
+    test("관리자(단건) 가입 상태변경 성공시 해당 ", async () => {
       //1️⃣ given
       repo.findOne.mockResolvedValue(mockUser);
-      repo.modifyStatus.mockResolvedValue(mockUser)
-      
+      repo.modifyStatus.mockResolvedValue(mockUser);
+
       //2️⃣ when
-      await service.modifyStatus(mockUser.id, "APPROVED")
+      await service.modifyStatus(mockUser.id, "APPROVED");
       //3️⃣ then
-      expect(mockUser.joinStatus).toBe("APPROVED")
-      }
-    );
+      expect(mockUser.joinStatus).toBe("APPROVED");
+    });
   });
   //-------------------------------------------
   describe("patch admins joinStatus api", () => {
-    test.todo(
-      "관리자 (다건) 가입 상태 변경 성공 시 관리자들 정보 리턴" //async() => {
+    let repo: jest.Mocked<Repository>;
+    let service: Service;
+    let joinStatus: any;
+    let adminList: any[];
+    beforeEach(() => {
+      (repo = {
+        createAdmin: jest.fn(),
+        findMany: jest.fn(),
+        findByUsername: jest.fn(),
+        findByEmail: jest.fn(),
+        findManyByStatus: jest.fn(),
+        updateMany: jest.fn(),
+        count: jest.fn(),
+        findById: jest.fn(),
+        deleteMany: jest.fn(),
+      }),
+        (service = new Service(repo));
+      adminList = approvedUserList;
+    });
+    it("hasNext = true", async () => {
       //1️⃣ given
+      repo.findManyByStatus.mockResolvedValue(adminList); // length = 3
+      repo.updateMany.mockResolvedValue({ count: 3 });
+
+      const pagenation = { pageNumber: 1, limitNumber: 2 }; // 1*2 < 3
+
+      //2️⃣ when 3️⃣ then
+      const result = await service.modifyStatus(pagenation, "APPROVED");
+
+      expect(result.hasNext).toBe(true);
+    });
+
+    it("hasNext = false", async () => {
+      //1️⃣ given
+      repo.findManyByStatus.mockResolvedValue(adminList)
+      repo.updateMany.mockResolvedValue({ count: 3 });
+  
+      const pagenation = {pageNumber :1,limitNumber : 10};
+
       //2️⃣ when
-      //3️⃣ then
-      //}
-    );
+      const result = await service.modifyStatus(pagenation, "APPROVED");
+      
+       //3️⃣ then
+      expect(result.hasNext).toBe(false)
+    });
+
+    it("관리자 (다건) 가입 상태 변경 성공 시 관리자들 정보 리턴", async () => {
+      //1️⃣ given
+      repo.findManyByStatus.mockResolvedValue(adminList);
+      repo.updateMany.mockResolvedValue({ count: 3 });
+      repo.count.mockResolvedValue(3);
+      //repo.findMany.mockResolvedValue(adminsList);
+      const pagenation = { limitNumber: 10, pageNumber: 1 };
+
+      //2️⃣ when 3️⃣ then
+      const result = await service.modifyStatus(pagenation, "APPROVED");
+
+      expect(result).toEqual({
+        data: adminList,
+        hasNext: false,
+        limit: pagenation.limitNumber,
+        page: pagenation.pageNumber,
+        totalCount: 3,
+      });
+    });
   });
   //-------------------------------------------
   describe("delete rejected admins", () => {
