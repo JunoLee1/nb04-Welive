@@ -1,15 +1,15 @@
-import type { passwordDTO } from "./me.dto.js";
+import type { PasswordDTO } from "./me.dto.js";
 import { Repository } from "./me.repo.js";
 export class Service {
   constructor(readonly repo: Repository) {}
   modifiedAvatar = async (id: string, avatarImage: string) => {
-    this.repo.modifiedAvatar(id, avatarImage);
+    await this.repo.modifiedAvatar(id, avatarImage);
   };
 
   modifiedPassword = async (
     id: string,
-    { password, newPassword }: passwordDTO
+    { password, newPassword }: PasswordDTO
   ) => {
-    this.repo.modifiedPassword(id, { password, newPassword });
+    await this.repo.modifiedPassword(id, { password, newPassword });
   };
 }

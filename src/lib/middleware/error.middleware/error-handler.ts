@@ -11,6 +11,6 @@ export const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
         return ;
    }
     const status = error.status || 500;
-    const message = error.message || "INTERNAL SERVER ERROR"
+    const message = error.message || "알 수 없는 오류 입니다."
     return res.status(status).json({success:false,message:message})
 }

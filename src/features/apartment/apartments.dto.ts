@@ -2,14 +2,13 @@
 // Request
 //====================================
 
-export type SearchKeyword = {
-  [key in
-    | "address"
-    | "description"
-    | "contact"
-    | "name"
-    | "officeNumber"]: string;
-};
+export type SearchKeyword = Partial<{
+  address: string;
+  description: string;
+  contact: string;
+  name: string;
+  officeNumber: string;
+}>;
 export interface RequestQuery {
   page: number;
   limit: number;
@@ -26,7 +25,7 @@ export interface RequestPathParam {
 
 export interface ApartmentDto {
   id: string;
-  name: string | undefined; // apt name
+  name: string; // apt name
   address: string;
   officeNumber: string | null;
   description: string | null;

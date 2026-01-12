@@ -21,7 +21,7 @@ export class Repository {
     const result = await prisma.user.findUnique({ where });
     return result;
   };
-  modifyInfo = async (id: string, input: RequestPayloadDTO) => {
+  modifyUserInfo = async (id: string, input: RequestPayloadDTO) => {
     const user = await this.findOne("id", id);
     if (!user) throw new Error("User not found");
     const data: any = {
@@ -29,9 +29,9 @@ export class Repository {
       email: input.email ?? user.email,
       contact: input.contact ?? user.contact,
     };
-    if (input.adminOf !== null) {
+    if (input.adminOf !== null && input.adminOf !== undefined ) {
       data.adminOf = {
-        upadate: input.adminOf.map(apt => ({
+        update: input.adminOf.map(apt => ({
           where :{id: apt.id},
           data: { name: apt.name, address: apt.address }
         }))

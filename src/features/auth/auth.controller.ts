@@ -34,10 +34,10 @@ export class Controller {
     // renew token  sucucess, set token to cookie, return 204 status
     const refreshToken = req.cookies.refreshToken;
     if (!refreshToken) {
-      throw new HttpError(401, "권한과 관련된 오류입니다.");
+      throw new HttpError(401, "인증과 관련된 오류입니다.");
     }
     const userId = req.user?.id;
-    if (!userId) throw new HttpError(401, "권한과 관련된 오류입니다.");
+    if (!userId) throw new HttpError(401, "인증과 관련된 오류입니다.");
     const { accessToken, refreshToken: newRefreshToken }: TokenType =
       generateToken(userId);
     setTokenCookies({ res, accessToken, refreshToken: newRefreshToken });

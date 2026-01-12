@@ -1,12 +1,12 @@
 import { HttpError } from "../../../lib/middleware/error.middleware/httpError.js";
-import type { passwordDTO } from "./me.dto.js";
+import type { PasswordDTO } from "./me.dto.js";
 import prisma from "../../../lib/prisma.js";
 
 import bcrypt from "bcrypt";
 export class Repository {
   modifiedPassword = async (
     id: string,
-    { password, newPassword }: passwordDTO
+    { password, newPassword }: PasswordDTO
   ) => {
     const user = await this.findById(id);
     if (!user) throw new HttpError(404, "유저가 존재 하지 않습니다");
@@ -44,7 +44,7 @@ export class Repository {
   };
 
   modifiedAvatar = async (id: string, avatarImage: string) => {
-    const user = this.findById(id);
+    const user = await this.findById(id);
     if (!user) throw new HttpError(404, "유저가 존재 하지 않습니다");
     const result = await prisma.user.update({
         where:{id},

@@ -1,5 +1,4 @@
 import { JoinStatus } from "../../../../prisma/generated/client.js";
-
 export interface apartmentDTO {
   id: string;
   createdAt: Date;
@@ -26,15 +25,16 @@ export interface RequestBody {
   password: string;
   name: string;
   username: string;
-  avatar: string | null;
+  avatar: string | undefined | null;
   contact: string;
 }
 
 export interface RequestPayloadDTO {
-  contact: string | null;
-  username: string | null;
-  email: string | null;
-  adminOf: apartmentDTO[] | null;
+  contact?: string| null ;
+  username?: string | null;
+  email?: string;
+  adminOf?: apartmentDTO[] | null;
+  avatar?: string | undefined | null;
 }
 export interface Pagenation {
   pageNumber: number,
@@ -70,4 +70,28 @@ export interface AccessListOfAdminsResDTO {
   limit?: number;
   totalCount: number;
   hasNext: boolean;
+}
+
+export interface AdminsModifiedResponseDTO {
+  id: string;
+  contact: string;
+  username: string;
+  name: string;
+  email: string;
+  role: string;
+  avatar: string | undefined | null;
+  isActive: boolean;
+  approvedAt: Date | null;
+  adminOf: apartmentDTO | null;
+}
+export interface AdminsModifiedRequestDTO {
+  contact?: string;
+  username?:string;
+  name?: string;
+  email?: string;
+  role: string;
+  avatar?: Express.Multer.File | undefined;
+  isActive: boolean;
+  approvedAt: Date | null;
+  adminOf: apartmentDTO | null;
 }
