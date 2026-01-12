@@ -6,6 +6,7 @@ export interface SuperAdminCreateReqDTO {
     name: string,
     username:string,
     contact: string
+    avatar: string | null
 }
 
 export interface SuperAdminCreateResDTO {

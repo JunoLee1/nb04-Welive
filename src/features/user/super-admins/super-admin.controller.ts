@@ -6,9 +6,9 @@ const service = new Service(new Repository());
 export class Controller {
   signUpHandler: RequestHandler = async (req, res, next) => {
     console.log("received from routes");
-    const { email, password, name, username, contact } =
+    const { email, password, name, username, contact, avatar } =
       req.body as SuperAdminCreateReqDTO; // validated value from validator
-    await service.signUpHandler({ email, password, name, username, contact });
+    await service.signUpHandler({ email, password, name, username, contact, avatar });
     return res.status(204).end();
   };
 }
