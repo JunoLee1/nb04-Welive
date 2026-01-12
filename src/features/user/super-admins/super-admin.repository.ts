@@ -26,4 +26,10 @@ export class Repository {
         })
          return phoneNumber;
     }
+    createSuperAdmin = async (data:any) => {
+        const newSuperAdmin = await prisma.user.create({
+            data
+        })
+        return newSuperAdmin;
+    }
 }
