@@ -4,11 +4,24 @@ import { Service } from "./super-admin.service.js";
 import { Repository } from "./super-admin.repository.js";
 const service = new Service(new Repository());
 export class Controller {
+  constructor(private service: Service) {}
+
   signUpHandler: RequestHandler = async (req, res, next) => {
-    console.log("received from routes");
-    const { email, password, name, username, contact, avatar } =
-      req.body as SuperAdminCreateReqDTO; // validated value from validator
-    await service.signUpHandler({ email, password, name, username, contact, avatar });
-    return res.status(204).end();
+    try {
+      console.log("received from routes");
+      const { email, password, name, username, contact, avatar } =
+        req.body as SuperAdminCreateReqDTO; // validated value from validator
+      await service.signUpHandler({
+        email,
+        password,
+        name,
+        username,
+        contact,
+        avatar,
+      });
+      return res.status(204).end();
+    } catch (error) {
+      next(error);
+    }
   };
 }
