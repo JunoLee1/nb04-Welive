@@ -81,15 +81,70 @@ describe("super.admin.repository", () => {
     });
     expect(result).toEqual(fakeUser); // 반환값 검증
   });
-  it.todo("휴대폰 번호로 유저 찾기");
+  //=============================================
+
+  it("휴대폰 번호로 유저 찾기", async () => {
+    const fakeUser = {
+      id: "3",
+      username: "testuser",
+      email: "test@example.com",
+      password: "12345678",
+      contact: "01012345678",
+      name: "Test User",
+      role: Role.SUPER_ADMIN,
+      joinStatus: JoinStatus.APPROVED,
+      approvedAt: null,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      isActive: true,
+      avatar: null,
+      hasNext: false,
+    };
+    prismaMock.user.findUnique.mockResolvedValue(fakeUser);
+    const result = await repo.findUniquePhoneNumber("01012345678");
+
+    expect(result).toBe(fakeUser);
+  });
 });
 describe("create 호출", () => {
-  it.todo(
-    "신규 유저 생성하기" //async () => {
+  let repo: Repository;
+  let prismaMock: DeepMockProxy<PrismaClient>;
+  beforeEach(() => {
+    prismaMock = mockDeep<PrismaClient>();
+    repo = new Repository(prismaMock);
+  });
+  it("신규 유저 생성하기", async () => {
     //1️⃣ given
-    //const mockCreateData = {
-    //email: "
+    const input = {
+      email: "test@test.com",
+      password: "12345678",
+      contact: "01012345678",
+      username: "junoLee",
+      name: "test",
+    };
+    const mockCreateData = {
+      id: "1",
+      email: "test@test.com",
+      password: "12345678",
+      contact: "01012345678",
+      username: "junoLee",
+      name: "test",
+      role: Role.SUPER_ADMIN,
+      hasNext: false,
+      joinStatus: JoinStatus.APPROVED,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      approvedAt: new Date(),
+      isActive: true,
+      avatar: null,
+    };
+    prismaMock.user.create.mockResolvedValue(mockCreateData);
+    const result = await repo.createSuperAdmin(input);
 
-    //}
-  );
+    expect(result).toMatchObject({
+      email: input.email,
+      username: input.username,
+      name: input.name,
+    });
+  });
 });
