@@ -15,6 +15,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
+    "ci":" npm ci",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "start": "node ./dist/src/index.js",
     "build": "tsc",
@@ -49,7 +50,7 @@
     "zod": "^4.2.1"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.958.0",
+    "@aws-sdk/client-s3": "^3.967.0",
     "@prisma/client": "^7.1.0",
     "cors": "^2.8.5",
     "jsonwebtoken": "^9.0.3",

@@ -12,7 +12,7 @@ export const s3Client = new S3Client({
   },
 });
 
-export async function uploadImageToS3(file:  Express.Multer.File  ) {
+export async function uploadImageToS3(file: Express.Multer.File) {
   try {
     const s3Client = new S3Client({ region: "ap-northeast-2" });
 
@@ -21,28 +21,27 @@ export async function uploadImageToS3(file:  Express.Multer.File  ) {
     const command = new PutObjectCommand({
       Bucket: process.env.AWS_S3_BUCKET_NAME || "BucketName",
       Key: key,
-      Body:file.buffer
+      Body: file.buffer,
     });
     await s3Client.send(command);
-    
-    const imageUrl = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.amazonaws.com/${key}`
-    return imageUrl
+
+    const imageUrl = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.amazonaws.com/${key}`;
+    return imageUrl;
   } catch (error) {
     console.log(error);
-    throw(error)
+    throw error;
   }
 }
-export async function deleteImageToS3(key:string) {
+export async function deleteImageToS3(key: string) {
   try {
     const s3Client = new S3Client({ region: "ap-northeast-2" });
 
-
     const command = new DeleteObjectCommand({
-      Bucket: process.env.AWS_S3_BUCKET_NAME||"BucketName",
+      Bucket: process.env.AWS_S3_BUCKET_NAME || "BucketName",
       Key: key,
     });
-    await s3Client.send(command)
-    return ;
+    await s3Client.send(command);
+    return;
   } catch (error) {
     console.log(error);
   }
