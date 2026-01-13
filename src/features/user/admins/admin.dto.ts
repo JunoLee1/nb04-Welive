@@ -35,6 +35,7 @@ export interface RequestPayloadDTO {
   username: string | null;
   email: string | null;
   adminOf: apartmentDTO[] | null;
+  avatar: string | null
 }
 export interface Pagenation {
   pageNumber: number,

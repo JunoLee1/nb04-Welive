@@ -1,0 +1,84 @@
+import { Role } from "../../../../prisma/generated/enums.js";
+import { JoinStatus } from "../../../../prisma/generated/enums.js";
+
+export const adminInput = {
+  
+  validAdmin: {
+    email: "test@test.com",
+    password: "hashed1234",
+    name: "juno",
+    username: "juno",
+    avatar: null,
+    contact: "01012345678",
+  },
+};
+
+export const admins = {
+  approvedAdmin: {
+    id: "exist-1",
+    email: "test@test.com",
+    name: "juno",
+    username: "juno",
+    contact: "01012345678",
+    password: "hashed",
+    role: Role.ADMIN,
+    hasNext: false,
+    joinStatus: JoinStatus.APPROVED,
+    createdAt: new Date("2026-01-01"),
+    updatedAt: new Date("2025-01-01"),
+    approvedAt: null,
+    isActive: true,
+    avatar: null,
+  },
+
+  superAdmin: {
+    id: "exist-2",
+    email: "hana@test.com",
+    name: "hana",
+    username: "hana",
+    contact: "01012245678",
+    password: "hashed",
+    role: "SUPER_ADMIN",
+    hasNext: false,
+    joinStatus: "APPROVED",
+    createdAt: new Date("2026-01-01"),
+    updatedAt: new Date("2025-01-01"),
+    approvedAt: null,
+    isActive: true,
+    avatar: null,
+  },
+
+  pendingAdmin: {
+    id: "exist-4",
+    email: "dark@test.com",
+    name: "darkness",
+    username: "heidi",
+    contact: "01012225678",
+    password: "hashed",
+    role: "ADMIN",
+    hasNext: false,
+    joinStatus: "PENDING",
+    createdAt: new Date("2026-01-01"),
+    updatedAt: new Date("2025-01-01"),
+    approvedAt: null,
+    isActive: true,
+    avatar: null,
+  },
+
+  rejectedAdmin: {
+    id: "exist-8",
+    email: "tofuLee@test.com",
+    name: "duwon",
+    username: "tofu",
+    contact: "0109991678",
+    password: "hashed",
+    role: "ADMIN",
+    hasNext: false,
+    joinStatus: "REJECTED",
+    createdAt: new Date("2026-01-01"),
+    updatedAt: new Date("2025-01-01"),
+    approvedAt: null,
+    isActive: true,
+    avatar: null,
+  },
+};

@@ -1,8 +1,8 @@
-export interface avartarDTO{
+export interface AvatarDTO{
     avatarImage: string;
 }
 
-export interface passwordDTO{
+export interface PasswordDTO{
     newPassword: string;
     password: string;
 }

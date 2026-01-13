@@ -5,7 +5,8 @@ declare global {
         interface User {
             id: string;
             role: string;
-            approvedAt: Date| null
+            approvedAt: Date| null,
+            avatar: string| null
         }
     }
 }

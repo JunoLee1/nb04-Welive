@@ -71,6 +71,10 @@ export class Controller {
 
   modifyResidentStatus: RequestHandler = async (req, res, next) => {
     try {
+      const user = req.user;
+      if (!user) throw new HttpError(404, "NotFound");
+      if (user.role !== "ADMIN")
+        throw new HttpError(401, "권한과 관련된 오류입니다.");
       const { id } = req.params as ParamSchema;
       const { joinStatus } = req.body;
       await service.modifyResidentStatus(id, joinStatus);
@@ -82,6 +86,10 @@ export class Controller {
 
   delete: RequestHandler = async (req, res, next) => {
     try {
+      const user = req.user;
+      if (!user) throw new HttpError(404, "NotFound");
+      if (user.role !== "ADMIN")
+        throw new HttpError(401, "권한과 관련된 오류입니다.");
       const { joinStatus } = req.body;
       await service.deleteMany(joinStatus);
       return res.status(204).end();

@@ -13,15 +13,18 @@ export class Controller {
   constructor(private readonly service: Service) {}
 
   loginHandler: RequestHandler = async (req, res, next) => {
-    const { username, password }: LoginRequestDTO = req.body;
-    const user = req.user;
-    if (!user) throw new HttpError(401, "unauthorized.");
-    const data = await this.service.login({ username, password });
-    // generate token
-    const { accessToken, refreshToken } = generateToken(user.id);
-    setTokenCookies({ res, accessToken, refreshToken });
-    console.log("accessToken: ", accessToken); //Do not remove it till test
-    return res.status(200).end();
+    try {
+      const { username, password }: LoginRequestDTO = req.body;
+      const user = await this.service.login({ username, password });
+      // generate token
+      const { accessToken, refreshToken } = generateToken(user.id); // 로직에러 
+      if(!accessToken && refreshToken) throw new HttpError(500, "알 수 없는 에러 입니다")
+      setTokenCookies({ res, accessToken, refreshToken });
+      console.log("accessToken: ", accessToken); //Do not remove it till test
+      return res.status(204).end();
+    } catch (error) {
+      next(error)
+    }
   };
 
   logoutHandler: RequestHandler = async (req, res, next) => {
@@ -34,10 +37,10 @@ export class Controller {
     // renew token  sucucess, set token to cookie, return 204 status
     const refreshToken = req.cookies.refreshToken;
     if (!refreshToken) {
-      throw new HttpError(401, "권한과 관련된 오류입니다.");
+      throw new HttpError(401, "인증과 관련된 오류입니다.");
     }
     const userId = req.user?.id;
-    if (!userId) throw new HttpError(401, "권한과 관련된 오류입니다.");
+    if (!userId) throw new HttpError(401, "인증과 관련된 오류입니다.");
     const { accessToken, refreshToken: newRefreshToken }: TokenType =
       generateToken(userId);
     setTokenCookies({ res, accessToken, refreshToken: newRefreshToken });

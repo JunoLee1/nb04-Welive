@@ -8,5 +8,6 @@ router.use("/auth", authRoutes);
 console.log("⚓️:received requset from clients:");
 router.use("/users", usersRoutes);
 router.use("/apartments",aptRouter)
+//router.use("/residents",residentRouter)
 
 export default router;
