@@ -4,21 +4,19 @@ import { Repository } from "../../../features/user/super-admins/super-admin.repo
 import { superAdminData } from "./super-admin.data.js";
 import { HttpError } from "../../../lib/middleware/error.middleware/httpError.js";
 import type { PrismaClient } from "../../../../prisma/generated/client.js";
-const prismaMock = {
-  user: {
-    create: jest.fn(),
-    findUnique: jest.fn(),
-  },
-};
-
 describe("super.admin.service", () => {
   let superAdminRepository: jest.Mocked<Repository>;
   let service: Service;
   let user: typeof superAdminData;
   describe("signUpHandler", () => {
     beforeEach(() => {
-      const repoInstance = new Repository(prismaMock);
-      superAdminRepository = jest.mocked(repoInstance);
+      superAdminRepository = {
+        prisma: {} as any,
+        createSuperAdmin: jest.fn(),
+        findUniqueEmail: jest.fn(),
+        findUniqueUsername: jest.fn(),
+        findUniquePhoneNumber: jest.fn(),
+      } as unknown as jest.Mocked<Repository>;
       service = new Service(superAdminRepository);
       user = superAdminData;
     });
@@ -26,7 +24,7 @@ describe("super.admin.service", () => {
       it("신규 유저의 이메일이 이미 db상에 존재하는 경우 400 에러 뱉기", async () => {
         //1️⃣ given
         console.log("mocked email:", user.email),
-        superAdminRepository.findUniqueUsername.mockResolvedValue(null);
+          superAdminRepository.findUniqueUsername.mockResolvedValue(null);
         superAdminRepository.findUniquePhoneNumber.mockResolvedValue(null);
         superAdminRepository.findUniqueEmail.mockResolvedValue({
           email: "juno@test.com",

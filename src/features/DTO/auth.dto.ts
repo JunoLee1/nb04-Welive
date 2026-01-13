@@ -11,7 +11,7 @@ export interface LoginResponseDTO {
     username: string;
     email: string;
     contact: string;
-    avatar: string;
+    avatar: string | null;
     isActive: boolean;
     role: Role;
     adminOf?: adminOfDTO | null;
