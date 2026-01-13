@@ -1,8 +1,8 @@
 import prisma from '../../../lib/prisma.js'
 export class Repository {
-    constructor(){}
+    constructor(private prisma: any){}
     findUniqueEmail = async (email: string) => {
-        const user = await prisma.user.findUnique({
+        const user = await this.prisma.user.findUnique({
             where:{
                 email
             }
@@ -10,7 +10,7 @@ export class Repository {
         return user;
     }
     findUniqueUsername = async(username: string) => {
-        const user =  await prisma.user.findUnique({
+        const user =  await this.prisma.user.findUnique({
             where: {
                 username: username
             }
@@ -19,7 +19,7 @@ export class Repository {
     };
 
     findUniquePhoneNumber = async(contact: string) => {
-        const phoneNumber = await prisma.user.findUnique({
+        const phoneNumber = await this.prisma.user.findUnique({
             where:{
                 contact
             }
@@ -27,7 +27,7 @@ export class Repository {
          return phoneNumber;
     }
     createSuperAdmin = async (data:any) => {
-        const newSuperAdmin = await prisma.user.create({
+        const newSuperAdmin = await this.prisma.user.create({
             data
         })
         return newSuperAdmin;
