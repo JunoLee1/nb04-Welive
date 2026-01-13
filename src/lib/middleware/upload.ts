@@ -1,5 +1,6 @@
 import multer, { type FileFilterCallback } from "multer";
 import path from "path";
+import { HttpError } from "./error.middleware/httpError.js";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -23,9 +24,10 @@ const upload = multer({
     // 파일 필터링 (선택 사항)
     const allowedMimes = ["image/jpeg", "image/png", "image/gif"];
     if (allowedMimes.includes(file.mimetype)) {
+      console.log(1)
       cb(null, true); // 허용된 MIME 타입이면 true
     } else {
-      cb(new Error("something went wrong")); // 허용되지 않으면 에러
+      cb(new HttpError(400, "잘못된 요청입니다")); // 허용되지 않으면 에러
     }
   },
 });
