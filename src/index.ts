@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(cookieParser() as RequestHandler );
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-    origin:"http://localhost:3000", 
+    origin:"https://weliv.netlify.app", 
     credentials: true
 }));
 app.use(passport.initialize());
