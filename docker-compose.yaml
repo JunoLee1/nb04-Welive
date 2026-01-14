@@ -1,0 +1,14 @@
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.yml
+    ports:
+      - "9000:9000"
+    environment:
+      - SERVER_PORT=9000
+    volumes:
+      - .:/src:cached
+      - /node_modules
+

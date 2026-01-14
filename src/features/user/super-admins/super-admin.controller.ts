@@ -3,7 +3,8 @@ import type { SuperAdminCreateReqDTO } from "./super-admin.dto.js";
 import { Service } from "./super-admin.service.js";
 import { Repository } from "./super-admin.repository.js";
 import { HttpError } from "../../../lib/middleware/error.middleware/httpError.js";
-const service = new Service(new Repository());
+import  prisma from "../../../lib/prisma.js";
+const service = new Service(new Repository(prisma));
 export class Controller {
   constructor(private service: Service) {}
 
@@ -13,7 +14,7 @@ export class Controller {
       const { email, password, name, username, contact, avatar } =
         req.body as SuperAdminCreateReqDTO; // validated value from validator
       console.log("body:", req.body);
-      const file = req.file;
+      const file = req.file as Express.Multer.File | undefined;
       if (
         file &&
         !["image/jpeg", "image/png", "image/gif"].includes(file.mimetype)

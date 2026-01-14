@@ -1,6 +1,6 @@
 import { JoinStatus } from "../../../../prisma/generated/client.js";
 export interface apartmentDTO {
-  id: string;
+  id: string | string[];
   createdAt: Date;
   updatedAt: Date;
   name: string;
@@ -30,20 +30,20 @@ export interface RequestBody {
 }
 
 export interface RequestPayloadDTO {
-  contact?: string| null ;
+  contact?: string | null;
   username?: string | null;
   email?: string;
   adminOf?: apartmentDTO[] | null;
   avatar?: string | undefined | null;
 }
 export interface Pagenation {
-  pageNumber: number,
-  limitNumber: number
+  pageNumber: number;
+  limitNumber: number;
 }
 export type StatusAction = "APPROVED" | "REJECTED";
 //------------response DTO
 export interface AdminsCreateResponseDTO {
-  id: string;
+  id: string | string[];
   contact: string;
   name: string;
   role: string;
@@ -54,7 +54,7 @@ export interface AdminsCreateResponseDTO {
 }
 
 export interface AccessAdminItemDTO {
-  id: string;
+  id: string | string[];
   contact: string;
   name: string;
   role: string;
@@ -73,7 +73,7 @@ export interface AccessListOfAdminsResDTO {
 }
 
 export interface AdminsModifiedResponseDTO {
-  id: string;
+  id: string | string[];
   contact: string;
   username: string;
   name: string;
@@ -86,7 +86,7 @@ export interface AdminsModifiedResponseDTO {
 }
 export interface AdminsModifiedRequestDTO {
   contact?: string;
-  username?:string;
+  username?: string;
   name?: string;
   email?: string;
   role: string;

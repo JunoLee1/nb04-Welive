@@ -15,7 +15,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "ci":" npm ci",
+    "ci": " npm ci",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "start": "node ./dist/src/index.js",
     "build": "tsc",
@@ -29,9 +29,13 @@
     "@types/bcrypt": "^6.0.0",
     "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
     "@types/jest": "^30.0.0",
     "@types/multer": "^2.0.0",
+    "@types/node": "^25.0.7",
     "@types/passport": "^1.0.17",
+    "@types/passport-jwt": "^4.0.1",
+    "@types/passport-local": "^1.0.38",
     "@types/pg": "^8.16.0",
     "@types/supertest": "^6.0.3",
     "babel-jest": "^30.2.0",
@@ -53,6 +57,7 @@
     "@aws-sdk/client-s3": "^3.967.0",
     "@prisma/client": "^7.1.0",
     "cors": "^2.8.5",
+    "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "passport": "^0.7.0"
   }

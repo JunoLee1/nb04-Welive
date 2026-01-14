@@ -13,7 +13,7 @@ export class Controller {
 
   modifyUserInfo: RequestHandler = async (req, res, next) => {
     try {
-      const { id } = req.params;
+      const { id } = req.params as { id: string };
       const { email, username, adminOf, contact, avatar } = req.body;
       const user = req.user;
       const userId = user?.id;
@@ -48,7 +48,7 @@ export class Controller {
         throw new HttpError(403, "권한과 관련된 오류입니다.");
       }
       // 3️⃣ 요청 유효성
-      const { id } = req.params;
+      const { id } = req.params as { id: string };
       if (!id) {
         throw new HttpError(400, "잘못된 요청입니다.");
       }
@@ -66,7 +66,7 @@ export class Controller {
   };
   deleteAdmin: RequestHandler = async (req, res, next) => {
     try {
-      const { id } = req.params;
+      const { id } = req.params as { id: string };
       const user = req.user;
       const userId = user?.id;
 
