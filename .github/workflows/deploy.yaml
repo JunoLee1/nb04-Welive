@@ -30,6 +30,6 @@ jobs:
           REMOTE_PUBLIC_KEY: ${{ secrets.REMOTE_PUBLIC_KEY }}
           ARGS: "-rltgoDzvO --delete"
           SOURCE: "dist/"
-          REMOTE_USERNAME: ${{ secrets.REMOTE_USERNAME }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER}}
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           TARGET: "/home/ec2-user/apps/backend"
