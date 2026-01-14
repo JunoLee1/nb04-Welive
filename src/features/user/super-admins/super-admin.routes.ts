@@ -5,7 +5,7 @@ import { validate } from "../../../lib/middleware/validator.js";
 import { Service } from "./super-admin.service.js";
 import { Repository } from "./super-admin.repository.js";
 import upload  from "../../../lib/middleware/upload.js";
-import prisma from "../../../lib/prisma.ts";
+import prisma from "../../../lib/prisma.js";
 const service = new Service(new Repository(prisma));
 // create super admin post API
 const superAdminRouter = Router();

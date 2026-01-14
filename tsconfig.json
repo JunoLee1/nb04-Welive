@@ -47,7 +47,8 @@
     "esModuleInterop": true,
     "allowJs": true,
     "paths": {
-      "*": ["src/*"]
+      "*": ["src/*"],
+      "@prisma/client": ["../../prisma/generated/client"] 
     },
     "baseUrl": ".",
   },

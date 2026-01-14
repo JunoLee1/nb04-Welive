@@ -1,6 +1,6 @@
 import multer, { type FileFilterCallback } from "multer";
 import path from "path";
-import { HttpError } from "./error.middleware/httpError.ts";
+import { HttpError } from "./error.middleware/httpError.js";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
