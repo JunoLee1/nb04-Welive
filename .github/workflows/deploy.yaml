@@ -26,10 +26,10 @@ jobs:
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@v2.1.5
         with:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          REMOTE_PUBLIC_KEY: ${{ secrets.REMOTE_PUBLIC_KEY }}
+          SSH-PRIVATE-KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE-PUBLIC-KEY: ${{ secrets.REMOTE_PUBLIC_KEY }}
           ARGS: "-rltgoDzvO --delete"
           SOURCE: "dist/"
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          REMOTE-HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE-USER: ${{ secrets.REMOTE_USER }}
           TARGET: "/path/to/deployment/directory/"
