@@ -57,6 +57,6 @@
     "pretty": true,
   },
   
-  "include": ["src/**/*.ts", "src/test/**/*.ts", "node_modules/@types/**/*.ts"],
+  "include": ["src/**/*.ts", "src/test/**/*.ts", "prisma/generated/**/*.ts"],
  "exclude": ["node_modules", "dist"]
 }
