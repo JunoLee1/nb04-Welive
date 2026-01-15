@@ -28,7 +28,7 @@ adminRouter.use(
 // create admin Api
 // address : users/admins
 adminRouter.post(
-  "/",
+  "/signUp",
   upload.single("avatarImage"),
   validate(requestBodySchema, "body"),
   controller.register
