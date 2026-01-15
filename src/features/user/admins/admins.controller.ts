@@ -13,6 +13,9 @@ export class Controller {
     try {
       const { email, name, username, password, avatar, contact }: RequestBody =
         req.body;
+      console.log("avatar in controller:", avatar);
+      console.log("file in controller:", req.file);
+      console.log("register controller called");
       let avatarImage = null;
       if (req.file) {
         avatarImage = await uploadImageToS3(req.file);
