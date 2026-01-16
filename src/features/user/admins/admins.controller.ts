@@ -1,7 +1,6 @@
 import type { RequestHandler } from "express";
 import { Service } from "./admins.service.js";
 import type { RequestBody } from "./admin.dto.js";
-import { Repository } from "./admins.repository.js";
 import { HttpError } from "../../../lib/middleware/error.middleware/httpError.js";
 import { JoinStatus } from "../../../../prisma/generated/client.js";
 import { uploadImageToS3 } from "../../../lib/middleware/S3.Client.js";
@@ -13,9 +12,6 @@ export class Controller {
     try {
       const { email, name, username, password, avatar, contact }: RequestBody =
         req.body;
-      console.log("avatar in controller:", avatar);
-      console.log("file in controller:", req.file);
-      console.log("register controller called");
       let avatarImage = null;
       if (req.file) {
         avatarImage = await uploadImageToS3(req.file);
