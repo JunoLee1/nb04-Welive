@@ -1,0 +1,35 @@
+name: Deploy Backend (Dev)
+
+on:
+  push:
+    branches:
+      - dev
+jobs:
+  deploy-backend-dev:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '25.x'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build the project
+        run: npm run build
+
+      - name: Deploy to Server
+        uses: easingthemes/ssh-deploy@v2.1.5
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_PUBLIC_KEY: ${{ secrets.REMOTE_PUBLIC_KEY }}
+          ARGS: "-rltgoDzvO --delete"
+          SOURCE: "dist/"
+          REMOTE_USER: ${{ secrets.REMOTE_USER}}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          TARGET: "/home/ec2-user/apps/backend"

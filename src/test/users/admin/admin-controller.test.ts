@@ -1,11 +1,16 @@
 import { jest, describe, it, expect } from "@jest/globals";
 import { Controller } from "../../../features/user/admins/admins.controller.js";
 import { Service } from "../../../features/user/admins/admins.service.js";
+import { Controller as adminIdController } from "../../../features/user/admins/id/admin-id.controller.js";
+import { Service as adminIdService } from "../../../features/user/admins/id/admin-id.service.js";
+import { Repository as adminIdRepo } from "../../../features/user/admins/id/admin-id.repo.js";
 import { Repository } from "../../../features/user/admins/admins.repository.js";
 import { accessTokenStrategy } from "../../../lib/passport/jwt-strategy.js";
-import * as jwtModule from "../../../lib/passport/jwt-strategy.js";
 import { HttpError } from "../../../lib/middleware/error.middleware/httpError.js";
-import type { VerifiedCallback } from "passport-jwt";
+import { JoinStatus } from "../../../../prisma/generated/enums.js";
+
+jest.mock("../../../features/user/admins/id/admin-id.service.js");
+jest.mock("../../../features/user/admins/id/admin-id.repo.js");
 jest.mock("../../../features/user/admins/admins.service.js");
 jest.mock("../../../lib/passport/jwt-strategy.js", () => ({
   accessTokenStrategy: {
@@ -13,6 +18,10 @@ jest.mock("../../../lib/passport/jwt-strategy.js", () => ({
   },
 }));
 
+interface Pagenation {
+  limit: number;
+  page: number;
+}
 interface JWTpayload {
   sub: string;
   email: string;
@@ -82,10 +91,6 @@ describe("관리자 컨트롤러 테스트", () => {
     let req: any;
     let res: any;
     let next: any;
-    interface ErrorTypes {
-      status: 500 | 400 | 401 | 403;
-      message: "인증과 관련된 에러 입니다" | "권한과 관련된 에러 입니다";
-    }
 
     beforeEach(() => {
       req = {
@@ -168,8 +173,8 @@ describe("관리자 컨트롤러 테스트", () => {
         jest.spyOn(service, "accessList").mockImplementation(() => {
           throw new HttpError(500, "알 수 없는 에러 입니다.");
         });
-        await controller.accessList(req, res, next);
 
+        await controller.accessList(req, res, next);
         expect(next).toHaveBeenCalledWith(
           expect.objectContaining({
             status: 500, // HttpError 속성명 확인
@@ -208,31 +213,427 @@ describe("관리자 컨트롤러 테스트", () => {
 
   //=================================================================
   describe("관리자 정보 수정 컨트롤러", () => {
-    describe("실패 케이스", () => {
-      it.todo("인증 실패 -> 401");
-      it.todo("권한 없음 -> 403");
-      it.todo("서비스로부터 서비스 값을 반환 실패 -> 500");
+    let res: any;
+    let req: any;
+    let next: any;
+    let service: adminIdService;
+    let controller: adminIdController;
+    let repo: adminIdRepo;
+    beforeEach(() => {
+      res = {
+        status: jest.fn(),
+        end: jest.fn(),
+      };
+      (req = {
+        body: {
+          username: "hana lee",
+        },
+        user: { id: "admin-1" },
+        params: { id: "admin-1" }, // ✅ 반드시 필요
+      }),
+        (next = jest.fn()),
+        (repo = new adminIdRepo());
+      service = new adminIdService(repo);
+      controller = new adminIdController(service);
     });
-    it.todo("서비스로부터 서비스 값을 반환 성공 -> 204");
+    describe("실패 케이스", () => {
+      it("인증 실패 -> 401", async () => {
+        //1️⃣ given
+        req.user = undefined;
+        //2️⃣ when
+        await controller.modifyUserInfo(req, res, next);
+        //3️⃣ then
+        expect(next).toHaveBeenCalledWith(
+          expect.objectContaining({
+            status: 401,
+            message: "인증과 관련된 오류 입니다.",
+          })
+        );
+        expect(res.status).not.toHaveBeenCalledWith(204);
+        expect(res.end).not.toHaveBeenCalled();
+      });
+      it("권한 없음 -> 403", async () => {
+        //1️⃣ given
+        req.user = {
+          id: "admin-1",
+          role: "ADMIN",
+        };
+        //2️⃣ when
+        await controller.modifyUserInfo(req, res, next);
+        //3️⃣ then
+        expect(req.user.role).not.toBe("SUPER_ADMIN");
+        expect(next).toHaveBeenCalledWith(
+          expect.objectContaining({
+            status: 403,
+            message: "권한과 관련된 오류입니다.",
+          })
+        );
+      });
+      it("서비스로부터 서비스 값을 반환 실패 -> 500", async () => {
+        //1️⃣ given
+        req.user = {
+          id: "admin-1",
+          role: "SUPER_ADMIN",
+        };
+        //2️⃣ when
+        jest.spyOn(service, "modifyUserInfo").mockImplementation(() => {
+          throw new HttpError(500, "알 수 없는 오류 입니다.");
+        });
+        await controller.modifyUserInfo(req, res, next);
+        //3️⃣ then
+        expect(next).toHaveBeenCalledWith(
+          expect.objectContaining({
+            status: 500,
+            message: "알 수 없는 오류 입니다.",
+          })
+        );
+      });
+    });
+    it("서비스로부터 서비스 값을 반환 성공 -> 204", async () => {
+      //1️⃣ given
+      req.user = {
+        id: "admin-1",
+        role: "SUPER_ADMIN",
+      };
+      req.body = {
+        contact: "01011112222",
+      };
+      const mockResponse = {
+        id: "admin-1",
+        role: "SUPER_ADMIN",
+        contact: "01011112222",
+        username: "hana",
+        name: "hana lee",
+        email: "test@test.com",
+        avatar: null,
+        isActive: true,
+        approvedAt: null,
+        adminOf: null,
+      };
+      //2️⃣ when
+      jest.spyOn(service, "modifyStatus").mockResolvedValue(mockResponse);
+      await controller.modifyUserInfo(req, res, next);
+      //3️⃣ then
+      /*
+      expect(res.status).toHaveBeenCalledWith(204);
+      expect(res.end).toHaveBeenCalled();
+      */
+    });
   });
 
   //=================================================================
+
   describe("관리자 가입 상태 수정 컨트롤러", () => {
-    describe("실패 케이스", () => {
-      it.todo("인증 실패 -> 401");
-      it.todo("권한 없음 -> 403");
-      it.todo("서비스로부터 서비스 값을 반환 실패 -> 500");
+    let service: adminIdService;
+    let controller: adminIdController;
+    let repo: adminIdRepo;
+    let req: any;
+    let res: any;
+    let next: any;
+    let data: Record<string, any>;
+    beforeEach(() => {
+      res = {
+        status: jest.fn().mockReturnThis(),
+        end: jest.fn(),
+      };
+      req = {
+        body: {
+          joinStatus: "APPROVED",
+        },
+        user: { id: "admin-1" },
+        params: { id: "admin-1" }, // ✅ 반드시 필요
+      };
+      next = jest.fn();
+      data = {
+        temp1: {
+          id: "",
+        },
+      };
+
+      repo = new adminIdRepo();
+      service = new adminIdService(repo);
+      controller = new adminIdController(service);
+      jest.clearAllMocks();
     });
-    it.todo("서비스로부터 서비스 값을 반환 성공 -> 204");
+    describe("실패 케이스", () => {
+      it("인증 실패 -> 401", async () => {
+        //1️⃣ given
+        req.user = undefined;
+        //2️⃣ when
+        await controller.modifyStatus(req, res, next);
+        //3️⃣ then
+        expect(next).toHaveBeenCalledWith(
+          expect.objectContaining({
+            status: 401,
+            message: "인증과 관련된 오류입니다.",
+          })
+        );
+      });
+      it("권한 없음 -> 403", async () => {
+        //1️⃣ given
+        req.user = {
+          id: "ADMIN-1",
+          role: "ADMIN",
+        };
+        //2️⃣ when
+        await controller.modifyStatus(req, res, next);
+        expect(next).toHaveBeenCalledWith(
+          expect.objectContaining({
+            status: 403,
+            message: "권한과 관련된 오류입니다.",
+          })
+        );
+        //3️⃣ then
+      });
+      it("잘못된 요청 값입니다", async () => {
+        //1️⃣ given
+        req.user = {
+          id: "ADMIN-1",
+          role: "SUPER_ADMIN",
+        };
+        req.params = {};
+        //2️⃣ when
+        await controller.modifyStatus(req, res, next);
+        //3️⃣ then
+        expect(next).toHaveBeenCalledWith(
+          expect.objectContaining({
+            status: 400,
+            message: "잘못된 요청입니다.",
+          })
+        );
+      });
+      it("서비스로부터 서비스 값을 반환 실패 -> 500", async () => {
+        //1️⃣ given
+        req.params = {
+          id: "ADMIN-1",
+        };
+        req.user = {
+          id: "ADMIN-1",
+          role: "SUPER_ADMIN",
+        };
+        jest.spyOn(service, "modifyStatus").mockImplementation(() => {
+          throw new HttpError(500, "알 수 없는 에러 입니다.");
+        });
+        //2️⃣ when
+        await controller.modifyStatus(req, res, next);
+        //3️⃣ then
+        expect(next).toHaveBeenCalledWith(
+          expect.objectContaining({
+            status: 500,
+            message: "알 수 없는 에러 입니다.",
+          })
+        );
+      });
+    });
+    it("서비스로부터 서비스 값을 반환 성공 -> 204", async () => {
+      //1️⃣ given
+      req.params = {
+        id: "admin-1",
+      };
+      req.user = {
+        id: "admin-1",
+        role: "SUPER_ADMIN",
+        joinStatus: "APPROVED",
+      };
+      jest
+        .spyOn(service, "modifyStatus")
+        .mockImplementation(async (id, joinStatus) => {
+          return {
+            id,
+            contact: "01011112222",
+            name: "hana",
+            role: "ADMIN",
+            avatar: null,
+            joinStatus: "APPROVED",
+            isActive: true,
+            approvedAt: null,
+            adminOf: {
+              id: "apt-1",
+              name: "모라주공 아파트",
+              createdAt: new Date("1991-12-05"),
+              updatedAt: new Date("1999-12-05"),
+              address: "부산",
+              description: "모라주공 아파트 101동 입니다",
+              officeNumber: "0518889999",
+              buildingNumberFrom: 101,
+              buildingNumberTo: 104,
+              floorCountPerBuilding: 10,
+              unitCountPerFloor: 4,
+              adminId: id,
+            },
+          };
+        });
+      await controller.modifyStatus(req, res, next);
+      //3️⃣ then
+      expect(res.status).toHaveBeenCalledWith(204);
+    });
   });
 
   //=================================================================
-  describe("거절된 관리자 일괄 삭제 컨트럴러", () => {
-    describe("실패 케이스", () => {
-      it.todo("인증 실패 -> 401");
-      it.todo("권한 없음 -> 403");
-      it.todo("서비스로부터 서비스 값을 반환 실패 -> 500");
+  describe("관리자들 가입 상태 수정 컨트롤러", () => {
+    let service: Service; //TODO: merge
+    let controller: Controller;
+    let repo: Repository;
+    let req: any;
+    let res: any;
+    let next: any;
+    let pagenation: Pagenation;
+    let joinStatus: JoinStatus;
+    beforeEach(() => {
+      (res = {
+        status: jest.fn().mockReturnThis(),
+        end: jest.fn(),
+      }),
+        (next = jest.fn()),
+        (req = {
+          body: { joinStatus: "APPROVED" },
+          query: { page: 1, limit: 10 },
+          user: { id: "adminId-1" },
+        }),
+        (repo = new Repository());
+      pagenation = {
+        page: 1,
+        limit: 10,
+      };
+      service = new Service(repo);
+      controller = new Controller(service);
     });
-    it.todo("서비스로부터 서비스 값을 반환 성공 -> 204");
+    describe("실패 케이스", () => {
+      it("인증 실패 -> 401", async () => {
+        //1️⃣ given
+        req.user = undefined;
+        //2️⃣ when
+        await controller.modifyStatus(req, res, next);
+        //3️⃣ then
+        expect(next).toHaveBeenCalledWith(
+          expect.objectContaining({
+            status: 401,
+            message: "인증과 관련된 오류입니다.",
+          })
+        );
+        expect(res.status).not.toBe(204);
+      });
+      it("권한 없음 -> 403", async () => {
+        //1️⃣ given
+        req.user = {
+          id: "ADMIN-1",
+          role: "ADMIN",
+        };
+        //2️⃣ when
+        await controller.modifyStatus(req, res, next);
+        //3️⃣ then
+        expect(next).toHaveBeenCalledWith(
+          expect.objectContaining({
+            status: 403,
+            message: "권한과 관련된 오류입니다.",
+          })
+        );
+      });
+      it("서비스로부터 서비스 값을 반환 실패 -> 500", async () => {
+        //1️⃣ given
+        req.user = {
+          id: "SUPER_ADMIN-1",
+          role: "SUPER_ADMIN",
+        };
+        jest.spyOn(service, "modifyStatus").mockImplementation(() => {
+          throw new HttpError(500, "알 수 없는 에러 입니다.");
+        });
+        //2️⃣ when
+        await controller.modifyStatus(req, res, next);
+        //3️⃣ then
+        expect(next).toHaveBeenCalledWith(
+          expect.objectContaining({
+            status: 500,
+            message: "알 수 없는 에러 입니다.",
+          })
+        );
+        expect(res.status).not.toBe(204);
+      });
+    });
+    it("서비스로부터 서비스 값을 반환 성공 -> 204", async () => {
+      //1️⃣ given
+      req.user = {
+        id: "SUPER_ADMIN-1",
+        role: "SUPER_ADMIN",
+      };
+      pagenation = {
+        limit: 10,
+        page: 1,
+      };
+      const mockUsers = [
+        {
+            id:"adminId-1",
+            contact: "01011112222",
+            name: "hana",
+            role: "ADMIN",
+            avatar: null,
+            joinStatus: "APPROVED",
+            isActive: true,
+            approvedAt: null,
+            adminOf: {
+              id: "apt-1",
+              name: "모라주공 아파트",
+              createdAt: new Date("1991-12-05"),
+              updatedAt: new Date("1999-12-05"),
+              address: "부산",
+              description: "모라주공 아파트 101동 입니다",
+              officeNumber: "0518889999",
+              buildingNumberFrom: 101,
+              buildingNumberTo: 104,
+              floorCountPerBuilding: 10,
+              unitCountPerFloor: 4,
+              adminId: "adminId-1",
+            },
+       }];
+
+       const result = {
+        data: mockUsers,
+        totalCount: 1,
+        hasNext:false
+       }
+      jest.spyOn(service, "modifyStatus").mockResolvedValue(result);
+      //2️⃣ when
+      await controller.modifyStatus(req, res, next);
+      //3️⃣ then
+      expect(res.status).toHaveBeenCalledWith(204);
+    });
+  });
+
+  //=================================================================
+  describe("거절된 관리자들 일괄 삭제 컨트럴러", () => {
+    describe("실패 케이스", () => {
+      it.todo(
+        "인증 실패 -> 401"
+        //async () => {
+        //1️⃣ given
+        //2️⃣ when
+        //3️⃣ then
+        //}
+      );
+      it.todo(
+        "권한 없음 -> 403"
+        //async () => {
+        //1️⃣ given
+        //2️⃣ when
+        //3️⃣ then
+        //}
+      );
+      it.todo(
+        "서비스로부터 서비스 값을 반환 실패 -> 500"
+        //async () => {
+        //1️⃣ given
+        //2️⃣ when
+        //3️⃣ then
+        //}
+      );
+    });
+    it.todo(
+      "서비스로부터 서비스 값을 반환 성공 -> 204"
+      //async () => {
+      //1️⃣ given
+      //2️⃣ when
+      //3️⃣ then
+      //}
+    );
   });
 });

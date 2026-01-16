@@ -1,4 +1,4 @@
-describe("users-residents.repo", () => {
+describe("users-residents. service", () => {
   describe("거주민 생성", () => {
     describe("failed case", () => {
       it.todo("해당 유저의 이메일이 이미 db상에 존재 하는 경우 400 에러 뱉기");
@@ -32,7 +32,7 @@ describe("users-residents.repo", () => {
       it.todo("인증된 유저가 아닌경우 401 에러던지기");
       it.todo("관리자 권한이 아닌경우 403 에러던지기");
     });
-    describe("success case", () => {
+    describe("successed case", () => {
         it.todo("거주민들 가입 상태 변경 성공시 204 뱉기");
     });
   });

@@ -1,7 +1,7 @@
 import { JoinStatus } from "../../../../prisma/generated/client.js";
-
+import type { Role } from "../super-admins/super-admin.dto.js";
 export interface apartmentDTO {
-  id: string;
+  id: string | string[];
   createdAt: Date;
   updatedAt: Date;
   name: string;
@@ -20,42 +20,44 @@ export interface ReqParams {
   limitNumber: number;
   keyword: string;
   joinStatus: JoinStatus;
+  role: Role;
 }
 export interface RequestBody {
   email: string;
   password: string;
   name: string;
   username: string;
-  avatar: string | null;
+  avatar: string | undefined | null;
   contact: string;
 }
 
 export interface RequestPayloadDTO {
-  contact: string | null;
-  username: string | null;
-  email: string | null;
-  adminOf: apartmentDTO[] | null;
-  avatar: string | null
+  contact?: string | null;
+  name?: string | null;
+  email?: string;
+  adminOf?: apartmentDTO | null;
+  avatar?: string | undefined | null;
 }
 export interface Pagenation {
-  pageNumber: number,
-  limitNumber: number
+  pageNumber: number;
+  limitNumber: number;
 }
 export type StatusAction = "APPROVED" | "REJECTED";
 //------------response DTO
 export interface AdminsCreateResponseDTO {
-  id: string;
+  id: string | string[];
   contact: string;
   name: string;
-  role: string;
+  role: Role;
   avatar: string | null;
+  joinStatus: JoinStatus;
   isActive: boolean;
   approvedAt: Date | null;
   adminOf: apartmentDTO | null;
 }
 
 export interface AccessAdminItemDTO {
-  id: string;
+  id: string | string[];
   contact: string;
   name: string;
   role: string;
@@ -63,7 +65,7 @@ export interface AccessAdminItemDTO {
   avatar: string | null;
   isActive: boolean;
   approvedAt: Date | null;
-  adminOf: apartmentDTO[] | null;
+  adminOf: apartmentDTO | null;
 }
 export interface AccessListOfAdminsResDTO {
   data: AdminsCreateResponseDTO[];
@@ -71,4 +73,28 @@ export interface AccessListOfAdminsResDTO {
   limit?: number;
   totalCount: number;
   hasNext: boolean;
+}
+
+export interface AdminsModifiedResponseDTO {
+  id: string | string[];
+  contact: string;
+  username: string;
+  name: string;
+  email: string;
+  role: string;
+  avatar: string | undefined | null;
+  isActive: boolean;
+  approvedAt: Date | null;
+  adminOf: apartmentDTO | null;
+}
+export interface AdminsModifiedRequestDTO {
+  contact?: string;
+  username?: string;
+  name?: string;
+  email?: string;
+  role: string;
+  avatar?: Express.Multer.File | undefined;
+  isActive: boolean;
+  approvedAt: Date | null;
+  adminOf: apartmentDTO | null;
 }

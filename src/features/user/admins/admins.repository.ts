@@ -10,9 +10,8 @@ type Param = {
 };
 
 type StatusResult =
-
-    | { action: "APPROVED"; from: "PENDING"; to: "APPROVED" }
-    | { action: "REJECTED"; from: "PENDING"; to: "REJECTED" };
+  | { action: "APPROVED"; from: "PENDING"; to: "APPROVED" }
+  | { action: "REJECTED"; from: "PENDING"; to: "REJECTED" };
 
 export class Repository {
   constructor() {}
@@ -49,10 +48,15 @@ export class Repository {
         name: true,
         contact: true,
         email: true,
+        joinStatus: true,
+        createdAt: true,
+        updatedAt: true,
         username: true,
         avatar: true,
         isActive: true,
+        role: true,
         hasNext: true,
+        approvedAt: true,
         adminOf: {
           select: {
             id: true,
@@ -75,16 +79,19 @@ export class Repository {
     });
     return result;
   };
-  count = async (whereCondition: Param, status: JoinStatus) => {
+  count = async (
+    whereCondition: Param,
+    status: JoinStatus
+  ): Promise<number> => {
     const result = await prisma.user.count({
-      where:{
+      where: {
         role: "ADMIN",
         joinStatus: status,
         ...whereCondition,
-      }
-    })
+      },
+    });
     return result;
-  }
+  };
   findById = async (id: string) => {
     const userId = await prisma.user.findUnique({
       where: {

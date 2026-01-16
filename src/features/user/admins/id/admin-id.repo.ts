@@ -1,3 +1,4 @@
+import { HttpError } from "../../../../lib/middleware/error.middleware/httpError.js";
 import prisma from "../../../../lib/prisma.js";
 import type { StatusAction, RequestPayloadDTO } from "../admin.dto.js";
 type FindUniqueKey = "id" | "email" | "username" | "contact";
@@ -21,20 +22,22 @@ export class Repository {
     const result = await prisma.user.findUnique({ where });
     return result;
   };
-  modifyInfo = async (id: string, input: RequestPayloadDTO) => {
+  modifyUserInfo = async (id: string, input: RequestPayloadDTO) => {
     const user = await this.findOne("id", id);
-    if (!user) throw new Error("User not found");
+    if (!user) throw new HttpError(404, "User not found");
     const data: any = {
-      username: input.username ?? user.username,
+      name: input.name ?? user.name,
       email: input.email ?? user.email,
       contact: input.contact ?? user.contact,
     };
-    if (input.adminOf !== null) {
+    if (input.adminOf !== null && input.adminOf !== undefined) {
       data.adminOf = {
-        update: input.adminOf.map(apt => ({
-          where :{id: apt.id},
-          data: { name: apt.name, address: apt.address }
-        }))
+        update: {
+          name: input.adminOf.name,
+          address: input.adminOf.address,
+          description: input.adminOf.description,
+          officeNumber: input.adminOf.officeNumber,
+        },
       };
     }
     const result = await prisma.user.update({

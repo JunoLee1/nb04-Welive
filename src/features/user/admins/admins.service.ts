@@ -1,3 +1,4 @@
+import { JoinStatus } from "../../../../prisma/generated/enums.js";
 import { HttpError } from "../../../lib/middleware/error.middleware/httpError.js";
 import type {
   RequestBody,
@@ -36,13 +37,12 @@ export class Service {
       avatar,
       contact,
     });
-    return ;
+    return;
   };
   accessList = async (input: ReqParams): Promise<AccessListOfAdminsResDTO> => {
     console.log("received request from access list routes");
     const { pageNumber, limitNumber, keyword, joinStatus } = input;
     const skip = (pageNumber - 1) * limitNumber;
-    console.log(pageNumber, limitNumber, skip);
 
     const whereCondition = keyword
       ? {
@@ -60,14 +60,21 @@ export class Service {
       whereCondition,
       status: joinStatus,
     });
+    if (!admins) throw new HttpError(404, "Not Found");
     const data = admins.map((u) => ({
       id: u.id,
       contact: u.contact,
       name: u.name,
-      role: "ADMIN",
+      role: u.role,
       avatar: u.avatar,
+      joinStatus: u.joinStatus,
+      username: u.username,
+      email: u.email,
+      createdAt: u.createdAt,
+      updatedAt: u.updatedAt,
       isActive: u.isActive,
-      approvedAt: null,
+      hasNext: u.hasNext,
+      approvedAt: u.approvedAt,
       adminOf: u.adminOf
         ? {
             id: u.adminOf.id,
@@ -77,15 +84,29 @@ export class Service {
             address: u.adminOf.address,
             description: u.adminOf.description,
             officeNumber: u.adminOf.officeNumber,
-            buildingNumberFrom: u.adminOf.buildingNumberFrom,
-            buildingNumberTo: u.adminOf.buildingNumberTo,
-            floorCountPerBuilding: u.adminOf.floorCountPerBuilding,
-            unitCountPerFloor: u.adminOf?.unitCountPerFloor,
-            adminId: u.adminOf?.adminId,
+            buildingNumberFrom: Number(u.adminOf.buildingNumberFrom),
+            buildingNumberTo: Number(u.adminOf.buildingNumberTo),
+            floorCountPerBuilding: Number(u.adminOf.floorCountPerBuilding),
+            unitCountPerFloor: Number(u.adminOf.unitCountPerFloor),
+            adminId: u.adminOf.adminId,
           }
-        : null,
+        : {
+            id: "",
+            name: "",
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            address: "",
+            description: "",
+            officeNumber: "",
+            buildingNumberFrom: 0,
+            buildingNumberTo: 0,
+            floorCountPerBuilding: 0,
+            unitCountPerFloor: 0,
+            adminId: "",
+          },
     }));
-    const totalCount = data.length;
+
+    const totalCount = data.length; // TODO: refactor to count query
     const hasNext = pageNumber * limitNumber < totalCount;
     return {
       data,
@@ -101,16 +122,25 @@ export class Service {
     pagenation: Pagenation,
     joinStatus: StatusAction
   ): Promise<AccessListOfAdminsResDTO> => {
-    const modifiedStatusAdmins = await this.repo.updateMany(joinStatus);
+    const toStatus =
+      joinStatus === "APPROVED" ? JoinStatus.APPROVED : JoinStatus.REJECTED;
+    await this.repo.updateMany(joinStatus);
+    const modifiedStatusAdmins = await this.repo.updateMany(toStatus);
     const { pageNumber, limitNumber } = pagenation;
-    const admins = await this.repo.findManyByStatus(joinStatus);
+    const admins = await this.repo.findManyByStatus(toStatus);
     const data = admins.map((u) => ({
       id: u.id,
       contact: u.contact,
+      email: u.email,
+      joinStatus: toStatus,
+      password: u.password,
+      username: u.username,
       name: u.name,
-      role: "ADMIN",
+      role: u.role,
       avatar: u.avatar,
       isActive: u.isActive,
+      createdAt: u.createdAt,
+      updatedAt: u.updatedAt,
       approvedAt: null,
       adminOf: u.adminOf
         ? {
@@ -121,10 +151,10 @@ export class Service {
             address: u.adminOf.address,
             description: u.adminOf.description,
             officeNumber: u.adminOf.officeNumber,
-            buildingNumberFrom: u.adminOf.buildingNumberFrom,
-            buildingNumberTo: u.adminOf.buildingNumberTo,
-            floorCountPerBuilding: u.adminOf.floorCountPerBuilding,
-            unitCountPerFloor: u.adminOf?.unitCountPerFloor,
+            buildingNumberFrom: Number(u.adminOf.buildingNumberFrom),
+            buildingNumberTo: Number(u.adminOf.buildingNumberTo),
+            floorCountPerBuilding: Number(u.adminOf.floorCountPerBuilding),
+            unitCountPerFloor: Number(u.adminOf?.unitCountPerFloor),
             adminId: u.adminOf?.adminId,
           }
         : null,

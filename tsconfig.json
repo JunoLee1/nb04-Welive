@@ -3,7 +3,7 @@
   "compilerOptions": {
     // File Layout
      "rootDir": ".",
-     "outDir": "./dist",
+     "outDir": "dist",
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
@@ -12,8 +12,11 @@
     //"types": [],
     // For nodejs:
     "lib": ["esnext"],
-    "types": ["node", "jest"],
+    "types": ["node", "jest", "passport"],
+    "typeRoots": ["./node_modules/@types"],
     "moduleResolution": "nodenext",
+    "emitDeclarationOnly": false,
+    //"allowImportingTsExtensions": true,
     // and npm install -D @types/node
 
     // Other Outputs
@@ -40,11 +43,12 @@
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-    "skipLibCheck": false,
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "allowJs": true,
     "paths": {
-      "*": ["src/*"]
+      "*": ["src/*"],
+      "@prisma/client": ["prisma/generated/client"] 
     },
     "baseUrl": ".",
   },
@@ -53,5 +57,6 @@
     "pretty": true,
   },
   
-  "include": ["src/**/*.ts", "src/test/**/*.ts"]
+  "include": ["src/**/*.ts", "src/test/**/*.ts"],
+ "exclude": ["node_modules", "dist"]
 }

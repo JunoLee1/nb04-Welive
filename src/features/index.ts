@@ -5,7 +5,6 @@ import aptRouter from './apartment/apartments.routes.js';
 const router = express.Router();
 
 router.use("/auth", authRoutes);
-console.log("⚓️:received requset from clients:");
 router.use("/users", usersRoutes);
 router.use("/apartments",aptRouter)
 //router.use("/residents",residentRouter)

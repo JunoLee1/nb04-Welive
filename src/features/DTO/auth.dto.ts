@@ -1,4 +1,4 @@
-import type { Apartment, Resident, Role } from '../../../prisma/generated/client.js';
+import type { Apartment, JoinStatus, Resident, Role } from '../../../prisma/generated/client.js';
 
 export type adminOfDTO = {id : string; name: string};
 export interface LoginRequestDTO {
@@ -11,7 +11,8 @@ export interface LoginResponseDTO {
     username: string;
     email: string;
     contact: string;
-    avatar: string;
+    avatar: string | null;
+    joinStatus: JoinStatus;
     isActive: boolean;
     role: Role;
     adminOf?: adminOfDTO | null;

@@ -1,7 +1,6 @@
 import type { RequestHandler } from "express";
 import { Service } from "./admins.service.js";
 import type { RequestBody } from "./admin.dto.js";
-import { Repository } from "./admins.repository.js";
 import { HttpError } from "../../../lib/middleware/error.middleware/httpError.js";
 import { JoinStatus } from "../../../../prisma/generated/client.js";
 import { uploadImageToS3 } from "../../../lib/middleware/S3.Client.js";
@@ -33,11 +32,9 @@ export class Controller {
 
   accessList: RequestHandler = async (req, res, next) => {
     try {
-      console.log(1)
       const { page, limit, searchKeyword, joinStatus } = req.query;
       const user = req.user;
       if (!user) throw new HttpError(401, "인증과 관련된 오류입니다.");
-       console.log(11)
       if (user.role !== "SUPER_ADMIN")
         throw new HttpError(403, "권한과 관련된 오류입니다.");
 
@@ -46,13 +43,15 @@ export class Controller {
       const status = joinStatus as JoinStatus;
       const keyword = searchKeyword as string;
       const result = await this.service.accessList({
+        role: user.role,
         pageNumber,
         limitNumber,
         keyword,
         joinStatus: status,
       });
       return res.status(200).json({
-        data: result,
+        ...result,
+        data: result.data,
       });
     } catch (error) {
       next(error);
@@ -66,7 +65,7 @@ export class Controller {
       const pageNumber = Number(page) || 1;
       const limitNumber = Number(limit) || 10;
       const user = req.user;
-      if (!user) throw new HttpError(401, "권한과 관련된 오류입니다.");
+      if (!user) throw new HttpError(401, "인증과 관련된 오류입니다.");
       if (user.role !== "SUPER_ADMIN")
         throw new HttpError(403, "권한과 관련된 오류입니다.");
       await this.service.modifyStatus({ pageNumber, limitNumber }, joinStatus);

@@ -1,0 +1,19 @@
+# 베이스 이미지
+FROM node:25.2.1
+
+# 환경 변수
+ENV SERVER_PORT=9000
+
+# 작업 디렉토리
+WORKDIR /app
+
+# package.json 먼저 복사 후 의존성 설치
+COPY package*.json ./
+RUN npm ci
+
+# 전체 소스 복사
+COPY . .
+
+# 컨테이너 실행 시 서버 시작
+CMD ["node", "dist/src/index.js"]
+ENTRYPOINT ["npm", "run", "start"]

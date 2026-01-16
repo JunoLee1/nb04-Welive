@@ -12,9 +12,6 @@ const controller = new Controller(service);
 authRouter.post(
   "/login",
   validate(loginSchema, "body"),
-  passport.authenticate("local", {
-    session: false,
-  }),
   controller.loginHandler
 ); // node passport local
 // 로그아웃 라우트
