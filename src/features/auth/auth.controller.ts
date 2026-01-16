@@ -20,8 +20,7 @@ export class Controller {
       const { accessToken, refreshToken } = generateToken(user.id);
       if(!accessToken && refreshToken) throw new HttpError(500, "알 수 없는 에러 입니다")
       setTokenCookies({ res, accessToken, refreshToken });
-      console.log("accessToken: ", accessToken); //Do not remove it till test
-      return res.status(204).end();
+      return res.status(201).json( user );
     } catch (error) {
       next(error)
     }
