@@ -7,6 +7,16 @@ export const requestBodySchema = z.object({
   password: z.string(),
   name: z.string(),
   avatar: z.string().optional(),
+  adminOf: z.object({
+    name: z.string().optional(),
+    address: z.string().optional(),
+    description: z.string().optional(),
+    officeNumber: z.string().optional(),
+    buildingNumberFrom: z.coerce.number(),
+    buildingNumberTo: z.coerce.number(),
+    floorCountPerBuilding: z.coerce.number(),
+    unitCountPerFloor: z.coerce.number(),
+  }),
 });
 
 export const requestPatchSchema = z.object({
