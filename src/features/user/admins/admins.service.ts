@@ -37,7 +37,7 @@ export class Service {
       avatar,
       contact,
     });
-    return ;
+    return;
   };
   accessList = async (input: ReqParams): Promise<AccessListOfAdminsResDTO> => {
     console.log("received request from access list routes");
@@ -60,7 +60,7 @@ export class Service {
       whereCondition,
       status: joinStatus,
     });
-    if(!admins) throw new HttpError(404, "Not Found");
+    if (!admins) throw new HttpError(404, "Not Found");
     const data = admins.map((u) => ({
       id: u.id,
       contact: u.contact,
@@ -75,7 +75,8 @@ export class Service {
       isActive: u.isActive,
       hasNext: u.hasNext,
       approvedAt: u.approvedAt,
-      adminOf: u.adminOf ? {
+      adminOf: u.adminOf
+        ? {
             id: u.adminOf.id,
             name: u.adminOf.name,
             createdAt: u.adminOf.createdAt,
@@ -88,7 +89,8 @@ export class Service {
             floorCountPerBuilding: Number(u.adminOf.floorCountPerBuilding),
             unitCountPerFloor: Number(u.adminOf.unitCountPerFloor),
             adminId: u.adminOf.adminId,
-          }:{
+          }
+        : {
             id: "",
             name: "",
             createdAt: new Date(),
@@ -101,10 +103,10 @@ export class Service {
             floorCountPerBuilding: 0,
             unitCountPerFloor: 0,
             adminId: "",
-          }
+          },
     }));
-    
-    const totalCount = data.length;// TODO: refactor to count query
+
+    const totalCount = data.length; // TODO: refactor to count query
     const hasNext = pageNumber * limitNumber < totalCount;
     return {
       data,
@@ -121,10 +123,8 @@ export class Service {
     joinStatus: StatusAction
   ): Promise<AccessListOfAdminsResDTO> => {
     const toStatus =
-    joinStatus === "APPROVED"
-      ? JoinStatus.APPROVED
-      : JoinStatus.REJECTED;
-  await this.repo.updateMany(joinStatus);
+      joinStatus === "APPROVED" ? JoinStatus.APPROVED : JoinStatus.REJECTED;
+    await this.repo.updateMany(joinStatus);
     const modifiedStatusAdmins = await this.repo.updateMany(toStatus);
     const { pageNumber, limitNumber } = pagenation;
     const admins = await this.repo.findManyByStatus(toStatus);
@@ -132,9 +132,9 @@ export class Service {
       id: u.id,
       contact: u.contact,
       email: u.email,
-      joinStatus:toStatus,
-      password:u.password,
-      username:u.username,
+      joinStatus: toStatus,
+      password: u.password,
+      username: u.username,
       name: u.name,
       role: u.role,
       avatar: u.avatar,
