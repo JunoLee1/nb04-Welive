@@ -4,15 +4,17 @@ export class Repository {
     findUniqueEmail = async (email: string) => {
         const user = await this.prisma.user.findUnique({
             where:{
-                email
+                email,
+                role: "SUPER_ADMIN"
             }
         })
         return user;
     }
-    findUniqueUsername = async(username: string) => {
+    findUniqueUsername = async(username: string, role: string) => {
         const user =  await this.prisma.user.findUnique({
             where: {
-                username: username
+                username: username,
+                role: "SUPER_ADMIN"
             }
         })
         return user;
@@ -21,7 +23,8 @@ export class Repository {
     findUniquePhoneNumber = async(contact: string) => {
         const phoneNumber = await this.prisma.user.findUnique({
             where:{
-                contact
+                contact,
+                role: "SUPER_ADMIN"
             }
         })
          return phoneNumber;
