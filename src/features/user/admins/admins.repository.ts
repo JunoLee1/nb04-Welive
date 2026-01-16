@@ -49,10 +49,15 @@ export class Repository {
         name: true,
         contact: true,
         email: true,
+        joinStatus: true,
+        createdAt:true,
+        updatedAt:true,
         username: true,
         avatar: true,
         isActive: true,
+        role: true,
         hasNext: true,
+        approvedAt: true,
         adminOf: {
           select: {
             id: true,
