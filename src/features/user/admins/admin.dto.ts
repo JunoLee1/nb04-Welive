@@ -33,9 +33,9 @@ export interface RequestBody {
 
 export interface RequestPayloadDTO {
   contact?: string | null;
-  username?: string | null;
+  name?: string | null;
   email?: string;
-  adminOf?: apartmentDTO[] | null;
+  adminOf?: apartmentDTO | null;
   avatar?: string | undefined | null;
 }
 export interface Pagenation {
@@ -65,7 +65,7 @@ export interface AccessAdminItemDTO {
   avatar: string | null;
   isActive: boolean;
   approvedAt: Date | null;
-  adminOf: apartmentDTO[] | null;
+  adminOf: apartmentDTO | null;
 }
 export interface AccessListOfAdminsResDTO {
   data: AdminsCreateResponseDTO[];
