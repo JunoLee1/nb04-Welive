@@ -10,10 +10,8 @@ export class Controller {
 
   signUpHandler: RequestHandler = async (req, res, next) => {
     try {
-      console.log("received from routes");
       const { email, password, name, username, contact, avatar } =
         req.body as SuperAdminCreateReqDTO; // validated value from validator
-      console.log("body:", req.body);
       const file = req.file as Express.Multer.File | undefined;
       if (
         file &&
@@ -29,8 +27,7 @@ export class Controller {
         contact,
         avatar,
       });
-      console.log("✅ controller signUpHandler success");
-      return res.status(204).end();
+      return res.status(201).json({ message: "슈퍼어드민 계정이 생성되었습니다." });
     } catch (error) {
       next(error);
     }
