@@ -18,7 +18,7 @@ export class Service {
     id: string,
     input: RequestPayloadDTO
   ): Promise<AdminsModifiedResponseDTO> => {
-    const { email, username, adminOf, contact, avatar } = input;
+    const { email, name, adminOf, contact, avatar } = input;
     const existingUser = await this.repo.findOne("id", id);
     if (!existingUser) throw new HttpError(404, "NotFound");
     let profileImageKey = existingUser.avatar || undefined; // 기존 key 유지
@@ -37,7 +37,7 @@ export class Service {
     const updatedUser = {
       ...existingUser,
       id: existingUser.id,
-      ...(input.username !== undefined && { username: input.username }),
+      ...(input.name !== undefined && { name: input.name }),
       ...(input.email !== undefined && { email: input.email }),
       ...(input.adminOf !== undefined && { adminOf: input.adminOf }),
       ...(input.avatar !== undefined && { avatar: profileImageKey }),
@@ -48,7 +48,7 @@ export class Service {
 
   modifyStatus = async (
     id: string,
-    joinStatus: StatusAction,
+    joinStatus: StatusAction
   ): Promise<AdminsCreateResponseDTO> => {
     const existingUser = await this.repo.findOne("id", id);
     if (!existingUser) throw new HttpError(404, "존재 하지 않는 유저 입니다");
