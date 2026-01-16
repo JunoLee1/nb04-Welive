@@ -60,16 +60,22 @@ export class Service {
       whereCondition,
       status: joinStatus,
     });
+    if(!admins) throw new HttpError(404, "Not Found");
     const data = admins.map((u) => ({
       id: u.id,
       contact: u.contact,
       name: u.name,
-      role: "ADMIN",
+      role: u.role,
       avatar: u.avatar,
+      joinStatus: u.joinStatus,
+      username: u.username,
+      email: u.email,
+      createdAt: u.createdAt,
+      updatedAt: u.updatedAt,
       isActive: u.isActive,
-      approvedAt: null,
-      adminOf: u.adminOf
-        ? {
+      hasNext: u.hasNext,
+      approvedAt: u.approvedAt,
+      adminOf: u.adminOf ? {
             id: u.adminOf.id,
             name: u.adminOf.name,
             createdAt: u.adminOf.createdAt,
@@ -80,12 +86,25 @@ export class Service {
             buildingNumberFrom: Number(u.adminOf.buildingNumberFrom),
             buildingNumberTo: Number(u.adminOf.buildingNumberTo),
             floorCountPerBuilding: Number(u.adminOf.floorCountPerBuilding),
-            unitCountPerFloor: Number(u.adminOf?.unitCountPerFloor),
-            adminId: u.adminOf?.adminId,
+            unitCountPerFloor: Number(u.adminOf.unitCountPerFloor),
+            adminId: u.adminOf.adminId,
+          }:{
+            id: "",
+            name: "",
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            address: "",
+            description: "",
+            officeNumber: "",
+            buildingNumberFrom: 0,
+            buildingNumberTo: 0,
+            floorCountPerBuilding: 0,
+            unitCountPerFloor: 0,
+            adminId: "",
           }
-        : null,
     }));
-    const totalCount = data.length;
+    
+    const totalCount = data.length;// TODO: refactor to count query
     const hasNext = pageNumber * limitNumber < totalCount;
     return {
       data,
@@ -117,7 +136,7 @@ export class Service {
       password:u.password,
       username:u.username,
       name: u.name,
-      role: "ADMIN",
+      role: u.role,
       avatar: u.avatar,
       isActive: u.isActive,
       createdAt: u.createdAt,
