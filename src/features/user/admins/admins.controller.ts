@@ -47,13 +47,15 @@ export class Controller {
       const status = joinStatus as JoinStatus;
       const keyword = searchKeyword as string;
       const result = await this.service.accessList({
+        role: user.role,
         pageNumber,
         limitNumber,
         keyword,
         joinStatus: status,
       });
       return res.status(200).json({
-        data: result,
+        ...result,
+        data: result.data,
       });
     } catch (error) {
       next(error);
