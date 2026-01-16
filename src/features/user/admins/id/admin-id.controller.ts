@@ -14,19 +14,19 @@ export class Controller {
   modifyUserInfo: RequestHandler = async (req, res, next) => {
     try {
       const { id } = req.params as { id: string };
-      const { email, username, adminOf, contact, avatar } = req.body;
+      const { email, name, adminOf, contact, avatar } = req.body;
       const user = req.user;
-      const userId = user?.id;
 
       if (!user) throw new HttpError(401, "인증과 관련된 오류 입니다.");
-      if (!userId) throw new HttpError(401, "인증과 관련된 오류 입니다.");
+
       if (user.role !== "SUPER_ADMIN")
         throw new HttpError(403, "권한과 관련된 오류입니다.");
 
       const file = req.file as Express.Multer.File | undefined;
-      const result = await this.service.modifyUserInfo(userId, {
+
+      await this.service.modifyUserInfo(id, {
         email,
-        username,
+        name,
         adminOf,
         contact,
         avatar: file?.filename,
