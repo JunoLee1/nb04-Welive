@@ -1,4 +1,5 @@
 import { JoinStatus } from "../../../../prisma/generated/client.js";
+import type { Role } from "../super-admins/super-admin.dto.js";
 export interface apartmentDTO {
   id: string | string[];
   createdAt: Date;
@@ -19,6 +20,7 @@ export interface ReqParams {
   limitNumber: number;
   keyword: string;
   joinStatus: JoinStatus;
+  role: Role;
 }
 export interface RequestBody {
   email: string;
@@ -46,8 +48,9 @@ export interface AdminsCreateResponseDTO {
   id: string | string[];
   contact: string;
   name: string;
-  role: string;
+  role: Role;
   avatar: string | null;
+  joinStatus: JoinStatus;
   isActive: boolean;
   approvedAt: Date | null;
   adminOf: apartmentDTO | null;
