@@ -1,3 +1,4 @@
+import { HttpError } from "../../../../lib/middleware/error.middleware/httpError.js";
 import prisma from "../../../../lib/prisma.js";
 import type { StatusAction, RequestPayloadDTO } from "../admin.dto.js";
 type FindUniqueKey = "id" | "email" | "username" | "contact";
@@ -23,7 +24,7 @@ export class Repository {
   };
   modifyUserInfo = async (id: string, input: RequestPayloadDTO) => {
     const user = await this.findOne("id", id);
-    if (!user) throw new Error("User not found");
+    if (!user) throw new HttpError(404,"User not found");
     const data: any = {
       username: input.username ?? user.username,
       email: input.email ?? user.email,
