@@ -74,10 +74,10 @@ describe("super.admin.repository", () => {
     };
     prismaMock.user.findUnique.mockResolvedValue(fakeUser);
 
-    const result = await repo.findUniqueUsername("testuser");
+    const result = await repo.findUniqueUsername("testuser", "SUPER_ADMIN");
 
     expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
-      where: { username: "testuser" },
+      where: { username: "testuser", role: "SUPER_ADMIN" },
     });
     expect(result).toEqual(fakeUser); // 반환값 검증
   });

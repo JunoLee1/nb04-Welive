@@ -30,7 +30,7 @@ export const joinStatusSchema = z.object({
 });
 
 export const paramSchema = z.object({
-  id: z.string(),
+  id: z.string().min(1),
 });
 
 export type ResidentCreateSchema = z.infer<typeof residentCreateSchema>;

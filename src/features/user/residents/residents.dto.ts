@@ -1,64 +1,72 @@
-
 //===============================
 // lib tyoe
 //===============================
 
+import type { JoinStatus } from "../../../../prisma/generated/enums.js";
 import type { Role } from "../super-admins/super-admin.dto.js";
 
-type Status = "PENDING" | "APPROVED" | "REJECTED";  
+type Status = "PENDING" | "APPROVED" | "REJECTED";
 
 //===============================
 // requst Dto
 //===============================
 
 export interface RegisterApartmentDTO {
- apartmentId:string,
- userId?: string | null,
- unit: number,
- building: number,
- isHouseholder: boolean,
- updatedAt:Date,
- createdAt:Date
+  id: string;
+  userId?: string | null;
+  unit: string | null;
+  building: string | null;
+  isHouseholder: boolean;
 }
 
 export interface ResidentRequestParamQuery {
-  page: number,
-  limit: number, 
-  building: number,
-  unit: number,
-  searchKeyword: string,
-  joinStatus: Status
+  building: string| number| undefined ;
+  unit: string | number|undefined;
+  searchKeyword: string | undefined;
+  joinStatus: JoinStatus;
 }
 
 export interface ResidentCreateRequest {
-  username: string,
-  email: string,
-  name: string,
-  password: string,
-  contact: string,
-  resident:RegisterApartmentDTO | null
+  username: string;
+  email: string;
+  name: string;
+  password: string;
+  contact: string;
+  resident: RegisterApartmentDTO | null;
 }
 
 //==================================
- // response
+// response
 //==================================
 
+export interface APTInfo {
+  buildings: number[] | string[] | null;
+  units: number[] | string[] | null;
+}
 export interface ResidentCreateResponse {
-  email: string,
-  name: string,
-  contact: string,
-  role: Role,
-  joinStatus: Status,
-  isActive: boolean,
-  resident:RegisterApartmentDTO | null,
-  createdAt: Date,
-  updatedAt: Date
+  email: string;
+  name: string;
+  contact: string;
+  joinStatus: Status;
+  resident: RegisterApartmentDTO | null;
 }
+export interface FindAllpagesResidentResponse {
+  email: string;
+  name: string;
+  contact: string;
+  joinStatus: Status;
+  resident: {
+    id: string;
+    unit: string;
+    building: string;
+  }[];
+  apartment:APTInfo
+}[]
 
-export interface ResidentUserFindAllPageResponse  {
-  data:ResidentCreateResponse[],
-  hasNext:boolean,
-  totalCount: number,
-  limit: number,
-  page: number
+export interface ResidentUserFindAllPageResponse {
+  data: FindAllpagesResidentResponse[];
+  hasNext: boolean;
+  totalCount: number;
+  skip: number;
+  page: number;
 }

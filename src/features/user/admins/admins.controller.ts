@@ -37,15 +37,15 @@ export class Controller {
       if (!user) throw new HttpError(401, "인증과 관련된 오류입니다.");
       if (user.role !== "SUPER_ADMIN")
         throw new HttpError(403, "권한과 관련된 오류입니다.");
-
+      const adminId  = user.id
       const pageNumber = Number(page) || 1;
       const limitNumber = Number(limit) || 10;
       const status = joinStatus as JoinStatus;
       const keyword = searchKeyword as string;
-      const result = await this.service.accessList({
+      const result = await this.service.accessList(adminId, {
         role: user.role,
-        pageNumber,
-        limitNumber,
+        page:pageNumber,
+        limit:limitNumber,
         keyword,
         joinStatus: status,
       });
@@ -68,7 +68,7 @@ export class Controller {
       if (!user) throw new HttpError(401, "인증과 관련된 오류입니다.");
       if (user.role !== "SUPER_ADMIN")
         throw new HttpError(403, "권한과 관련된 오류입니다.");
-      await this.service.modifyStatus({ pageNumber, limitNumber }, joinStatus);
+      await this.service.modifyStatus({ page:pageNumber, limit:limitNumber }, joinStatus);
       return res.status(204).end();
     } catch (error) {
       next(error);

@@ -1,11 +1,11 @@
 import prisma from "../../../lib/prisma.js";
 import type { RequestBody, StatusAction } from "./admin.dto.js";
-import { JoinStatus } from "../../../../prisma/generated/client.js";
+import { JoinStatus, Prisma } from "../../../../prisma/generated/client.js";
 
 type Param = {
-  whereCondition: object;
+  whereCondition: Prisma.UserWhereInput;
   skip: number;
-  limitNumber: number;
+  limit: number;
   status: JoinStatus | null;
 };
 
@@ -37,7 +37,7 @@ export class Repository {
     });
     return result;
   };
-  findMany = async ({ whereCondition, skip, limitNumber, status }: Param) => {
+  findMany = async ({ whereCondition, skip, limit, status }: Param) => {
     const result = await prisma.user.findMany({
       where: {
         ...whereCondition,
@@ -66,15 +66,14 @@ export class Repository {
             address: true,
             description: true,
             officeNumber: true,
-            buildingNumberFrom: true,
-            buildingNumberTo: true,
+            buildings:true,
             floorCountPerBuilding: true,
             unitCountPerFloor: true,
             adminId: true,
           },
         },
       },
-      take: limitNumber,
+      take: limit,
       skip,
     });
     return result;
@@ -146,8 +145,7 @@ export class Repository {
             updatedAt: true,
             address: true,
             description: true,
-            buildingNumberFrom: true,
-            buildingNumberTo: true,
+            buildings:true,
             floorCountPerBuilding: true,
             unitCountPerFloor: true,
             officeNumber: true,

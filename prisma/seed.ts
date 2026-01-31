@@ -21,6 +21,8 @@ const main = async () => {
       joinStatus: "APPROVED",
     },
   });
+
+  // =============================== ADMINS ==================================//
   const Hana = await prisma.user.upsert({
     where: {
       email: "hana@test.com",
@@ -39,6 +41,85 @@ const main = async () => {
     },
   });
 
+  const Christine = await prisma.user.upsert({
+    where: { email: "christinaFan@test.com" },
+    update: { password: hashedPassword },
+    create: {
+      username: "christina",
+      name: "Christine Oh",
+      password: "12345678",
+      role: "ADMIN",
+      joinStatus: "APPROVED",
+      email: "christinaFan@test.com",
+      contact: "01055558888",
+    },
+  });
+  // =============================== APARTMENT ==================================//
+
+  const LotteCastle = await prisma.apartment.upsert({
+    where: {
+      adminId: Christine.id,
+    },
+    update: {},
+    create: {
+      adminId: Christine.id,
+      name: "Lotte Castle",
+      address: "부산광역시 수영구 수영로325번길 61",
+      description: "수영동 롯데캐슬 아파트 입니다",
+      buildings: [101, 102],
+      floorCountPerBuilding: 1,
+      unitCountPerFloor: 2,
+      officeNumber: "051112222",
+    },
+  });
+  const SkViewApartment = await prisma.apartment.upsert({
+    where: {
+      adminId: Hana.id,
+    },
+    update: {
+      name: "sk view 아파트",
+      address: "부산광역시 수영구 망미동",
+      description: "수영동 sk view아파트 입니다",
+      buildings: [101, 102],
+      units: [1001, 1002, 1003, 1004],
+      floorCountPerBuilding: 1,
+      unitCountPerFloor: 2,
+      officeNumber: "051000111",
+    },
+    create: {
+      adminId: Hana.id,
+      name: "sk view 아파트",
+      address: "부산광역시 수영구 망미동",
+      description: "수영동 sk view아파트 입니다",
+      buildings: [101, 102],
+      units: [1001, 1002, 1003, 1004],
+      floorCountPerBuilding: 1,
+      unitCountPerFloor: 2,
+      officeNumber: "051000111",
+    },
+  });
+  await prisma.apartment.upsert({
+    where: {
+      adminId: juno.id,
+    },
+    update: {
+      buildings: [101, 102, 103],
+      units: [1001, 1002, 1003, 1004],
+    },
+    create: {
+      adminId: juno.id,
+      name: "sk view2 아파트",
+      address: "부산광역시 수영구 망미동",
+      description: "수영동 sk view아파트 입니다",
+      buildings: [101, 102, 103],
+      units: [1001, 1002, 1003, 1004],
+      floorCountPerBuilding: 1,
+      unitCountPerFloor: 1,
+      officeNumber: "051000111",
+    },
+  });
+
+  // =============================== USER ==================================//
   const Chloe = await prisma.user.upsert({
     where: {
       email: "chloe1@test.com",
@@ -88,134 +169,68 @@ const main = async () => {
     },
   });
 
-  const Christine = await prisma.user.upsert({
-    where: { email: "christinaFan@test.com" },
-    update: { password: hashedPassword },
+  await prisma.resident.upsert({
+    where: {
+      userId_apartmentId: {
+        userId: Chloe.id,
+        apartmentId: SkViewApartment.id,
+      },
+    },
+    update: {
+      userId: Chloe.id,
+      name: "sk 아파트",
+      isHouseholder: true,
+      building: "101",
+      unit: "1001",
+    },
     create: {
-      username: "christina",
-      name: "Christine Oh",
-      password: "12345678",
-      role: "ADMIN",
-      joinStatus: "APPROVED",
-      email: "christinaFan@test.com",
-      contact: "01055558888",
+      userId: Chloe.id,
+      name: "sk 아파트",
+      apartmentId: SkViewApartment.id,
+      isHouseholder: true,
+      building: "101",
+      unit: "1001",
     },
   });
 
-  const LotteCastle = await prisma.apartment.upsert({
+  await prisma.resident.upsert({
     where: {
-      adminId: Christine.id,
+      userId: Paullet.id,
     },
-    update: {},
+    update: {
+      building: "102",
+      unit: "1002",
+    },
     create: {
-      adminId: Christine.id,
+      userId: Paullet.id,
       name: "Lotte Castle",
-      address: "부산광역시 수영구 수영로325번길 61",
-      description: "수영동 롯데캐슬 아파트 입니다",
-      buildingNumberFrom: 2,
-      buildingNumberTo: 5,
-      floorCountPerBuilding: 1,
-      unitCountPerFloor: 2,
-      officeNumber: "051112222",
-    },
-  });
-  const SkViewApartment = await prisma.apartment.upsert({
-    where: {
-      adminId: Hana.id,
-    },
-    update: {
-      name: "sk view 아파트",
-      address: "부산광역시 수영구 망미동",
-      description: "수영동 sk view아파트 입니다",
-      buildingNumberFrom: 2,
-      buildingNumberTo: 5,
-      floorCountPerBuilding: 1,
-      unitCountPerFloor: 2,
-      officeNumber: "051000111",
-    },
-    create: {
-      adminId: Hana.id,
-      name: "sk view 아파트",
-      address: "부산광역시 수영구 망미동",
-      description: "수영동 sk view아파트 입니다",
-      buildingNumberFrom: 2,
-      buildingNumberTo: 5,
-      floorCountPerBuilding: 1,
-      unitCountPerFloor: 2,
-      officeNumber: "051000111",
-    },
-  });
-  await prisma.apartment.upsert({
-    where: {
-      adminId: juno.id,
-    },
-    update: {},
-    create: {
-      adminId: juno.id,
-      name: "sk view2 아파트",
-      address: "부산광역시 수영구 망미동",
-      description: "수영동 sk view아파트 입니다",
-      buildingNumberFrom: 1,
-      buildingNumberTo: 4,
-      floorCountPerBuilding: 1,
-      unitCountPerFloor: 1,
-      officeNumber: "051000111",
-    },
-  });
-  /*
-  await prisma.resident.upsert({
-    where: {
-      userId: Chloe.id,
-      apartmentId: "604603d5-4012-4bd2-8254-d47ef4659669",
-    },
-    update: {
-      userId: Chloe.id,
-      name: "자이 아파트",
+      apartmentId: LotteCastle.id,
       isHouseholder: true,
-      building: 101,
-      unit: 1001,
-    },
-    create: {
-      userId: Chloe.id,
-      name: "자이 아파트",
-      apartmentId: "604603d5-4012-4bd2-8254-d47ef4659669",
-      isHouseholder: true,
-      building: 101,
-      unit: 1001,
+      building: "102",
+      unit: "1002",
     },
   });
-  */
 
   await prisma.resident.upsert({
-    where:{
-      userId: Paullet.id
+    where: {
+      userId_apartmentId: {
+        userId: Doopy.id,
+        apartmentId: SkViewApartment.id,
+      },
     },
-    update:{},
-    create:{
-      userId:Paullet.id,
-      name:"Lotte Castle",
-      apartmentId: "c2f59126-538f-42b0-8743-ecf5559f214a",
-      isHouseholder: true,
-      building: 102,
-      unit: 1001
-    }
-  })
-
-  await prisma.resident.upsert({
-    where:{
-      userId: Doopy.id
+    update: {
+      building: "103",
+      unit: "1002",
     },
-    update:{},
-    create:{
-      userId:Doopy.id,
-      name:"Lotte Castle",
-      apartmentId: "c2f59126-538f-42b0-8743-ecf5559f214a",
+    create: {
+      userId: Doopy.id,
+      name: "Sk View 아파트",
+      apartmentId: SkViewApartment.id,
       isHouseholder: true,
-      building: 102,
-      unit: 1002,
-    }
-  })
-  
+      building: "103",
+      unit: "1003",
+    },
+  });
 };
 await main()
   .catch((e) => {

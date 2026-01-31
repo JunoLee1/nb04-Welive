@@ -27,15 +27,15 @@ export type AggregateApartment = {
 }
 
 export type ApartmentAvgAggregateOutputType = {
-  buildingNumberFrom: number | null
-  buildingNumberTo: number | null
+  buildings: number | null
+  units: number | null
   floorCountPerBuilding: number | null
   unitCountPerFloor: number | null
 }
 
 export type ApartmentSumAggregateOutputType = {
-  buildingNumberFrom: number | null
-  buildingNumberTo: number | null
+  buildings: number[]
+  units: number[]
   floorCountPerBuilding: number | null
   unitCountPerFloor: number | null
 }
@@ -47,8 +47,6 @@ export type ApartmentMinAggregateOutputType = {
   description: string | null
   createdAt: Date | null
   updatedAt: Date | null
-  buildingNumberFrom: number | null
-  buildingNumberTo: number | null
   floorCountPerBuilding: number | null
   unitCountPerFloor: number | null
   officeNumber: string | null
@@ -62,8 +60,6 @@ export type ApartmentMaxAggregateOutputType = {
   description: string | null
   createdAt: Date | null
   updatedAt: Date | null
-  buildingNumberFrom: number | null
-  buildingNumberTo: number | null
   floorCountPerBuilding: number | null
   unitCountPerFloor: number | null
   officeNumber: string | null
@@ -77,8 +73,8 @@ export type ApartmentCountAggregateOutputType = {
   description: number
   createdAt: number
   updatedAt: number
-  buildingNumberFrom: number
-  buildingNumberTo: number
+  buildings: number
+  units: number
   floorCountPerBuilding: number
   unitCountPerFloor: number
   officeNumber: number
@@ -88,15 +84,15 @@ export type ApartmentCountAggregateOutputType = {
 
 
 export type ApartmentAvgAggregateInputType = {
-  buildingNumberFrom?: true
-  buildingNumberTo?: true
+  buildings?: true
+  units?: true
   floorCountPerBuilding?: true
   unitCountPerFloor?: true
 }
 
 export type ApartmentSumAggregateInputType = {
-  buildingNumberFrom?: true
-  buildingNumberTo?: true
+  buildings?: true
+  units?: true
   floorCountPerBuilding?: true
   unitCountPerFloor?: true
 }
@@ -108,8 +104,6 @@ export type ApartmentMinAggregateInputType = {
   description?: true
   createdAt?: true
   updatedAt?: true
-  buildingNumberFrom?: true
-  buildingNumberTo?: true
   floorCountPerBuilding?: true
   unitCountPerFloor?: true
   officeNumber?: true
@@ -123,8 +117,6 @@ export type ApartmentMaxAggregateInputType = {
   description?: true
   createdAt?: true
   updatedAt?: true
-  buildingNumberFrom?: true
-  buildingNumberTo?: true
   floorCountPerBuilding?: true
   unitCountPerFloor?: true
   officeNumber?: true
@@ -138,8 +130,8 @@ export type ApartmentCountAggregateInputType = {
   description?: true
   createdAt?: true
   updatedAt?: true
-  buildingNumberFrom?: true
-  buildingNumberTo?: true
+  buildings?: true
+  units?: true
   floorCountPerBuilding?: true
   unitCountPerFloor?: true
   officeNumber?: true
@@ -240,8 +232,8 @@ export type ApartmentGroupByOutputType = {
   description: string
   createdAt: Date
   updatedAt: Date
-  buildingNumberFrom: number
-  buildingNumberTo: number
+  buildings: number[]
+  units: number[]
   floorCountPerBuilding: number
   unitCountPerFloor: number
   officeNumber: string
@@ -278,8 +270,8 @@ export type ApartmentWhereInput = {
   description?: Prisma.StringFilter<"Apartment"> | string
   createdAt?: Prisma.DateTimeFilter<"Apartment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Apartment"> | Date | string
-  buildingNumberFrom?: Prisma.IntFilter<"Apartment"> | number
-  buildingNumberTo?: Prisma.IntFilter<"Apartment"> | number
+  buildings?: Prisma.IntNullableListFilter<"Apartment">
+  units?: Prisma.IntNullableListFilter<"Apartment">
   floorCountPerBuilding?: Prisma.IntFilter<"Apartment"> | number
   unitCountPerFloor?: Prisma.IntFilter<"Apartment"> | number
   officeNumber?: Prisma.StringFilter<"Apartment"> | string
@@ -295,8 +287,8 @@ export type ApartmentOrderByWithRelationInput = {
   description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  buildingNumberFrom?: Prisma.SortOrder
-  buildingNumberTo?: Prisma.SortOrder
+  buildings?: Prisma.SortOrder
+  units?: Prisma.SortOrder
   floorCountPerBuilding?: Prisma.SortOrder
   unitCountPerFloor?: Prisma.SortOrder
   officeNumber?: Prisma.SortOrder
@@ -316,8 +308,8 @@ export type ApartmentWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringFilter<"Apartment"> | string
   createdAt?: Prisma.DateTimeFilter<"Apartment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Apartment"> | Date | string
-  buildingNumberFrom?: Prisma.IntFilter<"Apartment"> | number
-  buildingNumberTo?: Prisma.IntFilter<"Apartment"> | number
+  buildings?: Prisma.IntNullableListFilter<"Apartment">
+  units?: Prisma.IntNullableListFilter<"Apartment">
   floorCountPerBuilding?: Prisma.IntFilter<"Apartment"> | number
   unitCountPerFloor?: Prisma.IntFilter<"Apartment"> | number
   officeNumber?: Prisma.StringFilter<"Apartment"> | string
@@ -332,8 +324,8 @@ export type ApartmentOrderByWithAggregationInput = {
   description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  buildingNumberFrom?: Prisma.SortOrder
-  buildingNumberTo?: Prisma.SortOrder
+  buildings?: Prisma.SortOrder
+  units?: Prisma.SortOrder
   floorCountPerBuilding?: Prisma.SortOrder
   unitCountPerFloor?: Prisma.SortOrder
   officeNumber?: Prisma.SortOrder
@@ -355,8 +347,8 @@ export type ApartmentScalarWhereWithAggregatesInput = {
   description?: Prisma.StringWithAggregatesFilter<"Apartment"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Apartment"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Apartment"> | Date | string
-  buildingNumberFrom?: Prisma.IntWithAggregatesFilter<"Apartment"> | number
-  buildingNumberTo?: Prisma.IntWithAggregatesFilter<"Apartment"> | number
+  buildings?: Prisma.IntNullableListFilter<"Apartment">
+  units?: Prisma.IntNullableListFilter<"Apartment">
   floorCountPerBuilding?: Prisma.IntWithAggregatesFilter<"Apartment"> | number
   unitCountPerFloor?: Prisma.IntWithAggregatesFilter<"Apartment"> | number
   officeNumber?: Prisma.StringWithAggregatesFilter<"Apartment"> | string
@@ -370,8 +362,8 @@ export type ApartmentCreateInput = {
   description: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  buildingNumberFrom: number
-  buildingNumberTo: number
+  buildings?: Prisma.ApartmentCreatebuildingsInput | number[]
+  units?: Prisma.ApartmentCreateunitsInput | number[]
   floorCountPerBuilding: number
   unitCountPerFloor: number
   officeNumber: string
@@ -386,8 +378,8 @@ export type ApartmentUncheckedCreateInput = {
   description: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  buildingNumberFrom: number
-  buildingNumberTo: number
+  buildings?: Prisma.ApartmentCreatebuildingsInput | number[]
+  units?: Prisma.ApartmentCreateunitsInput | number[]
   floorCountPerBuilding: number
   unitCountPerFloor: number
   officeNumber: string
@@ -402,8 +394,8 @@ export type ApartmentUpdateInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  buildingNumberFrom?: Prisma.IntFieldUpdateOperationsInput | number
-  buildingNumberTo?: Prisma.IntFieldUpdateOperationsInput | number
+  buildings?: Prisma.ApartmentUpdatebuildingsInput | number[]
+  units?: Prisma.ApartmentUpdateunitsInput | number[]
   floorCountPerBuilding?: Prisma.IntFieldUpdateOperationsInput | number
   unitCountPerFloor?: Prisma.IntFieldUpdateOperationsInput | number
   officeNumber?: Prisma.StringFieldUpdateOperationsInput | string
@@ -418,8 +410,8 @@ export type ApartmentUncheckedUpdateInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  buildingNumberFrom?: Prisma.IntFieldUpdateOperationsInput | number
-  buildingNumberTo?: Prisma.IntFieldUpdateOperationsInput | number
+  buildings?: Prisma.ApartmentUpdatebuildingsInput | number[]
+  units?: Prisma.ApartmentUpdateunitsInput | number[]
   floorCountPerBuilding?: Prisma.IntFieldUpdateOperationsInput | number
   unitCountPerFloor?: Prisma.IntFieldUpdateOperationsInput | number
   officeNumber?: Prisma.StringFieldUpdateOperationsInput | string
@@ -434,8 +426,8 @@ export type ApartmentCreateManyInput = {
   description: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  buildingNumberFrom: number
-  buildingNumberTo: number
+  buildings?: Prisma.ApartmentCreatebuildingsInput | number[]
+  units?: Prisma.ApartmentCreateunitsInput | number[]
   floorCountPerBuilding: number
   unitCountPerFloor: number
   officeNumber: string
@@ -449,8 +441,8 @@ export type ApartmentUpdateManyMutationInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  buildingNumberFrom?: Prisma.IntFieldUpdateOperationsInput | number
-  buildingNumberTo?: Prisma.IntFieldUpdateOperationsInput | number
+  buildings?: Prisma.ApartmentUpdatebuildingsInput | number[]
+  units?: Prisma.ApartmentUpdateunitsInput | number[]
   floorCountPerBuilding?: Prisma.IntFieldUpdateOperationsInput | number
   unitCountPerFloor?: Prisma.IntFieldUpdateOperationsInput | number
   officeNumber?: Prisma.StringFieldUpdateOperationsInput | string
@@ -463,12 +455,20 @@ export type ApartmentUncheckedUpdateManyInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  buildingNumberFrom?: Prisma.IntFieldUpdateOperationsInput | number
-  buildingNumberTo?: Prisma.IntFieldUpdateOperationsInput | number
+  buildings?: Prisma.ApartmentUpdatebuildingsInput | number[]
+  units?: Prisma.ApartmentUpdateunitsInput | number[]
   floorCountPerBuilding?: Prisma.IntFieldUpdateOperationsInput | number
   unitCountPerFloor?: Prisma.IntFieldUpdateOperationsInput | number
   officeNumber?: Prisma.StringFieldUpdateOperationsInput | string
   adminId?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
+export type IntNullableListFilter<$PrismaModel = never> = {
+  equals?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel> | null
+  has?: number | Prisma.IntFieldRefInput<$PrismaModel> | null
+  hasEvery?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
+  hasSome?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
 }
 
 export type ApartmentCountOrderByAggregateInput = {
@@ -478,8 +478,8 @@ export type ApartmentCountOrderByAggregateInput = {
   description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  buildingNumberFrom?: Prisma.SortOrder
-  buildingNumberTo?: Prisma.SortOrder
+  buildings?: Prisma.SortOrder
+  units?: Prisma.SortOrder
   floorCountPerBuilding?: Prisma.SortOrder
   unitCountPerFloor?: Prisma.SortOrder
   officeNumber?: Prisma.SortOrder
@@ -487,8 +487,8 @@ export type ApartmentCountOrderByAggregateInput = {
 }
 
 export type ApartmentAvgOrderByAggregateInput = {
-  buildingNumberFrom?: Prisma.SortOrder
-  buildingNumberTo?: Prisma.SortOrder
+  buildings?: Prisma.SortOrder
+  units?: Prisma.SortOrder
   floorCountPerBuilding?: Prisma.SortOrder
   unitCountPerFloor?: Prisma.SortOrder
 }
@@ -500,8 +500,6 @@ export type ApartmentMaxOrderByAggregateInput = {
   description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  buildingNumberFrom?: Prisma.SortOrder
-  buildingNumberTo?: Prisma.SortOrder
   floorCountPerBuilding?: Prisma.SortOrder
   unitCountPerFloor?: Prisma.SortOrder
   officeNumber?: Prisma.SortOrder
@@ -515,8 +513,6 @@ export type ApartmentMinOrderByAggregateInput = {
   description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  buildingNumberFrom?: Prisma.SortOrder
-  buildingNumberTo?: Prisma.SortOrder
   floorCountPerBuilding?: Prisma.SortOrder
   unitCountPerFloor?: Prisma.SortOrder
   officeNumber?: Prisma.SortOrder
@@ -524,8 +520,8 @@ export type ApartmentMinOrderByAggregateInput = {
 }
 
 export type ApartmentSumOrderByAggregateInput = {
-  buildingNumberFrom?: Prisma.SortOrder
-  buildingNumberTo?: Prisma.SortOrder
+  buildings?: Prisma.SortOrder
+  units?: Prisma.SortOrder
   floorCountPerBuilding?: Prisma.SortOrder
   unitCountPerFloor?: Prisma.SortOrder
 }
@@ -540,12 +536,30 @@ export type ApartmentScalarRelationFilter = {
   isNot?: Prisma.ApartmentWhereInput
 }
 
+export type ApartmentCreatebuildingsInput = {
+  set: number[]
+}
+
+export type ApartmentCreateunitsInput = {
+  set: number[]
+}
+
 export type StringFieldUpdateOperationsInput = {
   set?: string
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
+}
+
+export type ApartmentUpdatebuildingsInput = {
+  set?: number[]
+  push?: number | number[]
+}
+
+export type ApartmentUpdateunitsInput = {
+  set?: number[]
+  push?: number | number[]
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -609,8 +623,8 @@ export type ApartmentCreateWithoutAdminInput = {
   description: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  buildingNumberFrom: number
-  buildingNumberTo: number
+  buildings?: Prisma.ApartmentCreatebuildingsInput | number[]
+  units?: Prisma.ApartmentCreateunitsInput | number[]
   floorCountPerBuilding: number
   unitCountPerFloor: number
   officeNumber: string
@@ -624,8 +638,8 @@ export type ApartmentUncheckedCreateWithoutAdminInput = {
   description: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  buildingNumberFrom: number
-  buildingNumberTo: number
+  buildings?: Prisma.ApartmentCreatebuildingsInput | number[]
+  units?: Prisma.ApartmentCreateunitsInput | number[]
   floorCountPerBuilding: number
   unitCountPerFloor: number
   officeNumber: string
@@ -655,8 +669,8 @@ export type ApartmentUpdateWithoutAdminInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  buildingNumberFrom?: Prisma.IntFieldUpdateOperationsInput | number
-  buildingNumberTo?: Prisma.IntFieldUpdateOperationsInput | number
+  buildings?: Prisma.ApartmentUpdatebuildingsInput | number[]
+  units?: Prisma.ApartmentUpdateunitsInput | number[]
   floorCountPerBuilding?: Prisma.IntFieldUpdateOperationsInput | number
   unitCountPerFloor?: Prisma.IntFieldUpdateOperationsInput | number
   officeNumber?: Prisma.StringFieldUpdateOperationsInput | string
@@ -670,8 +684,8 @@ export type ApartmentUncheckedUpdateWithoutAdminInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  buildingNumberFrom?: Prisma.IntFieldUpdateOperationsInput | number
-  buildingNumberTo?: Prisma.IntFieldUpdateOperationsInput | number
+  buildings?: Prisma.ApartmentUpdatebuildingsInput | number[]
+  units?: Prisma.ApartmentUpdateunitsInput | number[]
   floorCountPerBuilding?: Prisma.IntFieldUpdateOperationsInput | number
   unitCountPerFloor?: Prisma.IntFieldUpdateOperationsInput | number
   officeNumber?: Prisma.StringFieldUpdateOperationsInput | string
@@ -685,8 +699,8 @@ export type ApartmentCreateWithoutResidentsInput = {
   description: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  buildingNumberFrom: number
-  buildingNumberTo: number
+  buildings?: Prisma.ApartmentCreatebuildingsInput | number[]
+  units?: Prisma.ApartmentCreateunitsInput | number[]
   floorCountPerBuilding: number
   unitCountPerFloor: number
   officeNumber: string
@@ -700,8 +714,8 @@ export type ApartmentUncheckedCreateWithoutResidentsInput = {
   description: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  buildingNumberFrom: number
-  buildingNumberTo: number
+  buildings?: Prisma.ApartmentCreatebuildingsInput | number[]
+  units?: Prisma.ApartmentCreateunitsInput | number[]
   floorCountPerBuilding: number
   unitCountPerFloor: number
   officeNumber: string
@@ -731,8 +745,8 @@ export type ApartmentUpdateWithoutResidentsInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  buildingNumberFrom?: Prisma.IntFieldUpdateOperationsInput | number
-  buildingNumberTo?: Prisma.IntFieldUpdateOperationsInput | number
+  buildings?: Prisma.ApartmentUpdatebuildingsInput | number[]
+  units?: Prisma.ApartmentUpdateunitsInput | number[]
   floorCountPerBuilding?: Prisma.IntFieldUpdateOperationsInput | number
   unitCountPerFloor?: Prisma.IntFieldUpdateOperationsInput | number
   officeNumber?: Prisma.StringFieldUpdateOperationsInput | string
@@ -746,8 +760,8 @@ export type ApartmentUncheckedUpdateWithoutResidentsInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  buildingNumberFrom?: Prisma.IntFieldUpdateOperationsInput | number
-  buildingNumberTo?: Prisma.IntFieldUpdateOperationsInput | number
+  buildings?: Prisma.ApartmentUpdatebuildingsInput | number[]
+  units?: Prisma.ApartmentUpdateunitsInput | number[]
   floorCountPerBuilding?: Prisma.IntFieldUpdateOperationsInput | number
   unitCountPerFloor?: Prisma.IntFieldUpdateOperationsInput | number
   officeNumber?: Prisma.StringFieldUpdateOperationsInput | string
@@ -792,8 +806,8 @@ export type ApartmentSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   description?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  buildingNumberFrom?: boolean
-  buildingNumberTo?: boolean
+  buildings?: boolean
+  units?: boolean
   floorCountPerBuilding?: boolean
   unitCountPerFloor?: boolean
   officeNumber?: boolean
@@ -810,8 +824,8 @@ export type ApartmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   description?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  buildingNumberFrom?: boolean
-  buildingNumberTo?: boolean
+  buildings?: boolean
+  units?: boolean
   floorCountPerBuilding?: boolean
   unitCountPerFloor?: boolean
   officeNumber?: boolean
@@ -826,8 +840,8 @@ export type ApartmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   description?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  buildingNumberFrom?: boolean
-  buildingNumberTo?: boolean
+  buildings?: boolean
+  units?: boolean
   floorCountPerBuilding?: boolean
   unitCountPerFloor?: boolean
   officeNumber?: boolean
@@ -842,15 +856,15 @@ export type ApartmentSelectScalar = {
   description?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  buildingNumberFrom?: boolean
-  buildingNumberTo?: boolean
+  buildings?: boolean
+  units?: boolean
   floorCountPerBuilding?: boolean
   unitCountPerFloor?: boolean
   officeNumber?: boolean
   adminId?: boolean
 }
 
-export type ApartmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "address" | "description" | "createdAt" | "updatedAt" | "buildingNumberFrom" | "buildingNumberTo" | "floorCountPerBuilding" | "unitCountPerFloor" | "officeNumber" | "adminId", ExtArgs["result"]["apartment"]>
+export type ApartmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "address" | "description" | "createdAt" | "updatedAt" | "buildings" | "units" | "floorCountPerBuilding" | "unitCountPerFloor" | "officeNumber" | "adminId", ExtArgs["result"]["apartment"]>
 export type ApartmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   residents?: boolean | Prisma.Apartment$residentsArgs<ExtArgs>
   admin?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -876,8 +890,8 @@ export type $ApartmentPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     description: string
     createdAt: Date
     updatedAt: Date
-    buildingNumberFrom: number
-    buildingNumberTo: number
+    buildings: number[]
+    units: number[]
     floorCountPerBuilding: number
     unitCountPerFloor: number
     officeNumber: string
@@ -1313,8 +1327,8 @@ export interface ApartmentFieldRefs {
   readonly description: Prisma.FieldRef<"Apartment", 'String'>
   readonly createdAt: Prisma.FieldRef<"Apartment", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Apartment", 'DateTime'>
-  readonly buildingNumberFrom: Prisma.FieldRef<"Apartment", 'Int'>
-  readonly buildingNumberTo: Prisma.FieldRef<"Apartment", 'Int'>
+  readonly buildings: Prisma.FieldRef<"Apartment", 'Int[]'>
+  readonly units: Prisma.FieldRef<"Apartment", 'Int[]'>
   readonly floorCountPerBuilding: Prisma.FieldRef<"Apartment", 'Int'>
   readonly unitCountPerFloor: Prisma.FieldRef<"Apartment", 'Int'>
   readonly officeNumber: Prisma.FieldRef<"Apartment", 'String'>

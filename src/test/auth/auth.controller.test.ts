@@ -109,6 +109,7 @@ describe("../../services/auth.service", () => {
         email: "test@test.com",
         contact: "01011112222",
         avatar: null,
+        joinStatus: "APPROVED",
         isActive: true,
         role: "ADMIN",
       });

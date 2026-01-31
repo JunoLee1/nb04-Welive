@@ -39,23 +39,30 @@ export class Service {
     });
     return;
   };
-  accessList = async (input: ReqParams): Promise<AccessListOfAdminsResDTO> => {
+  accessList = async (
+    adminId: string,
+    input: ReqParams
+  ): Promise<AccessListOfAdminsResDTO> => {
     console.log("received request from access list routes");
-    const { pageNumber, limitNumber, keyword, joinStatus } = input;
-    const skip = (pageNumber - 1) * limitNumber;
+    const { page, limit, keyword, joinStatus } = input;
+    const skip = (page - 1) * limit;
 
-    const whereCondition = keyword
-      ? {
-          OR: [
-            { username: { contains: keyword } },
-            { email: { contains: keyword } },
-            { contact: { contains: keyword } },
-            { name: { contains: keyword } },
-          ], //TODO: Refactor
-        }
-      : {};
+    const whereCondition = {
+      ...(keyword && {
+        OR: [
+          { username: { contains: keyword } },
+          { email: { contains: keyword } },
+          { contact: { contains: keyword } },
+          { name: { contains: keyword } },
+        ], //TODO: Refactor
+      }),
+      adminOf: {
+        adminId: adminId,
+      },
+    };
+
     const admins = await this.repo.findMany({
-      limitNumber,
+      limit,
       skip,
       whereCondition,
       status: joinStatus,
@@ -79,39 +86,25 @@ export class Service {
         ? {
             id: u.adminOf.id,
             name: u.adminOf.name,
-            createdAt: u.adminOf.createdAt,
-            updatedAt: u.adminOf.updatedAt,
+            //createdAt: u.adminOf.createdAt,
+            //updatedAt: u.adminOf.updatedAt,
             address: u.adminOf.address,
             description: u.adminOf.description,
             officeNumber: u.adminOf.officeNumber,
-            buildingNumberFrom: Number(u.adminOf.buildingNumberFrom),
-            buildingNumberTo: Number(u.adminOf.buildingNumberTo),
+            buildings: u.adminOf.buildings,
             floorCountPerBuilding: Number(u.adminOf.floorCountPerBuilding),
             unitCountPerFloor: Number(u.adminOf.unitCountPerFloor),
             adminId: u.adminOf.adminId,
           }
-        : {
-            id: "",
-            name: "",
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            address: "",
-            description: "",
-            officeNumber: "",
-            buildingNumberFrom: 0,
-            buildingNumberTo: 0,
-            floorCountPerBuilding: 0,
-            unitCountPerFloor: 0,
-            adminId: "",
-          },
+        : null,
     }));
 
     const totalCount = data.length; // TODO: refactor to count query
-    const hasNext = pageNumber * limitNumber < totalCount;
+    const hasNext =page * limit < totalCount;
     return {
       data,
-      page: pageNumber,
-      limit: limitNumber,
+      page,
+      limit,
       totalCount,
       hasNext,
     };
@@ -126,7 +119,7 @@ export class Service {
       joinStatus === "APPROVED" ? JoinStatus.APPROVED : JoinStatus.REJECTED;
     await this.repo.updateMany(joinStatus);
     const modifiedStatusAdmins = await this.repo.updateMany(toStatus);
-    const { pageNumber, limitNumber } = pagenation;
+    const { page, limit } = pagenation;
     const admins = await this.repo.findManyByStatus(toStatus);
     const data = admins.map((u) => ({
       id: u.id,
@@ -151,8 +144,7 @@ export class Service {
             address: u.adminOf.address,
             description: u.adminOf.description,
             officeNumber: u.adminOf.officeNumber,
-            buildingNumberFrom: Number(u.adminOf.buildingNumberFrom),
-            buildingNumberTo: Number(u.adminOf.buildingNumberTo),
+            buildings: u.adminOf.buildings,
             floorCountPerBuilding: Number(u.adminOf.floorCountPerBuilding),
             unitCountPerFloor: Number(u.adminOf?.unitCountPerFloor),
             adminId: u.adminOf?.adminId,
@@ -160,13 +152,13 @@ export class Service {
         : null,
     }));
     const totalCount = data.length;
-    const hasNext = pageNumber * limitNumber < totalCount;
+    const hasNext = page * limit < totalCount;
     return {
       data,
       totalCount,
       hasNext,
-      page: pageNumber,
-      limit: limitNumber,
+      page: page,
+      limit: limit,
     };
   };
 

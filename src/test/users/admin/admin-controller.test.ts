@@ -7,7 +7,7 @@ import { Repository as adminIdRepo } from "../../../features/user/admins/id/admi
 import { Repository } from "../../../features/user/admins/admins.repository.js";
 import { accessTokenStrategy } from "../../../lib/passport/jwt-strategy.js";
 import { HttpError } from "../../../lib/middleware/error.middleware/httpError.js";
-import { JoinStatus } from "../../../../prisma/generated/enums.js";
+import { JoinStatus, Role } from "../../../../prisma/generated/enums.js";
 
 jest.mock("../../../features/user/admins/id/admin-id.service.js");
 jest.mock("../../../features/user/admins/id/admin-id.repo.js");
@@ -300,11 +300,12 @@ describe("관리자 컨트롤러 테스트", () => {
       };
       const mockResponse = {
         id: "admin-1",
-        role: "SUPER_ADMIN",
+        role: Role.SUPER_ADMIN,
         contact: "01011112222",
         username: "hana",
         name: "hana lee",
         email: "test@test.com",
+        joinStatus: JoinStatus.APPROVED,
         avatar: null,
         isActive: true,
         approvedAt: null,
@@ -455,8 +456,7 @@ describe("관리자 컨트롤러 테스트", () => {
               address: "부산",
               description: "모라주공 아파트 101동 입니다",
               officeNumber: "0518889999",
-              buildingNumberFrom: 101,
-              buildingNumberTo: 104,
+              buildings: [100, 102, 103],
               floorCountPerBuilding: 10,
               unitCountPerFloor: 4,
               adminId: id,
@@ -562,35 +562,35 @@ describe("관리자 컨트롤러 테스트", () => {
       };
       const mockUsers = [
         {
-            id:"adminId-1",
-            contact: "01011112222",
-            name: "hana",
-            role: "ADMIN",
-            avatar: null,
-            joinStatus: "APPROVED",
-            isActive: true,
-            approvedAt: null,
-            adminOf: {
-              id: "apt-1",
-              name: "모라주공 아파트",
-              createdAt: new Date("1991-12-05"),
-              updatedAt: new Date("1999-12-05"),
-              address: "부산",
-              description: "모라주공 아파트 101동 입니다",
-              officeNumber: "0518889999",
-              buildingNumberFrom: 101,
-              buildingNumberTo: 104,
-              floorCountPerBuilding: 10,
-              unitCountPerFloor: 4,
-              adminId: "adminId-1",
-            },
-       }];
+          id: "adminId-1",
+          contact: "01011112222",
+          name: "hana",
+          role: Role.ADMIN,
+          avatar: null,
+          joinStatus: JoinStatus.APPROVED,
+          isActive: true,
+          approvedAt: null,
+          adminOf: {
+            id: "apt-1",
+            name: "모라주공 아파트",
+            createdAt: new Date("1991-12-05"),
+            updatedAt: new Date("1999-12-05"),
+            address: "부산",
+            description: "모라주공 아파트 101동 입니다",
+            officeNumber: "0518889999",
+            buildings: [101, 102, 110],
+            floorCountPerBuilding: 10,
+            unitCountPerFloor: 4,
+            adminId: "adminId-1",
+          },
+        },
+      ];
 
-       const result = {
+      const result = {
         data: mockUsers,
         totalCount: 1,
-        hasNext:false
-       }
+        hasNext: false,
+      };
       jest.spyOn(service, "modifyStatus").mockResolvedValue(result);
       //2️⃣ when
       await controller.modifyStatus(req, res, next);

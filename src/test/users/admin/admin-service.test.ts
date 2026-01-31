@@ -105,10 +105,11 @@ describe("admin.service", () => {
     test("리스트 조회 성공 시 데이터와 데이터 갯수 page 랑 Limit 보이기", async () => {
       adminRepository.findMany.mockResolvedValue(adminsList);
       adminRepository.count.mockResolvedValue(3);
-
-      const data = await service.accessList({
-        pageNumber: 1,
-        limitNumber: 10,
+      let adminId = "1"
+      const data = await service.accessList(adminId,{
+        role: Role.SUPER_ADMIN,
+        page: 1,
+        limit: 10,
         keyword: "",
         joinStatus: "PENDING",
       });
@@ -149,11 +150,11 @@ describe("admin.service", () => {
       repo.modifyUserInfo.mockImplementation(async (id, input) => {
         return {
           id,
-          name: "test",
           joinStatus: "APPROVED",
           avatar: null,
+          username: "tester",
           email: input.email ?? "test@test.com",
-          username: input.username ?? "tester",
+          name: input.name ?? "tester",
           contact: input.contact ?? "0101111222",
           role: Role.ADMIN,
           password: "12341234",
@@ -169,8 +170,8 @@ describe("admin.service", () => {
             updatedAt: new Date(),
             address: "부산광역시",
             description: "sk view 아파트 102동",
-            buildingNumberFrom: 101,
-            buildingNumberTo: 1004,
+            buildings:[101, 103],
+            units:[1001, 1002, 1003],
             floorCountPerBuilding: 2,
             unitCountPerFloor: 4,
             officeNumber: "051112222",
@@ -277,7 +278,7 @@ describe("admin.service", () => {
       repo.findManyByStatus.mockResolvedValue(adminList); // length = 3
       repo.updateMany.mockResolvedValue({ count: 3 });
 
-      const pagenation = { pageNumber: 1, limitNumber: 2 }; // 1*2 < 3
+      const pagenation = { page: 1, limit: 2 }; // 1*2 < 3
 
       //2️⃣ when 3️⃣ then
       const result = await service.modifyStatus(pagenation, "APPROVED");
@@ -290,7 +291,7 @@ describe("admin.service", () => {
       repo.findManyByStatus.mockResolvedValue(adminList)
       repo.updateMany.mockResolvedValue({ count: 3 });
   
-      const pagenation = {pageNumber :1,limitNumber : 10};
+      const pagenation = {page :1,limit : 10};
 
       //2️⃣ when
       const result = await service.modifyStatus(pagenation, "APPROVED");
@@ -305,7 +306,7 @@ describe("admin.service", () => {
       repo.updateMany.mockResolvedValue({ count: 3 });
       repo.count.mockResolvedValue(3);
       //repo.findMany.mockResolvedValue(adminsList);
-      const pagenation = { limitNumber: 10, pageNumber: 1 };
+      const pagenation = { limit: 10, page: 1 };
 
       //2️⃣ when 3️⃣ then
       const result = await service.modifyStatus(pagenation, "APPROVED");
@@ -313,8 +314,8 @@ describe("admin.service", () => {
       expect(result).toEqual({
         data: adminList,
         hasNext: false,
-        limit: pagenation.limitNumber,
-        page: pagenation.pageNumber,
+        limit: pagenation.limit,
+        page: pagenation.page,
         totalCount: 3,
       });
     });

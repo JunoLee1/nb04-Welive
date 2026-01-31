@@ -20,27 +20,15 @@ export type ResidentModel = runtime.Types.Result.DefaultSelection<Prisma.$Reside
 
 export type AggregateResident = {
   _count: ResidentCountAggregateOutputType | null
-  _avg: ResidentAvgAggregateOutputType | null
-  _sum: ResidentSumAggregateOutputType | null
   _min: ResidentMinAggregateOutputType | null
   _max: ResidentMaxAggregateOutputType | null
-}
-
-export type ResidentAvgAggregateOutputType = {
-  building: number | null
-  unit: number | null
-}
-
-export type ResidentSumAggregateOutputType = {
-  building: number | null
-  unit: number | null
 }
 
 export type ResidentMinAggregateOutputType = {
   id: string | null
   name: string | null
-  building: number | null
-  unit: number | null
+  building: string | null
+  unit: string | null
   createdAt: Date | null
   updatedAt: Date | null
   isHouseholder: boolean | null
@@ -51,8 +39,8 @@ export type ResidentMinAggregateOutputType = {
 export type ResidentMaxAggregateOutputType = {
   id: string | null
   name: string | null
-  building: number | null
-  unit: number | null
+  building: string | null
+  unit: string | null
   createdAt: Date | null
   updatedAt: Date | null
   isHouseholder: boolean | null
@@ -73,16 +61,6 @@ export type ResidentCountAggregateOutputType = {
   _all: number
 }
 
-
-export type ResidentAvgAggregateInputType = {
-  building?: true
-  unit?: true
-}
-
-export type ResidentSumAggregateInputType = {
-  building?: true
-  unit?: true
-}
 
 export type ResidentMinAggregateInputType = {
   id?: true
@@ -159,18 +137,6 @@ export type ResidentAggregateArgs<ExtArgs extends runtime.Types.Extensions.Inter
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: ResidentAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: ResidentSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: ResidentMinAggregateInputType
@@ -201,8 +167,6 @@ export type ResidentGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   _count?: ResidentCountAggregateInputType | true
-  _avg?: ResidentAvgAggregateInputType
-  _sum?: ResidentSumAggregateInputType
   _min?: ResidentMinAggregateInputType
   _max?: ResidentMaxAggregateInputType
 }
@@ -210,16 +174,14 @@ export type ResidentGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 export type ResidentGroupByOutputType = {
   id: string
   name: string
-  building: number
-  unit: number
+  building: string
+  unit: string
   createdAt: Date
   updatedAt: Date
   isHouseholder: boolean
   apartmentId: string
   userId: string
   _count: ResidentCountAggregateOutputType | null
-  _avg: ResidentAvgAggregateOutputType | null
-  _sum: ResidentSumAggregateOutputType | null
   _min: ResidentMinAggregateOutputType | null
   _max: ResidentMaxAggregateOutputType | null
 }
@@ -245,8 +207,8 @@ export type ResidentWhereInput = {
   NOT?: Prisma.ResidentWhereInput | Prisma.ResidentWhereInput[]
   id?: Prisma.StringFilter<"Resident"> | string
   name?: Prisma.StringFilter<"Resident"> | string
-  building?: Prisma.IntFilter<"Resident"> | number
-  unit?: Prisma.IntFilter<"Resident"> | number
+  building?: Prisma.StringFilter<"Resident"> | string
+  unit?: Prisma.StringFilter<"Resident"> | string
   createdAt?: Prisma.DateTimeFilter<"Resident"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Resident"> | Date | string
   isHouseholder?: Prisma.BoolFilter<"Resident"> | boolean
@@ -273,19 +235,20 @@ export type ResidentOrderByWithRelationInput = {
 export type ResidentWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   userId?: string
+  userId_apartmentId?: Prisma.ResidentUserId_apartmentIdCompoundUniqueInput
   AND?: Prisma.ResidentWhereInput | Prisma.ResidentWhereInput[]
   OR?: Prisma.ResidentWhereInput[]
   NOT?: Prisma.ResidentWhereInput | Prisma.ResidentWhereInput[]
   name?: Prisma.StringFilter<"Resident"> | string
-  building?: Prisma.IntFilter<"Resident"> | number
-  unit?: Prisma.IntFilter<"Resident"> | number
+  building?: Prisma.StringFilter<"Resident"> | string
+  unit?: Prisma.StringFilter<"Resident"> | string
   createdAt?: Prisma.DateTimeFilter<"Resident"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Resident"> | Date | string
   isHouseholder?: Prisma.BoolFilter<"Resident"> | boolean
   apartmentId?: Prisma.StringFilter<"Resident"> | string
   apartment?: Prisma.XOR<Prisma.ApartmentScalarRelationFilter, Prisma.ApartmentWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id" | "userId">
+}, "id" | "userId" | "userId_apartmentId">
 
 export type ResidentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -298,10 +261,8 @@ export type ResidentOrderByWithAggregationInput = {
   apartmentId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   _count?: Prisma.ResidentCountOrderByAggregateInput
-  _avg?: Prisma.ResidentAvgOrderByAggregateInput
   _max?: Prisma.ResidentMaxOrderByAggregateInput
   _min?: Prisma.ResidentMinOrderByAggregateInput
-  _sum?: Prisma.ResidentSumOrderByAggregateInput
 }
 
 export type ResidentScalarWhereWithAggregatesInput = {
@@ -310,8 +271,8 @@ export type ResidentScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ResidentScalarWhereWithAggregatesInput | Prisma.ResidentScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Resident"> | string
   name?: Prisma.StringWithAggregatesFilter<"Resident"> | string
-  building?: Prisma.IntWithAggregatesFilter<"Resident"> | number
-  unit?: Prisma.IntWithAggregatesFilter<"Resident"> | number
+  building?: Prisma.StringWithAggregatesFilter<"Resident"> | string
+  unit?: Prisma.StringWithAggregatesFilter<"Resident"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Resident"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Resident"> | Date | string
   isHouseholder?: Prisma.BoolWithAggregatesFilter<"Resident"> | boolean
@@ -322,8 +283,8 @@ export type ResidentScalarWhereWithAggregatesInput = {
 export type ResidentCreateInput = {
   id?: string
   name: string
-  building: number
-  unit: number
+  building: string
+  unit: string
   createdAt?: Date | string
   updatedAt?: Date | string
   isHouseholder?: boolean
@@ -334,8 +295,8 @@ export type ResidentCreateInput = {
 export type ResidentUncheckedCreateInput = {
   id?: string
   name: string
-  building: number
-  unit: number
+  building: string
+  unit: string
   createdAt?: Date | string
   updatedAt?: Date | string
   isHouseholder?: boolean
@@ -346,8 +307,8 @@ export type ResidentUncheckedCreateInput = {
 export type ResidentUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  building?: Prisma.IntFieldUpdateOperationsInput | number
-  unit?: Prisma.IntFieldUpdateOperationsInput | number
+  building?: Prisma.StringFieldUpdateOperationsInput | string
+  unit?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isHouseholder?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -358,8 +319,8 @@ export type ResidentUpdateInput = {
 export type ResidentUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  building?: Prisma.IntFieldUpdateOperationsInput | number
-  unit?: Prisma.IntFieldUpdateOperationsInput | number
+  building?: Prisma.StringFieldUpdateOperationsInput | string
+  unit?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isHouseholder?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -370,8 +331,8 @@ export type ResidentUncheckedUpdateInput = {
 export type ResidentCreateManyInput = {
   id?: string
   name: string
-  building: number
-  unit: number
+  building: string
+  unit: string
   createdAt?: Date | string
   updatedAt?: Date | string
   isHouseholder?: boolean
@@ -382,8 +343,8 @@ export type ResidentCreateManyInput = {
 export type ResidentUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  building?: Prisma.IntFieldUpdateOperationsInput | number
-  unit?: Prisma.IntFieldUpdateOperationsInput | number
+  building?: Prisma.StringFieldUpdateOperationsInput | string
+  unit?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isHouseholder?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -392,8 +353,8 @@ export type ResidentUpdateManyMutationInput = {
 export type ResidentUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  building?: Prisma.IntFieldUpdateOperationsInput | number
-  unit?: Prisma.IntFieldUpdateOperationsInput | number
+  building?: Prisma.StringFieldUpdateOperationsInput | string
+  unit?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isHouseholder?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -416,6 +377,11 @@ export type ResidentNullableScalarRelationFilter = {
   isNot?: Prisma.ResidentWhereInput | null
 }
 
+export type ResidentUserId_apartmentIdCompoundUniqueInput = {
+  userId: string
+  apartmentId: string
+}
+
 export type ResidentCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -426,11 +392,6 @@ export type ResidentCountOrderByAggregateInput = {
   isHouseholder?: Prisma.SortOrder
   apartmentId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-}
-
-export type ResidentAvgOrderByAggregateInput = {
-  building?: Prisma.SortOrder
-  unit?: Prisma.SortOrder
 }
 
 export type ResidentMaxOrderByAggregateInput = {
@@ -455,11 +416,6 @@ export type ResidentMinOrderByAggregateInput = {
   isHouseholder?: Prisma.SortOrder
   apartmentId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-}
-
-export type ResidentSumOrderByAggregateInput = {
-  building?: Prisma.SortOrder
-  unit?: Prisma.SortOrder
 }
 
 export type ResidentCreateNestedManyWithoutApartmentInput = {
@@ -539,8 +495,8 @@ export type ResidentUncheckedUpdateOneWithoutUserNestedInput = {
 export type ResidentCreateWithoutApartmentInput = {
   id?: string
   name: string
-  building: number
-  unit: number
+  building: string
+  unit: string
   createdAt?: Date | string
   updatedAt?: Date | string
   isHouseholder?: boolean
@@ -550,8 +506,8 @@ export type ResidentCreateWithoutApartmentInput = {
 export type ResidentUncheckedCreateWithoutApartmentInput = {
   id?: string
   name: string
-  building: number
-  unit: number
+  building: string
+  unit: string
   createdAt?: Date | string
   updatedAt?: Date | string
   isHouseholder?: boolean
@@ -590,8 +546,8 @@ export type ResidentScalarWhereInput = {
   NOT?: Prisma.ResidentScalarWhereInput | Prisma.ResidentScalarWhereInput[]
   id?: Prisma.StringFilter<"Resident"> | string
   name?: Prisma.StringFilter<"Resident"> | string
-  building?: Prisma.IntFilter<"Resident"> | number
-  unit?: Prisma.IntFilter<"Resident"> | number
+  building?: Prisma.StringFilter<"Resident"> | string
+  unit?: Prisma.StringFilter<"Resident"> | string
   createdAt?: Prisma.DateTimeFilter<"Resident"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Resident"> | Date | string
   isHouseholder?: Prisma.BoolFilter<"Resident"> | boolean
@@ -602,8 +558,8 @@ export type ResidentScalarWhereInput = {
 export type ResidentCreateWithoutUserInput = {
   id?: string
   name: string
-  building: number
-  unit: number
+  building: string
+  unit: string
   createdAt?: Date | string
   updatedAt?: Date | string
   isHouseholder?: boolean
@@ -613,8 +569,8 @@ export type ResidentCreateWithoutUserInput = {
 export type ResidentUncheckedCreateWithoutUserInput = {
   id?: string
   name: string
-  building: number
-  unit: number
+  building: string
+  unit: string
   createdAt?: Date | string
   updatedAt?: Date | string
   isHouseholder?: boolean
@@ -640,8 +596,8 @@ export type ResidentUpdateToOneWithWhereWithoutUserInput = {
 export type ResidentUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  building?: Prisma.IntFieldUpdateOperationsInput | number
-  unit?: Prisma.IntFieldUpdateOperationsInput | number
+  building?: Prisma.StringFieldUpdateOperationsInput | string
+  unit?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isHouseholder?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -651,8 +607,8 @@ export type ResidentUpdateWithoutUserInput = {
 export type ResidentUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  building?: Prisma.IntFieldUpdateOperationsInput | number
-  unit?: Prisma.IntFieldUpdateOperationsInput | number
+  building?: Prisma.StringFieldUpdateOperationsInput | string
+  unit?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isHouseholder?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -662,8 +618,8 @@ export type ResidentUncheckedUpdateWithoutUserInput = {
 export type ResidentCreateManyApartmentInput = {
   id?: string
   name: string
-  building: number
-  unit: number
+  building: string
+  unit: string
   createdAt?: Date | string
   updatedAt?: Date | string
   isHouseholder?: boolean
@@ -673,8 +629,8 @@ export type ResidentCreateManyApartmentInput = {
 export type ResidentUpdateWithoutApartmentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  building?: Prisma.IntFieldUpdateOperationsInput | number
-  unit?: Prisma.IntFieldUpdateOperationsInput | number
+  building?: Prisma.StringFieldUpdateOperationsInput | string
+  unit?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isHouseholder?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -684,8 +640,8 @@ export type ResidentUpdateWithoutApartmentInput = {
 export type ResidentUncheckedUpdateWithoutApartmentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  building?: Prisma.IntFieldUpdateOperationsInput | number
-  unit?: Prisma.IntFieldUpdateOperationsInput | number
+  building?: Prisma.StringFieldUpdateOperationsInput | string
+  unit?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isHouseholder?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -695,8 +651,8 @@ export type ResidentUncheckedUpdateWithoutApartmentInput = {
 export type ResidentUncheckedUpdateManyWithoutApartmentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  building?: Prisma.IntFieldUpdateOperationsInput | number
-  unit?: Prisma.IntFieldUpdateOperationsInput | number
+  building?: Prisma.StringFieldUpdateOperationsInput | string
+  unit?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isHouseholder?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -782,8 +738,8 @@ export type $ResidentPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
-    building: number
-    unit: number
+    building: string
+    unit: string
     createdAt: Date
     updatedAt: Date
     isHouseholder: boolean
@@ -1216,8 +1172,8 @@ export interface Prisma__ResidentClient<T, Null = never, ExtArgs extends runtime
 export interface ResidentFieldRefs {
   readonly id: Prisma.FieldRef<"Resident", 'String'>
   readonly name: Prisma.FieldRef<"Resident", 'String'>
-  readonly building: Prisma.FieldRef<"Resident", 'Int'>
-  readonly unit: Prisma.FieldRef<"Resident", 'Int'>
+  readonly building: Prisma.FieldRef<"Resident", 'String'>
+  readonly unit: Prisma.FieldRef<"Resident", 'String'>
   readonly createdAt: Prisma.FieldRef<"Resident", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Resident", 'DateTime'>
   readonly isHouseholder: Prisma.FieldRef<"Resident", 'Boolean'>

@@ -13,22 +13,14 @@ import {
 import passport from "../../../lib/passport/index.js";
 import upload from "../../../lib/middleware/upload.js";
 
-const repo = new Repository()
-const service = new Service (repo)
+const repo = new Repository();
+const service = new Service(repo);
 const controller = new Controller(service);
 const adminRouter = Router();
-
-adminRouter.use(
-  "/:id",
-  validate(requestParamSchema, "params"),
-  passport.authenticate("accessToken", { session: false }),
-  idRouter
-);
-
 // create admin Api
 // address : users/admins
 adminRouter.post(
-  "/signup",
+  "/",
   upload.single("avatarImage"),
   validate(requestBodySchema, "body"),
   controller.register
@@ -44,9 +36,9 @@ adminRouter.get(
 );
 
 // patch the admins Join status API
-// address : users/admins/joinStatus
+// address : users/admins/join-status
 adminRouter.patch(
-  "/joinStatus",
+  "/join-status",
   validate(joinStatusSchema, "body"),
   passport.authenticate("accessToken", { session: false }),
   controller.modifyStatus
@@ -58,6 +50,12 @@ adminRouter.delete(
   "/rejected",
   passport.authenticate("accessToken", { session: false }),
   controller.deleteRejectedAdmins
+);
+adminRouter.use(
+  "/:id",
+  validate(requestParamSchema, "params"),
+  passport.authenticate("accessToken", { session: false }),
+  idRouter
 );
 
 export default adminRouter;

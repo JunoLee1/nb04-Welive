@@ -2,22 +2,21 @@ import { JoinStatus } from "../../../../prisma/generated/client.js";
 import type { Role } from "../super-admins/super-admin.dto.js";
 export interface apartmentDTO {
   id: string | string[];
-  createdAt: Date;
-  updatedAt: Date;
+  //createdAt: Date;
+  //updatedAt: Date;
   name: string;
   address: string;
   description: string;
   officeNumber: string;
-  buildingNumberFrom: number;
-  buildingNumberTo: number;
+  buildings:number[],
   floorCountPerBuilding: number;
   unitCountPerFloor: number;
   adminId: string;
 }
 
 export interface ReqParams {
-  pageNumber: number;
-  limitNumber: number;
+  page: number;
+  limit: number;
   keyword: string;
   joinStatus: JoinStatus;
   role: Role;
@@ -39,8 +38,8 @@ export interface RequestPayloadDTO {
   avatar?: string | undefined | null;
 }
 export interface Pagenation {
-  pageNumber: number;
-  limitNumber: number;
+  page: number;
+  limit: number;
 }
 export type StatusAction = "APPROVED" | "REJECTED";
 //------------response DTO
@@ -68,7 +67,7 @@ export interface AccessAdminItemDTO {
   adminOf: apartmentDTO | null;
 }
 export interface AccessListOfAdminsResDTO {
-  data: AdminsCreateResponseDTO[];
+  data: AdminsCreateResponseDTO[] ;
   page?: number;
   limit?: number;
   totalCount: number;

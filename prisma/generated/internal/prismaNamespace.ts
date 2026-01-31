@@ -674,8 +674,8 @@ export const ApartmentScalarFieldEnum = {
   description: 'description',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  buildingNumberFrom: 'buildingNumberFrom',
-  buildingNumberTo: 'buildingNumberTo',
+  buildings: 'buildings',
+  units: 'units',
   floorCountPerBuilding: 'floorCountPerBuilding',
   unitCountPerFloor: 'unitCountPerFloor',
   officeNumber: 'officeNumber',
@@ -779,16 +779,16 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
- * Reference to a field of type 'Int'
+ * Reference to a field of type 'Int[]'
  */
-export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
 /**
- * Reference to a field of type 'Int[]'
+ * Reference to a field of type 'Int'
  */
-export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
     
 
 

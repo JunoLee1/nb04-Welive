@@ -7,11 +7,17 @@ import type {
 } from "./residents.validator.js";
 import { Repository } from "./residents.repo.js";
 import { HttpError } from "../../../lib/middleware/error.middleware/httpError.js";
+import type { ResidentRequestParamQuery } from "./residents.dto.js";
+import { JoinStatus } from "../../../../prisma/generated/enums.js";
+import prisma from "../../../lib/prisma.js";
 
-const repo = new Repository();
+type Id = {
+  id: string
+}
+const repo = new Repository(prisma);
 const service = new Service(repo);
 export class Controller {
-  constructor() {}
+  constructor(private service: Service) {}
 
   createResident: RequestHandler = async (req, res, next) => {
     try {
@@ -33,21 +39,34 @@ export class Controller {
 
   findMany: RequestHandler = async (req, res, next) => {
     try {
-      const { page, limit, searchKeyword, joinStatus, building, unit } =
-        req.query;
+      const query = req.query as Record<string, string | undefined>;
+
+      const pageNumber = Number(query.page ?? 1);
+      const limitNumber = Number(query.limit ?? 10);
+
+      const searchKeyword = query.searchKeyword;
+      const building = query.building;
+      const unit = query.unit;
+      const joinStatus = query.joinStatus as JoinStatus | undefined;
       const user = req.user;
-      if (!user) throw new HttpError(401, "Unauthorized");
-      if (user.role !== "ADMIN")
-        throw new HttpError(403, "권한과 관련된 오류입니다.");
-      const result = await service.findMany({
-        page,
-        limit,
-        searchKeyword,
-        joinStatus,
-        building,
-        unit,
-      } as unknown as ReqParamQuerySchema);
-      return res.status(204).end();
+      //const status = queryRaw.joinStatus ?? JoinStatus.PENDING;
+      const adminId = user?.id;
+      if (!adminId) throw new Error();
+      console.log(1);
+
+      const result = await this.service.findMany(
+        adminId,
+        { page: pageNumber, limit: limitNumber },
+        {
+          searchKeyword: searchKeyword,
+          joinStatus: joinStatus as JoinStatus,
+          building: building,
+          unit: unit,
+        }
+      );
+      console.log(123);
+      console.log(result);
+      return res.status(201).json(result);
     } catch (error) {
       next(error);
     }
@@ -61,9 +80,8 @@ export class Controller {
       if (!user) throw new HttpError(401, "인증과 관련된 오류 입니다.");
       if (user.role !== "ADMIN")
         throw new HttpError(403, "권한과 관련된 오류입니다.");
-
       await service.modifyResidentsStatus(joinStatus);
-      return res.status(204).end();
+      return res.status(200).json();
     } catch (error) {
       next(error);
     }
@@ -75,10 +93,15 @@ export class Controller {
       if (!user) throw new HttpError(401, "인증과 관련된 오류 입니다.");
       if (user.role !== "ADMIN")
         throw new HttpError(403, "권한과 관련된 오류입니다.");
-      const { id } = req.params as ParamSchema;
+      const { id } = req.params;
+      console.log(1)
+      console.log("id:",id)
       const { joinStatus } = req.body;
+      console.log(12)
+      if(id!=="string") throw new HttpError(400," 잘못된 요청 입니다")
+     console.log(123)
       await service.modifyResidentStatus(id, joinStatus);
-      return res.status(204).end();
+      return res.status(200).json();
     } catch (error) {
       next(error);
     }

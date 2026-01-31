@@ -1,12 +1,13 @@
 import { HttpError } from "../../../lib/middleware/error.middleware/httpError.js";
 import prisma from "../../../lib/prisma.js";
-import type { ResidentCreateResponse } from "./residents.dto.js";
+import type { APTInfo, ResidentCreateResponse } from "./residents.dto.js";
 import type {
   ResidentCreateSchema,
   ReqParamQuerySchema,
 } from "./residents.validator.js";
-import { JoinStatus } from "../../../../prisma/generated/client.js";
+import { JoinStatus, Prisma, PrismaClient } from "../../../../prisma/generated/client.js";
 import bcrypt from "bcrypt";
+import type { Pagenation } from "../admins/admin.dto.js";
 type FindKey = "id" | "username" | "contact" | "email";
 const buildWhereClause = (field: FindKey, value: string) => {
   //통합
@@ -21,15 +22,10 @@ const buildWhereClause = (field: FindKey, value: string) => {
       return { email: value };
   }
 };
-type Query = {
-  page: number;
-  limit: number;
-  keyword: object;
-};
 export type StatusAction = "APPROVED" | "REJECTED";
 
 export class Repository {
-  constructor() {}
+  constructor(private prisma: PrismaClient) {}
   register = async (
     input: ResidentCreateSchema
   ): Promise<ResidentCreateResponse> => {
@@ -59,8 +55,8 @@ export class Repository {
       },
       select: {
         email: true,
-        username: true,
-        role: true,
+        //username: true,
+        //role: true,
         name: true,
         contact: true,
         joinStatus: true,
@@ -74,8 +70,6 @@ export class Repository {
             unit: true,
             building: true,
             isHouseholder: true,
-            createdAt: true,
-            updatedAt: true,
           },
         },
       },
@@ -85,24 +79,50 @@ export class Repository {
 
   findOne = async (field: FindKey, value: string) => {
     const where = buildWhereClause(field, value);
+    console.log(where)
     const resident = await prisma.user.findUnique({
       where,
     });
     return resident;
   };
 
-  findMany = async ({ keyword }: Query) => {
-    const residents = await prisma.user.findMany({
+  findMany = async (
+    adminId: string,
+    limit: number,
+    skip: number,
+    query: any, // TODL: fix the type
+  ) => {
+    const { building, unit, joinStatus, searchKeyword } = query;
+    console.log(123)
+    console.log(query)
+    const residents = await this.prisma.resident.findMany({
       where: {
-        ...keyword,
+        apartment: { adminId },
+        ...(building !== undefined ? { building } : {}),
+        ...(unit !== undefined ? { unit} : {}),
       },
       include: {
-        resident: true,
+        user: true,
+        apartment:true
       },
+      skip,
+      take:limit,
     });
+    console.log("residents:", residents)
     return residents;
   };
-
+  findApartment = async(apartmentId: string):Promise<APTInfo | null > => {
+    const result = await this.prisma.apartment.findUnique({
+      where:{
+        id: apartmentId
+      },
+      select:{
+        buildings:true,
+        units:true,
+      }
+  })
+  return result
+  }
   updateMany = async (joinStatus: StatusAction) => {
     const toStatus =
       joinStatus === "APPROVED" ? JoinStatus.APPROVED : JoinStatus.REJECTED;
@@ -116,6 +136,7 @@ export class Repository {
 
   update = async (id: string, joinStatus: StatusAction) => {
     const residentId = await this.findOne("id", id);
+    console.log(residentId)
     const toStatus =
       joinStatus === "APPROVED" ? JoinStatus.APPROVED : JoinStatus.REJECTED;
 

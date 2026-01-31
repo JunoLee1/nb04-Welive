@@ -30,10 +30,10 @@ model Apartment { // 아파트
   description             String
   createdAt  DateTime     @default(now())
   updatedAt  DateTime       @updatedAt
-  buildingNumberFrom      Int
-  buildingNumberTo        Int
-  floorCountPerBuilding   Int
-  unitCountPerFloor       Int
+  buildings        Int[]   // [101, 102, 104]
+  units   Int[]
+  floorCountPerBuilding  Int
+  unitCountPerFloor      Int
   officeNumber String
   residents Resident[]  // 👈 주민들
   adminId     String    @unique
@@ -63,8 +63,8 @@ model User {
 model Resident { // 입주민 거주지 정보
   id          String   @id @default(uuid())
   name        String  
-  building    Int
-  unit        Int
+  building    String
+  unit        String
   createdAt  DateTime     @default(now())
   updatedAt  DateTime       @updatedAt
 
@@ -74,4 +74,6 @@ model Resident { // 입주민 거주지 정보
   
   userId      String    @unique
   user        User      @relation(fields: [userId], references: [id])
+
+  @@unique([userId, apartmentId], name: "userId_apartmentId")
 }

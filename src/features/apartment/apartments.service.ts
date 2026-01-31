@@ -2,7 +2,7 @@ import { HttpError } from "../../lib/middleware/error.middleware/httpError.js";
 import type {
   GetApartmentsResponseDto,
   RequestQuery,
-  ApartmentDto,
+  ApartmentDTO,
 } from "./apartments.dto.js";
 import { Repository } from "./apartments.repo.js";
 export class Service {
@@ -25,12 +25,14 @@ export class Service {
     return result;
   };
 
-  findOne = async (id: string): Promise<ApartmentDto> => {
+  findOne = async (id: string): Promise<ApartmentDTO> => {
     const apt = await this.repo.findOne(id);
     if (!apt) throw new HttpError(404, "NotFound");
     const result = {
       id: apt.id,
       name: apt.name,
+      buildings:apt.buildings,
+      units: apt.units,
       address: apt.address,
       officeNumber: apt.officeNumber,
       description: apt.description,

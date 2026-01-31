@@ -23,18 +23,17 @@ export interface RequestPathParam {
 // Response DTO
 //====================================
 
-export interface ApartmentDto {
+export interface ApartmentDTO {
   id: string;
   name: string; // apt name
   address: string;
   officeNumber: string | null;
   description: string | null;
-  building?: number[] | undefined;
-  unit?: number[] | undefined;
+  buildings: number[] | string[];
 }
 
 export interface GetApartmentsResponseDto {
-  data: ApartmentDto[];
+  data: ApartmentDTO[];
   totalCount: number;
   hasNext: boolean;
   page: number;
