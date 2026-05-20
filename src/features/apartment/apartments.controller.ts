@@ -39,6 +39,7 @@ export class Controller {
     try {
       const { id } = req.params;
       if (!id) throw new HttpError(404, "NotFound");
+      if(typeof(id)!== "string") throw new HttpError(400,"잘못된 id 형식 입니다")
       await service.findOne(id);
       return res.status(204).end();
     } catch (error) {

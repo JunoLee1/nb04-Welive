@@ -6,7 +6,7 @@ import { errorHandler } from "./lib/middleware/error.middleware/error-handler.js
 import apiRouter from './features/index.js'
 
 const app = express()
-const PORT = process.env.PORT || "3001"
+const PORT = process.env.PORT || "9000"
 
 app.use(express.json());
 app.use(cookieParser() as RequestHandler );

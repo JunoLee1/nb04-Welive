@@ -5,7 +5,7 @@ import { HttpError } from "../../../../lib/middleware/error.middleware/httpError
 const repo = new Repository();
 const service = new Service(repo);
 export class Controller {
-  contructor(service: Service) {}
+  constructor(service: Service) {}
 
   modifyUserInfo: RequestHandler = async (req, res, next) => {
     try {
@@ -14,6 +14,8 @@ export class Controller {
 
       const user = req.user;
       const userId = user?.id;
+      if(typeof(id)!== "string")
+        throw new HttpError(400, "잘못된 형식의 id 입니다")
       if (!user)
         throw new HttpError(
           400,
@@ -43,6 +45,8 @@ export class Controller {
       const user = req.user;
       const userId = user?.id;
 
+      if(typeof(id)!== "string")
+        throw new HttpError(400, "잘못된 형식의 id 입니다")
       if (!user) throw new HttpError(404, "해당 유저를 찾을수 없습니다");
       if (user.role !== "SUPER_ADMIN")
         throw new HttpError(403, "권한과 관련된 오류입니다.");
@@ -60,6 +64,8 @@ export class Controller {
       const user = req.user;
       const userId = user?.id;
 
+      if(typeof(id)!== "string")
+        throw new HttpError(400, "잘못된 형식의 id 입니다")
       if (!user)
         throw new HttpError(
           400,

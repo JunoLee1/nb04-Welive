@@ -13,8 +13,10 @@ export class Controller {
   constructor(private readonly service: Service) {}
 
   loginHandler: RequestHandler = async (req, res, next) => {
-    const { username, password }: LoginRequestDTO = req.body;
+    try{
+      const { username, password }: LoginRequestDTO = req.body;
     const user = req.user;
+    console.log(1)
     if (!user) throw new HttpError(401, "unauthorized.");
     const data = await this.service.login({ username, password });
     // generate token
@@ -22,6 +24,10 @@ export class Controller {
     setTokenCookies({ res, accessToken, refreshToken });
     console.log("accessToken: ", accessToken); //Do not remove it till test
     return res.status(200).end();
+    }catch(err){
+      console.log(err)
+      next(err)
+    }
   };
 
   logoutHandler: RequestHandler = async (req, res, next) => {

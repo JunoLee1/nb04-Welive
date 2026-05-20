@@ -28,6 +28,7 @@ export interface RequestBody {
   username: string;
   avatar: string | null;
   contact: string;
+  //adminOf: apartmentDTO[] | null
 }
 
 export interface RequestPayloadDTO {

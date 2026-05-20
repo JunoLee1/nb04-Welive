@@ -45,8 +45,6 @@ export class Service {
     console.log("received request from access list routes");
     const { pageNumber, limitNumber, keyword, joinStatus } = input;
     const skip = (pageNumber - 1) * limitNumber;
-    console.log(pageNumber, limitNumber, skip);
-
     const whereCondition = keyword
       ? {
           OR: [
@@ -100,7 +98,6 @@ export class Service {
   };
 
   modifyStatus = async (
-    // TODO: fix it
     pagenation: Pagenation,
     joinStatus: StatusAction
   ): Promise<AccessListOfAdminsResDTO> => {
