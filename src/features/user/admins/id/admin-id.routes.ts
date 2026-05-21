@@ -5,7 +5,7 @@ import { joinStatusSchema, requestPatchSchema } from "../admins.validation.js";
 import { Service } from "./admin-id.service.js";
 import { Repository } from "./admin-id.repo.js";
 
-const idRouter = Router();
+const idRouter = Router({ mergeParams: true });
 const repo = new Repository()
 const service = new Service(repo)
 const controller = new Controller(service);

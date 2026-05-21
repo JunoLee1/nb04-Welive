@@ -16,7 +16,6 @@ export class Service {
     username,
     contact
   }: SuperAdminCreateReqDTO):Promise<SuperAdminCreateResDTO>=> {
-    console.log("⚓️ received from controller:",email, password, name, contact, username)
    const userEmail = this.repository.findUniqueEmail(email);
    if(!userEmail) throw new HttpError(400, "잘못된 요청 입니다.");
     const userPhoneNumber = this.repository.findUniquePhoneNumber(contact);

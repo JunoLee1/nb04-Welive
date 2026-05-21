@@ -44,7 +44,6 @@ export class Service {
     return result;
   };
   accessList = async (input: ReqParams): Promise<AccessListOfAdminsResDTO> => {
-    console.log("received request from access list routes");
     const { pageNumber, limitNumber, keyword, joinStatus } = input;
     const skip = (pageNumber - 1) * limitNumber;
     const whereCondition = keyword

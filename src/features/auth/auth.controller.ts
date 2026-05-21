@@ -21,7 +21,6 @@ export class Controller {
     // generate token
     const { accessToken, refreshToken } = generateToken(user.id);
     setTokenCookies({ res, accessToken, refreshToken });
-    console.log("accessToken: ", accessToken); //Do not remove it till test
     return res.status(200).json({
       id: user.id,
       email: user.email,
@@ -31,7 +30,6 @@ export class Controller {
       joinStatus: user.joinStatus,
     });
     }catch(err){
-      console.log(err)
       next(err)
     }
   };

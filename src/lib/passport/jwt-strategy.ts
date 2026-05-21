@@ -23,7 +23,6 @@ const refreshTokenOptions: StrategyOptions = {
   secretOrKey: JWT_REFRESH_TOKEN_SECRET,
 };
 
-console.log("accessTokenOptions:",accessTokenOptions)
 async function jwtVerify( payload:JwtPayload, done: VerifiedCallback ) {
   const user = await prisma.user.findUnique({
     where: { id : payload.sub }

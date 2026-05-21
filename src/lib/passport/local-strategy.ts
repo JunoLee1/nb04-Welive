@@ -14,7 +14,6 @@ export const localStrategy = new LocalStrategy(
       const exUser = await prisma.user.findUnique({
         where: { username },
       });
-      console.log("exUser", exUser);
       if (exUser){
         const result = await bcrypt.compare( password, exUser.password);
         if (result) { 

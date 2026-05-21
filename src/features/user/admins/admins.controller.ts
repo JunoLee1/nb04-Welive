@@ -54,7 +54,6 @@ export class Controller {
         data: result,
       });
     } catch (error) {
-      console.log(error)
       next(error);
     }
   };
@@ -72,7 +71,6 @@ export class Controller {
       await service.modifyStatus({pageNumber, limitNumber},joinStatus);
       return res.status(204).end();
     } catch (error) {
-      console.log(error)
       next(error);
     }
   };
