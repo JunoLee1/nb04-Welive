@@ -12,7 +12,7 @@ export class Controller {
 
   register: RequestHandler = async (req, res, next) => {
     try {
-      const { email, name, username, password, avatar, contact}: RequestBody =
+      const { email, name, username, password, avatar, contact, adminOf, joinStatus}: RequestBody =
         req.body;
 
       await service.register({
@@ -22,6 +22,8 @@ export class Controller {
         password,
         avatar,
         contact,
+        joinStatus,
+        adminOf
       });
       return res.status(204).end();
     } catch (error) {

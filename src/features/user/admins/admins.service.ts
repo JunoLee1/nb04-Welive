@@ -13,7 +13,7 @@ export class Service {
   constructor(readonly repo: Repository) {}
 
   register = async (input: RequestBody): Promise<AdminsCreateResponseDTO> => {
-    const { email, name, username, password, avatar, contact } = input;
+    const { email, name, username, password, avatar, contact, joinStatus, adminOf} = input;
     const duplicatedEmail = await this.repo.findByEmail(email);
     if (duplicatedEmail)
       throw new HttpError(
@@ -35,7 +35,8 @@ export class Service {
       password: hashedPassword,
       avatar,
       contact,
-
+      joinStatus,
+      adminOf
     });
     const result = {
       ...newAdmin,
@@ -65,10 +66,11 @@ export class Service {
     const data = admins.map((u) => ({
       id: u.id,
       contact: u.contact,
+      email:u.email,
       name: u.name,
-      role: "ADMIN",
       avatar: u.avatar,
       isActive: u.isActive,
+      joinStatus:u.joinStatus,
       approvedAt: null,
       adminOf: u.adminOf
         ? {
@@ -107,10 +109,11 @@ export class Service {
     const admins = await this.repo.findManyByStatus(joinStatus);
     const data = admins.map((u) => ({
       id: u.id,
+      email:u.email,
       contact: u.contact,
       name: u.name,
-      role: "ADMIN",
       avatar: u.avatar,
+      joinStatus:u.joinStatus,
       isActive: u.isActive,
       approvedAt: new Date(),
       adminOf: u.adminOf

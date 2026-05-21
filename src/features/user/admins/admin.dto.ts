@@ -14,6 +14,17 @@ export interface apartmentDTO {
   unitCountPerFloor: number;
   adminId: string;
 }
+export interface ApartmentCreateInput {
+  name: string;
+  address: string;
+  description?: string;
+  officeNumber: string;
+  buildingNumberFrom: number;
+  buildingNumberTo: number;
+  floorCountPerBuilding: number;
+  unitCountPerFloor: number;
+}
+
 
 export interface ReqParams {
   pageNumber: number;
@@ -28,14 +39,15 @@ export interface RequestBody {
   username: string;
   avatar: string | null;
   contact: string;
-  //adminOf: apartmentDTO[] | null
+  joinStatus: JoinStatus;
+  adminOf: ApartmentCreateInput
 }
 
 export interface RequestPayloadDTO {
   contact: string | null;
   username: string | null;
   email: string | null;
-  adminOf: apartmentDTO[] | null;
+  adminOf: apartmentDTO;
 }
 export interface Pagenation {
   pageNumber: number,
@@ -45,12 +57,12 @@ export type StatusAction = "APPROVED" | "REJECTED";
 //------------response DTO
 export interface AdminsCreateResponseDTO {
   id: string;
-  contact: string;
+  contact: string;  
   name: string;
-  role: string;
   avatar: string | null;
   isActive: boolean;
   approvedAt: Date | null;
+  joinStatus: JoinStatus
   adminOf: apartmentDTO | null;
 }
 
@@ -63,7 +75,7 @@ export interface AccessAdminItemDTO {
   avatar: string | null;
   isActive: boolean;
   approvedAt: Date | null;
-  adminOf: apartmentDTO[] | null;
+  adminOf: apartmentDTO | null;
 }
 export interface AccessListOfAdminsResDTO {
   data: AdminsCreateResponseDTO[];

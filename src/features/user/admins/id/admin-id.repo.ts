@@ -31,11 +31,11 @@ export class Repository {
     };
     if (input.adminOf !== null) {
       data.adminOf = {
-        upadate: input.adminOf.map(apt => ({
-          where :{id: apt.id},
-          data: { name: apt.name, address: apt.address }
-        }))
-      };
+        update:{
+          name: input.adminOf.name,
+          address: input.adminOf.address,
+        }
+      }
     }
     const result = await prisma.user.update({
       where: { id },

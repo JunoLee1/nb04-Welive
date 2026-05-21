@@ -52,6 +52,7 @@ export class Repository {
         username: true,
         avatar: true,
         isActive: true,
+        joinStatus:true,
         hasNext: true,
         adminOf: {
           select: {
@@ -109,6 +110,18 @@ export class Repository {
         role: "ADMIN",
         avatar: input.avatar ?? "",
         approvedAt: null,
+        adminOf:{
+          create:{
+            name:input.adminOf.name ?? "",
+            address:input.adminOf.address ?? "",
+            description:input.adminOf.description ?? "", 
+            buildingNumberFrom:input.adminOf.buildingNumberFrom,
+            buildingNumberTo:input.adminOf.buildingNumberTo,
+            floorCountPerBuilding:input.adminOf.floorCountPerBuilding,
+            unitCountPerFloor:input.adminOf.unitCountPerFloor,
+            officeNumber:input.adminOf.officeNumber
+          }
+        }
       },
       select: {
         id: true,
@@ -119,6 +132,7 @@ export class Repository {
         role: true,
         isActive: true,
         approvedAt: true,
+        joinStatus:true,
         createdAt: true,
         hasNext: true,
         avatar: true,
