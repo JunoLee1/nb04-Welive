@@ -7,6 +7,12 @@ export const requestBodySchema = z.object({
   password: z.string(),
   name: z.string(),
   avatar: z.string().optional(),
+  adminOf: z.object({
+    name: z.string().optional(),
+    address: z.string().optional(),
+    description: z.string().optional(),
+    officeNumber: z.string().optional(),
+  }).optional(),
 });
 
 export const requestPatchSchema = z.object({
@@ -19,7 +25,7 @@ export const requestPatchSchema = z.object({
     address: z.string().optional(),
     description: z.string().optional(),
     officeNumber: z.string().optional(),
-  }),
+  }).optional(),
 });
 export const requestQuerySchema = z.object({
   page: z.coerce.number(),

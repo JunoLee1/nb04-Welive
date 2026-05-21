@@ -1,6 +1,6 @@
 import type { Apartment, Resident, Role } from '../../../prisma/generated/client.js';
 
-export type adminOfDTO = {id : string; name: string};
+export type adminOfDTO = {id : string; name: string; address:string};
 export interface LoginRequestDTO {
     username: string;
     password: string;

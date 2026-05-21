@@ -11,9 +11,9 @@ const service = new Service(repo)
 const controller = new Controller(service);
 
 // patch an admin Join status API
-// address : users/admins/:{id}/joinStatus
+// address : users/admins/:{id}/join-status
 idRouter.patch(
-  "/joinStatus",
+  "/join-status",
   validate(joinStatusSchema, "body"),
   controller.modifyJoinStatus
 );

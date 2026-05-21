@@ -35,6 +35,7 @@ export class Service {
       password: hashedPassword,
       avatar,
       contact,
+
     });
     const result = {
       ...newAdmin,
@@ -111,7 +112,7 @@ export class Service {
       role: "ADMIN",
       avatar: u.avatar,
       isActive: u.isActive,
-      approvedAt: null,
+      approvedAt: new Date(),
       adminOf: u.adminOf
         ? {
             id: u.adminOf.id,

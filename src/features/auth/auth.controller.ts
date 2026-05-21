@@ -16,14 +16,20 @@ export class Controller {
     try{
       const { username, password }: LoginRequestDTO = req.body;
     const user = req.user;
-    console.log(1)
     if (!user) throw new HttpError(401, "unauthorized.");
     const data = await this.service.login({ username, password });
     // generate token
     const { accessToken, refreshToken } = generateToken(user.id);
     setTokenCookies({ res, accessToken, refreshToken });
     console.log("accessToken: ", accessToken); //Do not remove it till test
-    return res.status(200).end();
+    return res.status(200).json({
+      id: user.id,
+      email: user.email,
+      username: user.username,
+      name: user.name,
+      role: user.role,
+      joinStatus: user.joinStatus,
+    });
     }catch(err){
       console.log(err)
       next(err)

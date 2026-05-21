@@ -11,7 +11,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url  = env("DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
 
 enum Role {
@@ -19,60 +19,62 @@ enum Role {
   SUPER_ADMIN
   USER
 }
+
 enum JoinStatus {
   PENDING
   APPROVED
   REJECTED
 }
-model Apartment { // 아파트
-  id                      String    @id @default(uuid())
-  name                    String    @unique
-  address                 String
-  description             String
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime       @updatedAt
-  buildingNumberFrom      Int
-  buildingNumberTo        Int
-  floorCountPerBuilding   Int
-  unitCountPerFloor       Int
-  officeNumber String
-  residents Resident[]  // 👈 주민들
-  adminId     String    @unique
-  admin       User      @relation(fields: [adminId], references: [id])
+
+model Apartment {
+  id                    String     @id @default(uuid())
+  name                  String     @unique
+  address               String
+  description           String
+  createdAt             DateTime   @default(now())
+  updatedAt             DateTime   @updatedAt
+  buildingNumberFrom    Int
+  buildingNumberTo      Int
+  floorCountPerBuilding Int
+  unitCountPerFloor     Int
+  officeNumber          String
+  residents             Resident[] // 👈 주민들
+  adminId               String     @unique
+  admin                 User       @relation(fields: [adminId], references: [id])
 }
 
 //---------------------------------------------------
 model User {
-  id        String   @unique @id @default(uuid())
-  email     String   @unique
-  name      String
-  username  String    @unique
-  contact   String    @unique
-  password  String
-  role      Role
-  hasNext   Boolean  @default(false)
+  id         String     @id @unique @default(uuid())
+  email      String     @unique
+  name       String
+  username   String     @unique
+  contact    String     @unique
+  password   String
+  role       Role
+  hasNext    Boolean    @default(false)
   joinStatus JoinStatus @default(PENDING)
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime       @updatedAt
-  approvedAt DateTime? 
-  isActive  Boolean  @default(true)
-  avatar    String?
-  adminOf   Apartment?
-  resident  Resident?
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  approvedAt DateTime?
+  isActive   Boolean    @default(true)
+  avatar     String?
+  adminOf    Apartment?
+  resident   Resident?
 }
 
-model Resident { // 입주민 거주지 정보
-  id          String   @id @default(uuid())
-  name        String  
-  building    Int
-  unit        Int
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime       @updatedAt
+model Resident {
+  id        String   @id @default(uuid())
+  name      String
+  building  Int
+  unit      Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  isHouseholder Boolean @default(false)
-  apartmentId String
-  apartment   Apartment @relation(fields: [apartmentId], references: [id])
-  
-  userId      String    @unique
-  user        User      @relation(fields: [userId], references: [id])
+  isHouseholder Boolean   @default(false)
+  apartmentId   String
+  apartment     Apartment @relation(fields: [apartmentId], references: [id])
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
 }

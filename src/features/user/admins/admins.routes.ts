@@ -9,23 +9,15 @@ import {
   requestParamSchema,
 } from "./admins.validation.js";
 import passport from "../../../lib/passport/index.js";
-
 const controller = new Controller();
 const adminRouter = Router();
 
-adminRouter.use(
-  "/:id",
-  validate(requestParamSchema, "params"),
-  passport.authenticate("accessToken", { session: false }),
-  idRouter
-);
+// ⭐ 구체적인 라우트 먼저 등록 (순서 중요!)
 
 // create admin Api
-// address : users/admins
 adminRouter.post("/", validate(requestBodySchema, "body"), controller.register);
 
 // access admins API
-// address : users/admins
 adminRouter.get(
   "/",
   validate(requestQuerySchema, "query"),
@@ -34,20 +26,26 @@ adminRouter.get(
 );
 
 // patch the admins Join status API
-// address : users/admins/joinStatus
 adminRouter.patch(
-  "/joinStatus",
+  "/join-status",
   validate(joinStatusSchema, "body"),
   passport.authenticate("accessToken", { session: false }),
   controller.modifyStatus
 );
 
 // delete rejected Admin user
-// address : users/admins/rejected
 adminRouter.delete(
   "/rejected",
   passport.authenticate("accessToken", { session: false }),
   controller.deleteRejectedAdmins
+);
+
+// ⭐ /:id는 마지막에! (catch-all 같은 거라 가장 뒤로)
+adminRouter.use(
+  "/:id",
+  validate(requestParamSchema, "params"),
+  passport.authenticate("accessToken", { session: false }),
+  idRouter
 );
 
 export default adminRouter;

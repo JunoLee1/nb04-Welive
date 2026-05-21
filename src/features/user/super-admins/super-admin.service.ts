@@ -23,7 +23,6 @@ export class Service {
     if(!userPhoneNumber) throw new HttpError(400, "잘못된 요청 입니다.");
     const userName = this.repository.findUniqueUsername(username);
     if(!userName)  throw new HttpError(400, "잘못된 요청 입니다.");
-    console.log("✅ finished prunning");
     const hashedPassword = await bcrypt.hash(password, 10)
     const DATA = await prisma.user.create({
         data:{
