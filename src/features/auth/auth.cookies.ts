@@ -18,12 +18,14 @@ export function clearTokenCookies(res: Response) {
 export function setTokenCookies({res, accessToken, refreshToken}: TypeOfCookie) {
   res.cookie(ACCESS_TOKEN_COOKIE_NAME, accessToken, {
     httpOnly: true,
+    sameSite: 'none',     
     secure: NODE_ENV === "production",
     maxAge: 1 * 60 * 60 * 1000, // 1 hour
   });
   res.cookie(REFRESH_TOKEN_COOKIE_NAME, refreshToken, {
     httpOnly: true,
     secure: NODE_ENV === "production",
+    sameSite: 'none',     
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     path: "/auth/refresh",
   });
